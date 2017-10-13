@@ -15,8 +15,8 @@ return [
     */
 
     'mailgun' => [
-        'domain' => env('MAILGUN_DOMAIN'),
-        'secret' => env('MAILGUN_SECRET'),
+        'domain' => 'mail.kpa.ph',
+        'secret' => 'key-43844631eb9b0f082e5033999fb69aa5',
     ],
 
     'ses' => [
