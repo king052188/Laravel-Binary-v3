@@ -11,12 +11,20 @@
 |
 */
 
+use App\Events\eventTrigger;
+
+
 Route::get('/', function () {
     return view('welcome');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/fireEvent', function () {
+    event(new eventTrigger());
+});
+
+
+Route::get('/dashboard', 'HomeController@index')->name('home');
 
 Route::get('/account/verified/{email}', 'AccountController@account_verified');
