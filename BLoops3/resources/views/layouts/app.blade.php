@@ -7,14 +7,31 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Wazzel') }}</title>
+    <meta property="og:url"           content="{{ app()->getUrl(true, '/') }}" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="{{ config('app.name', 'Wazzel') }}" />
+    <meta property="og:description"   content="{{ config('app.name', 'Wazzel') }}" />
+    <meta property="og:image"         content="{{ app()->getUrl(false, 'images/k-icon.png') }}" />
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="apple-touch-icon" href="{{ app()->getUrl(false, 'images/k-icon.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ app()->getUrl(false, 'images/k-icon.png') }}"/>
+    <link href="{{ app()->getUrl(false, 'css/app.css') }}" rel="stylesheet">
+    <style>
+      table { width: 100%; margin-top: 10px; }
+      table thead tr th { padding: 5px; }
+      table thead tr th, tbody tr td { text-align: center; }
+      table thead tr th { background-color: #3E3E3E; color: #fff; border: 1px solid #E1E1E1; }
+      table tbody tr td { border: 1px solid #E1E1E1; }
+    </style>
 </head>
 <body>
-    <div class="alert alert-success" role="alert">
-      <strong>Well done!</strong> You successfully read <a href="#" class="alert-link">this important alert message</a>.
-    </div>
     <div id="app">
+        <div id="notifyUsers"></div>
+        @if( IsSet($top_notifier['Type']) )
+          <div class="alert alert-{{ $top_notifier['Type'] }}" role="alert" style="text-align: center; margin-bottom: 0;">
+            {!! $top_notifier['Message'] !!}
+          </div>
+        @endif
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
@@ -40,26 +57,27 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
+                            <li><a href="{{ app()->getUrl(true, '/login') }}">Login</a></li>
+                            <li><a href="{{ app()->getUrl(true, '/register') }}">Register</a></li>
                         @else
-                            <li><a href="/dashboard">Dashboard</a></li>
-                            <li><a href="/dashboard">Genealogy</a></li>
-                            <li><a href="/dashboard">Message</a></li>
+                            <li><a href="{{ app()->getUrl(true, '/dashboard') }}">Dashboard</a></li>
+                            <li><a href="{{ app()->getUrl(true, '/dashboard') }}">Services</a></li>
+                            <li><a href="{{ app()->getUrl(true, '/dashboard') }}">Genealogy</a></li>
+                            <li><a href="{{ app()->getUrl(true, '/dashboard') }}">Message</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="/dashboard">Profile</a></li>
-                                    <li><a href="/dashboard">Settings</a></li>
+                                    <li><a href="{{ app()->getUrl(true, '/dashboard') }}">Profile</a></li>
+                                    <li><a href="{{ app()->getUrl(true, '/dashboard') }}">Settings</a></li>
                                     <li>
-                                        <a href="{{ route('logout') }}"
+                                        <a href="{{ app()->getUrl(true, '/logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                             Logout
                                         </a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        <form id="logout-form" action="{{ app()->getUrl(true, '/logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
@@ -73,6 +91,6 @@
         @yield('content')
     </div>
     <!-- Scripts -->
-    <script src="js/app.js"></script>
+    <script src="{{ app()->getUrl(true, 'js/app.js')  }}"></script>
 </body>
 </html>

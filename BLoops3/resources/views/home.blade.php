@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container" style="width: 80%;">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Dashboard</div>
 
-                <div class="panel-body">
+                <div class="panel-body" style="height: 440px;">
                     @if (session('status'))
                         <div class="alert alert-success">
                             {{ session('status') }}
@@ -16,13 +16,27 @@
 
                     Hello <b>{{ Auth::guest() ? "" : strtoupper(Auth::user()->name) }}</b> You are logged in! <br />
 
-                    @if($account!=null)
-                      {{ $account["status"] }}
-                    @endif
+                    <h3>Members Loading Transactions</h3>
+                    <table id="tbl_usersTransactions" border="0" cellSpacing="0" cellPadding="5">
+                      <thead>
+                        <tr>
+                          <th>Trans#</th>
+                          <th>Account</th>
+                          <th>Descriptions</th>
+                          <th>Time</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                    </table>
 
                 </div>
             </div>
         </div>
+
     </div>
+
 </div>
+
+
 @endsection

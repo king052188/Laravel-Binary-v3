@@ -20,8 +20,19 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/fireEvent', function () {
-    event(new eventTrigger());
+Route::get('/fireEvent/{type}/{account}/{description}/{timestamp}', function ($type, $account, $description, $timestamp) {
+
+  // for($i = 0; $i = 1000; $i++) {
+  //
+  // }
+
+    event(new eventTrigger($type, $account, $description, $timestamp));
+
+    return ["Status" => 200];
+});
+
+Route::get('/users-transactions', function () {
+    return view('listener.userTransactions');
 });
 
 

@@ -25,16 +25,29 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $status = null;
+        $top_notifier = [];
+        $message = null;
+
         $users = \Auth::user();
         if($users->status == 0) {
-          $status = "Email verification has been sent to your email address.";
+          $message = "<strong>Well done!</strong> You are successfully registered. Please check your email for verification.";
           $users->notify(new UserRegisteredNotification($users));
+
+          $top_notifier = [
+            "Message" => $message,
+            "Type" => "success",
+          ];
         }
 
-        $account = ["status" => $status];
+        if($users->verification_sent == 1) {
+          $message = "<strong>Warning!</strong> You haven't verified your account. Please check your email or <a href='#'>Resend the verification link?</a>";
+          $top_notifier = [
+            "Message" => $message,
+            "Type" => "warning",
+          ];
+        }
 
-        return view('home', compact('account'));
+        return view('home', compact('top_notifier'));
     }
 
 

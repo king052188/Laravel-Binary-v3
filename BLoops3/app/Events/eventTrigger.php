@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use Illuminate\Http\Request;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -19,9 +20,26 @@ class eventTrigger implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct()
+
+    public $type;
+
+    public $account;
+
+    public $description;
+
+    public $timestamp;
+
+    // public function __construct($type, $account, $description, $timestamp)
+    public function __construct($type, $account, $description, $timestamp)
     {
         //
+        $this->type = $type;
+
+        $this->account = $account;
+
+        $this->description = $description;
+
+        $this->timestamp = $timestamp;
     }
 
     /**

@@ -6,6 +6,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>{{ config('app.name', 'Wazzel') }}</title>
+        <meta property="og:url"           content="{{ app()->getUrl(true, '/') }}" />
+        <meta property="og:type"          content="website" />
+        <meta property="og:title"         content="{{ config('app.name', 'Wazzel') }}" />
+        <meta property="og:description"   content="{{ config('app.name', 'Wazzel') }}" />
+        <meta property="og:image"         content="{{ app()->getUrl(false, 'images/k-icon.png') }}" />
+        <!-- Styles -->
+        <link rel="apple-touch-icon" href="{{ app()->getUrl(false, 'images/k-icon.png') }}">
+    		<link rel="shortcut icon" type="image/png" href="{{ app()->getUrl(false, 'images/k-icon.png') }}"/>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -14,11 +22,12 @@
         <style>
             html, body {
                 background-color: #fff;
-                color: #636b6f;
+                color: #464646;
                 font-family: 'Raleway', sans-serif;
                 font-weight: 100;
                 height: 100vh;
                 margin: 0;
+
             }
 
             .full-height {
@@ -43,6 +52,7 @@
 
             .content {
                 text-align: center;
+                width: 50%;
             }
 
             .title {
@@ -62,6 +72,12 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            table { width: 100%; margin-top: 10px; }
+            table thead tr th { padding: 5px; }
+            table thead tr th, tbody tr td { text-align: center; }
+            table thead tr th { background-color: #3E3E3E; color: #fff; border: 1px solid #E1E1E1; }
+            table tbody tr td { border: 1px solid #E1E1E1; font-weight: 600; }
         </style>
     </head>
     <body>
@@ -70,10 +86,10 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @if (Auth::check())
-                        <a href="{{ url('/dashboard') }}">Dashboard</a>
+                        <a href="{{ app()->getUrl(true, '/dashboard') }}">Dashboard</a>
                     @else
-                        <a href="{{ url('/login') }}">Login</a>
-                        <a href="{{ url('/register') }}">Register</a>
+                        <a href="{{ app()->getUrl(true, '/login') }}">Login</a>
+                        <a href="{{ app()->getUrl(true, '/register') }}">Register</a>
                     @endif
                 </div>
             @endif
@@ -82,9 +98,22 @@
                 <div class="title m-b-md">
                     {{ config('app.name', 'Wazzel') }}
                 </div>
+                <h3>Loading Real-Time Transactions</h3>
+                <table id="tbl_usersTransactions" border="0" cellSpacing="0" cellPadding="5">
+                  <thead>
+                    <tr>
+                      <th>Trans#</th>
+                      <th>Requester</th>
+                      <th>Descriptions</th>
+                      <th>Time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
             </div>
         </div>
       </div>
-      <script src="js/app.js"></script>
+      <script src="{{ app()->getUrl(false, '/js/app.js') }}"></script>
     </body>
 </html>
