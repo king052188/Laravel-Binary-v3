@@ -7,9 +7,9 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>{{ config('app.name', 'Wazzel') }}</title>
         <meta property="og:url"           content="{{ app()->getUrl(true, '/') }}" />
-        <meta property="og:type"          content="website" />
-        <meta property="og:title"         content="{{ config('app.name', 'Wazzel') }}" />
-        <meta property="og:description"   content="{{ config('app.name', 'Wazzel') }}" />
+        <meta property="og:type"          content="Website Application" />
+        <meta property="og:title"         content="{{ config('app.name', 'Laravel') }}" />
+        <meta property="og:description"   content="{{ config('app.description', 'Application Description') }}" />
         <meta property="og:image"         content="{{ app()->getUrl(false, 'images/k-icon.png') }}" />
         <!-- Styles -->
         <link rel="apple-touch-icon" href="{{ app()->getUrl(false, 'images/k-icon.png') }}">
