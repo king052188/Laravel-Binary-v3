@@ -36,6 +36,8 @@ Route::get('/users-transactions', function () {
 });
 
 
-Route::get('/dashboard', 'HomeController@index')->name('home');
+Route::get('/dashboard', 'HomeController@index');
+
+Route::get('/genealogy', 'HomeController@genealogy');
 
 Route::get('/account/verified/{email}', 'AccountController@account_verified');

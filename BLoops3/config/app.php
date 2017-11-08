@@ -12,9 +12,11 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'ssl' => true,
+    'ssl' => false,
 
-    'name' => env('APP_NAME', 'Wazzel'),
+    'name' => env('APP_NAME', 'Laravel'),
+
+    'description' => env('APP_DESCRIPTION', 'Application Description'),
 
     /*
     |--------------------------------------------------------------------------
