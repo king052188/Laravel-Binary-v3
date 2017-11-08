@@ -5688,32 +5688,34 @@ tbody.collapse.in {
 }
 
 .navbar-default {
-  background-color: #fff;
+  background-color: #921794;
   border-color: #d3e0e9;
 }
 
 .navbar-default .navbar-brand {
-  color: #777;
+  color: #fff;
+  font-weight: 600;
 }
 
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
-  color: #5e5d5d;
-  background-color: transparent;
+  color: #fff;
+  background-color: #9FC90E;
 }
 
 .navbar-default .navbar-text {
-  color: #777;
+  color: #fff;
 }
 
 .navbar-default .navbar-nav > li > a {
-  color: #777;
+  color: #fff;
 }
 
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
-  color: #333;
-  background-color: transparent;
+  color: #fff;
+  background-color: #9FC90E;
+  /*background-color: transparent;*/
 }
 
 .navbar-default .navbar-nav > .active > a,
@@ -7475,7 +7477,7 @@ button.close {
 
 @media (min-width: 768px) {
   .modal-dialog {
-    width: 600px;
+    width: 500px;
     margin: 30px auto;
   }
 
@@ -8349,4 +8351,3 @@ button.close {
     display: none !important;
   }
 }
-

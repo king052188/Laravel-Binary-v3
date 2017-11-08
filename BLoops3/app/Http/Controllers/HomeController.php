@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 
 use App\Notifications\UserRegisteredNotification;
 
@@ -28,7 +29,12 @@ class HomeController extends Controller
         $top_notifier = [];
         $message = null;
 
-        $users = \Auth::user();
+        if(Auth::guest()) {
+          return view('welcome');
+        }
+
+        $users = Auth::user();
+
         if($users->status == 0) {
           $message = "<strong>Well done!</strong> You are successfully registered. Please check your email for verification.";
           // $users->notify(new UserRegisteredNotification($users));

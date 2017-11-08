@@ -16,24 +16,24 @@
     <link rel="apple-touch-icon" href="{{ app()->getUrl(false, 'images/k-icon.png') }}">
     <link rel="shortcut icon" type="image/png" href="{{ app()->getUrl(false, 'images/k-icon.png') }}"/>
     <link href="{{ app()->getUrl(false, 'css/app.css') }}" rel="stylesheet">
-    <style>
-      table { width: 100%; margin-top: 10px; }
-      table thead tr th { padding: 5px; }
-      table thead tr th, tbody tr td { text-align: center; }
-      table thead tr th { background-color: #3E3E3E; color: #fff; border: 1px solid #E1E1E1; }
-      table tbody tr td { border: 1px solid #E1E1E1; }
 
-      
+    <link rel="stylesheet" href="{{ app()->getUrl(false, 'font-awesome-4.7.0/css/font-awesome.min.css') }}">
+    <style>
+      table.tbl_loading { width: 100%; margin-top: 10px; }
+      table.tbl_loading thead tr th { padding: 5px; }
+      table.tbl_loading thead tr th, tbody tr td { text-align: center; }
+      table.tbl_loading thead tr th { background-color: #3E3E3E; color: #fff; border: 1px solid #E1E1E1; }
+      table.tbl_loading tbody tr td { border: 1px solid #E1E1E1; }
     </style>
 </head>
 <body>
     <div id="app">
         <div id="notifyUsers"></div>
-        @if( IsSet($top_notifier['Type']) )
+        <!-- @if( IsSet($top_notifier['Type']) )
           <div class="alert alert-{{ $top_notifier['Type'] }}" role="alert" style="text-align: center; margin-bottom: 0;">
             {!! $top_notifier['Message'] !!}
           </div>
-        @endif
+        @endif -->
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
@@ -62,17 +62,17 @@
                             <li><a href="{{ app()->getUrl(true, '/login') }}">Login</a></li>
                             <li><a href="{{ app()->getUrl(true, '/register') }}">Register</a></li>
                         @else
-                            <li><a href="{{ app()->getUrl(true, '/dashboard') }}">Dashboard</a></li>
-                            <li><a href="{{ app()->getUrl(true, '/dashboard') }}">Services</a></li>
-                            <li><a href="{{ app()->getUrl(true, '/dashboard') }}">Genealogy</a></li>
-                            <li><a href="{{ app()->getUrl(true, '/dashboard') }}">Message</a></li>
+                            <li><a href="{{ app()->getUrl(true, '/') }}">Home</a></li>
+                            <li><a href="{{ app()->getUrl(true, '/') }}">Services</a></li>
+                            <li><a href="{{ app()->getUrl(true, '/genealogy') }}">Genealogy</a></li>
+                            <li><a href="{{ app()->getUrl(true, '/leveling') }}">Leveling</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="{{ app()->getUrl(true, '/dashboard') }}">Profile</a></li>
-                                    <li><a href="{{ app()->getUrl(true, '/dashboard') }}">Settings</a></li>
+                                    <li><a href="{{ app()->getUrl(true, '/') }}">Profile</a></li>
+                                    <li><a href="{{ app()->getUrl(true, '/') }}">Settings</a></li>
                                     <li>
                                         <a href="{{ app()->getUrl(true, '/logout') }}"
                                             onclick="event.preventDefault();

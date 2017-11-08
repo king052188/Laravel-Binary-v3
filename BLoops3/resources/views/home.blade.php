@@ -17,7 +17,7 @@
                     Hello <b>{{ Auth::guest() ? "" : strtoupper(Auth::user()->name) }}</b> You are logged in! <br />
 
                     <h3>Members Loading Transactions</h3>
-                    <table id="tbl_usersTransactions" border="0" cellSpacing="0" cellPadding="5">
+                    <table class="tbl_loading" id="tbl_usersTransactions" border="0" cellSpacing="0" cellPadding="5">
                       <thead>
                         <tr>
                           <th>Trans#</th>
