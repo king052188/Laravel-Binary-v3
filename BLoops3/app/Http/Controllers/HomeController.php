@@ -31,7 +31,7 @@ class HomeController extends Controller
         $users = \Auth::user();
         if($users->status == 0) {
           $message = "<strong>Well done!</strong> You are successfully registered. Please check your email for verification.";
-          $users->notify(new UserRegisteredNotification($users));
+          // $users->notify(new UserRegisteredNotification($users));
 
           $top_notifier = [
             "Message" => $message,
@@ -50,5 +50,9 @@ class HomeController extends Controller
         return view('home', compact('top_notifier'));
     }
 
+    public function genealogy(Request $request) {
+
+      return view('portal.genealogy');
+    }
 
 }
