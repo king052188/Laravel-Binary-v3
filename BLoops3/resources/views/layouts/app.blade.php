@@ -22,6 +22,8 @@
       table thead tr th, tbody tr td { text-align: center; }
       table thead tr th { background-color: #3E3E3E; color: #fff; border: 1px solid #E1E1E1; }
       table tbody tr td { border: 1px solid #E1E1E1; }
+
+      
     </style>
 </head>
 <body>

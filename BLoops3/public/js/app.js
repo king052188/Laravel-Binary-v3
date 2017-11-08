@@ -997,10 +997,12 @@ var app = new Vue({
     Echo.channel('channelAlertUsers').listen('eventTrigger', function (e) {
 
       if (e.type == "notifyUsers") {
-        var html = "<div class='alert alert-danger' role='alert' style='text-align: center; margin-bottom: 0;'>";
-        html += e.description;
-        html += "</div>";
-        $("#notifyUsers").empty().prepend(html).fadeOut(5000);
+        // var html = "<div class='alert alert-danger' role='alert' style='text-align: center; margin-bottom: 0;'>";
+        // html += e.description;
+        // html += "</div>";
+        // $("#notifyUsers").empty().prepend(html);
+
+        alert(e.description);
       } else {
         if (counter > 10) {
           $("#tbl_usersTransactions > tbody tr:eq(10)").fadeOut('slow');
@@ -1077,7 +1079,7 @@ window.Pusher = __webpack_require__(36);
 
 window.Echo = new __WEBPACK_IMPORTED_MODULE_0_laravel_echo___default.a({
   broadcaster: 'pusher',
-  key: '14f512dd23c704d2fd25',
+  key: 'd907d70ca4ebccecb6f4',
   cluster: 'ap1',
   encrypted: true
 });

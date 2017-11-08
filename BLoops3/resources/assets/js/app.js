@@ -26,10 +26,12 @@ const app = new Vue({
         .listen('eventTrigger', (e) => {
 
           if(e.type == "notifyUsers") {
-            var html = "<div class='alert alert-danger' role='alert' style='text-align: center; margin-bottom: 0;'>";
-            html += e.description;
-            html += "</div>";
-            $("#notifyUsers").empty().prepend(html).fadeOut(5000);
+            // var html = "<div class='alert alert-danger' role='alert' style='text-align: center; margin-bottom: 0;'>";
+            // html += e.description;
+            // html += "</div>";
+            // $("#notifyUsers").empty().prepend(html);
+
+            alert(e.description);
           }
           else {
             if(counter > 10) {

@@ -82,6 +82,7 @@
     </head>
     <body>
       <div id="app">
+        <div id="notifyUsers"></div>
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
