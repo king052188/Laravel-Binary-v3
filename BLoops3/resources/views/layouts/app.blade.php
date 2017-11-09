@@ -1,3 +1,9 @@
+<!--
+// Author:    me@kpa21.info
+// Mobile:    09177715380
+// Facebook:  https://kpa.ph/18BA96
+// Twitter:   https://kpa.ph/6DEB8A
+-->
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
@@ -38,7 +44,7 @@
          -moz-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
 
       }
-      p.g_title { margin: 0; padding: 0; text-align: center; font-weight: 600; }
+      p.g_title { margin: 10px 0 0 0; padding: 0; text-align: center; font-weight: 600; }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js"></script>
     <!-- Include a polyfill for ES6 Promises (optional) for IE11 and Android browser -->
@@ -69,7 +75,6 @@
                         {{ config('app.name', 'Laravel') }}
                     </a>
                 </div>
-
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
@@ -117,30 +122,5 @@
     <script src="{{ app()->getUrl(true, 'js/app.js') }}"></script>
     <script src="{{ app()->getUrl(true, 'js/jquery.bootcomplete.js') }}"></script>
     <script src="{{ app()->getUrl(true, 'js/jquery.dev.js') }}"></script>
-    <script>
-      var _a, _b;
-      function _event(x) {
-        _a = $(x).data("a");
-        _b = parseInt($(x).data("b"));
-        if(_b == 0) {
-          swal(
-            'Oops...',
-            'Something went wrong. Please re-login.',
-            'error'
-          )
-          return false;
-        }
-        if(_b == 21) {
-          $("#_placement_left").attr('checked', true);
-          $("#_placement_right").attr('checked', false);
-        }
-        else {
-          $("#_placement_left").attr('checked', false);
-          $("#_placement_right").attr('checked', true);
-        }
-        var data = {a : _a, b : _b};
-        ajax_execute("/bloops/v1/placement-validation", data, "encoding-loading")
-      }
-    </script>
 </body>
 </html>
