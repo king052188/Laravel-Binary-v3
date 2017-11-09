@@ -181,6 +181,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        king052188\BinaryLoops\BinaryLoopsServiceProvider::class,
+
     ],
 
     /*
@@ -230,6 +232,9 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Pusher' => Pusher\Pusher::class,
+
+        'BinaryLoops' => king052188\BinaryLoops\Facades\BinaryLoops::class,
+        'BLHelper' => king052188\BinaryLoops\Facades\BLHelper::class,
 
     ],
 

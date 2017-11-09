@@ -35,4 +35,10 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'BinaryLoops' => [
+        'host' => env('BINARYLOOPS_HOST', 'binaryloops.kpa.ph'),
+        'email' => env('BINARYLOOPS_EMAIL', 'kingpauloaquino@gmail.com'),
+        'license' => env('BINARYLOOPS_LICENSE', 'tfnvK2sZZp1oEFD3TDAy1vP5A9R2vCaZphXF98nn1Qs'),
+    ],
+
 ];

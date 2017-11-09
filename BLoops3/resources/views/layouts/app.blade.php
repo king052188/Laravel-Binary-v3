@@ -16,7 +16,6 @@
     <link rel="apple-touch-icon" href="{{ app()->getUrl(false, 'images/k-icon.png') }}">
     <link rel="shortcut icon" type="image/png" href="{{ app()->getUrl(false, 'images/k-icon.png') }}"/>
     <link href="{{ app()->getUrl(false, 'css/app.css') }}" rel="stylesheet">
-
     <link rel="stylesheet" href="{{ app()->getUrl(false, 'font-awesome-4.7.0/css/font-awesome.min.css') }}">
     <style>
       table.tbl_loading { width: 100%; margin-top: 10px; }
@@ -37,7 +36,7 @@
          box-shadow: 0 0 8px rgba(0, 0, 0, .8);
          -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
          -moz-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
-        
+
       }
       p.g_title { margin: 0; padding: 0; text-align: center; font-weight: 600; }
     </style>
@@ -110,5 +109,37 @@
     </div>
     <!-- Scripts -->
     <script src="{{ app()->getUrl(true, 'js/app.js')  }}"></script>
+    <script>
+      var _a, _b;
+      function _event(x) {
+
+        _a = $(x).data("a");
+        _b = parseInt($(x).data("b"));
+
+        console.log(_a);
+        console.log(_b);
+        if(_b == 0) {
+          alert("Oops, Something went wrong...");
+          return false;
+        }
+
+        if(_b == 21) {
+          $("#_placement_left").attr('checked', true);
+          $("#_placement_right").attr('checked', false);
+        }
+        else {
+          $("#_placement_left").attr('checked', false);
+          $("#_placement_right").attr('checked', true);
+        }
+
+
+        $('#modal-encoding').modal({
+            show: true
+        });
+
+      }
+
+      setInterval(function(){ $("#encoding-form").show(3500); }, 2000);
+    </script>
 </body>
 </html>
