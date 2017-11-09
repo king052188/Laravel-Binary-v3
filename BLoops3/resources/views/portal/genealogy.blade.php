@@ -28,7 +28,7 @@
                       <div class="col-md-12" style="margin: 10px 0 0 0;">
                         <div class="col-md-6" style="height: 85px;">
                             <div style="margin: 0 auto; width: 60px;">
-                              <a href="#" onclick="_event(this);" data-a="1" data-b="2">
+                              <a href="#" onclick="_event(this);" data-a="631511191447913451751" data-b="22">
                                 <img class="g_image" src="http://icons.iconarchive.com/icons/dakirby309/windows-8-metro/64/Folders-OS-User-No-Frame-Metro-icon.png" />
                                 <p class="g_title"> TOP </p>
                               </a>
@@ -191,6 +191,7 @@
 
       <div class="modal-body">
 
+        <div id="encoding-loading"><p>Please wait....</p></div>
         <div id="encoding-form" class="container-fluid" style="display: none;">
 
           <div class="form-horizontal">
@@ -260,7 +261,7 @@
                 <div class="col-md-9 inputGroupContainer">
                   <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                    <input id="_sponsor_username" name="_sponsor_username" placeholder="Sponsor Username" class="form-control" type="text" disabled>
+                    <input id="_sponsor_username" name="_sponsor_username" placeholder="Sponsor Username" class="form-control" type="text">
                   </div>
                 </div>
               </div>
@@ -300,8 +301,8 @@
       </div><!-- /.container -->
 
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" ><i class="fa fa-floppy-o" aria-hidden="true"></i> Encode</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-ban" aria-hidden="true"></i> Cancel</button>
+        <button id="btnEncode" type="submit" class="btn btn-primary" ><i class="fa fa-floppy-o" aria-hidden="true"></i> Encode</button>
+        <button id="btnCancel" type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-ban" aria-hidden="true"></i> Cancel</button>
       </div>
     </div>
 

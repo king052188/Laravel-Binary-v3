@@ -40,6 +40,11 @@
       }
       p.g_title { margin: 0; padding: 0; text-align: center; font-weight: 600; }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js"></script>
+    <!-- Include a polyfill for ES6 Promises (optional) for IE11 and Android browser -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.min.css">
 </head>
 <body>
     <div id="app">
@@ -107,22 +112,24 @@
         </nav>
         @yield('content')
     </div>
+    <link rel="stylesheet" href="{{ app()->getUrl(false, 'css/bootcomplete.css') }}">
     <!-- Scripts -->
-    <script src="{{ app()->getUrl(true, 'js/app.js')  }}"></script>
+    <script src="{{ app()->getUrl(true, 'js/app.js') }}"></script>
+    <script src="{{ app()->getUrl(true, 'js/jquery.bootcomplete.js') }}"></script>
+    <script src="{{ app()->getUrl(true, 'js/jquery.dev.js') }}"></script>
     <script>
       var _a, _b;
       function _event(x) {
-
         _a = $(x).data("a");
         _b = parseInt($(x).data("b"));
-
-        console.log(_a);
-        console.log(_b);
         if(_b == 0) {
-          alert("Oops, Something went wrong...");
+          swal(
+            'Oops...',
+            'Something went wrong. Please re-login.',
+            'error'
+          )
           return false;
         }
-
         if(_b == 21) {
           $("#_placement_left").attr('checked', true);
           $("#_placement_right").attr('checked', false);
@@ -131,15 +138,9 @@
           $("#_placement_left").attr('checked', false);
           $("#_placement_right").attr('checked', true);
         }
-
-
-        $('#modal-encoding').modal({
-            show: true
-        });
-
+        var data = {a : _a, b : _b};
+        ajax_execute("/bloops/v1/placement-validation", data, "encoding-loading")
       }
-
-      setInterval(function(){ $("#encoding-form").show(3500); }, 2000);
     </script>
 </body>
 </html>

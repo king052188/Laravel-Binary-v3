@@ -23,6 +23,7 @@ Route::get('/', 'HomeController@index');
 Auth::routes();
 
 Route::get('/genealogy', 'HomeController@genealogy');
+Route::get('/genealogy/encoding', 'HomeController@encoding');
 
 Route::get('/account/verified/{email}', 'AccountController@account_verified');
 

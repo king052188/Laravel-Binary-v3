@@ -12,7 +12,7 @@ class BLHelper
     public function get_member_info($uid)
     {
         $d = DB::table('user_account')
-             ->where('Id', '=', (int)$uid)
+             ->where('member_uid',$uid)
              ->first();
 
         return $d;
@@ -128,11 +128,13 @@ class BLHelper
             WHERE placement_id = '". $member_id ."'
             AND position_ = ". $position_id ." AND position_ > 1 AND status_ != -99;
         ");
+        $user_info = null;
         if($p != null) {
-            return $p[0]->Id;
+            return array('User_Info' => $user_info, "Status" => 1);
         }
         else {
-            return 0;
+            $user_info = $this::get_member_info($member_id);
+            return array('User_Info' => $user_info, "Status" => 0);
         }
     }
 
@@ -152,7 +154,7 @@ class BLHelper
       //   "connected_to" => 0,
       //   "activation_id" => 0,
       // );
-      
+
       $id = DB::table('user_account')->insertGetId(
                 $member_info
             );

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use BinaryLoops;
 
 use App\Notifications\UserRegisteredNotification;
 
@@ -14,9 +15,14 @@ class HomeController extends Controller
      *
      * @return void
      */
+
+    public static $users;
+
     public function __construct()
     {
         $this->middleware('auth');
+
+        $this::$users = null;
     }
 
     /**
@@ -52,13 +58,16 @@ class HomeController extends Controller
             "Type" => "warning",
           ];
         }
-
         return view('home', compact('top_notifier'));
     }
 
     public function genealogy(Request $request) {
-
       return view('portal.genealogy');
+    }
+
+    public function encoding(Request $request) {
+      $this::$users = Auth::user();
+      return BinaryLoops::Encode($this::$users, $request);
     }
 
 }

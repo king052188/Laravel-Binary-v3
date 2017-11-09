@@ -38,7 +38,8 @@ class BinaryLoops
   }
 
   // functions
-  public function Encode($request) {
+  public function Encode($array, $request) {
+
     $dt = Carbon::now();
     $country = $request["country"] != "" ? $request["country"] : null;
     $muid = BLHelper::generate_unique_id($country);
@@ -56,8 +57,8 @@ class BinaryLoops
       "mobile_" => $request["mobile"] != "" ? $request["mobile"] : null,
       "type_" => 2,
       "status_" => -1,
-      "connected_to" => $request["connected"] != "" ? $request["connected"] : null,
-      "activation_id" => $request["code"] != "" ? $request["code"] : 0,
+      "connected_to" => $array["id"],
+      "activation_id" => 0,
       'updated_at' => $dt,
       'created_at' => $dt
     );
@@ -66,9 +67,9 @@ class BinaryLoops
 
   public function Placement_Validate($request) {
 
-    $result = BLHelper::check_position_of_placement($request["uid"], $request["pos"]);
+    $result = BLHelper::check_position_of_placement($request["a"], $request["b"]);
 
-    return ["Status" => $result];
+    return ["Data" => $result];
 
   }
 
