@@ -30,6 +30,12 @@
       table.tbl_loading thead tr th { background-color: #3E3E3E; color: #fff; border: 1px solid #E1E1E1; }
       table.tbl_loading tbody tr td { border: 1px solid #E1E1E1; }
 
+      table.tbl_history { width: 100%; margin-top: 10px; }
+      table.tbl_history thead tr th { padding: 5px; }
+      table.tbl_history thead tr th, tbody tr td { text-align: center; }
+      table.tbl_history thead tr th { background-color: #eaedf1; color: #3E3E3E; border: 1px solid #E1E1E1; }
+      table.tbl_history tbody tr td { border: 1px solid #E1E1E1; }
+
       a.g_link { color: #000000; text-decoration: none; font-family: "Raleway", sans-serif; }
       a.g_link:hover { color: #b8074c; text-decoration: none; }
       img.g_image {

@@ -13,19 +13,20 @@ class BLHelper
     public function get_member_info($value, $isUsername = false)
     {
         if($isUsername) {
-          $d = DB::table('user_account')
+          $d = DB::table('users')
                ->where('username', $value)
                ->first();
           return $d;
         }
 
-        $d = DB::table('user_account')
+        $d = DB::table('users')
              ->where('member_uid', $value)
              ->first();
        return $d;
     }
 
-    public function get_genealogy_structure($username = null) {
+    public function get_genealogy_structure($username = null)
+    {
         if($username == null) {
             $username = "company";
         }
@@ -90,9 +91,9 @@ class BLHelper
     public function get_placement($member_uid)
     {
        $arrays = DB::select("
-               SELECT t.Id, u.username, t.sponsor_id, t.placement_id, t.member_uid, t.position_, u.type_
+               SELECT t.Id, u.username, t.sponsor_id, t.placement_id, t.member_uid, t.position_, u.type
                FROM user_genealogy_transaction AS t
-               INNER JOIN user_account AS u
+               INNER JOIN users AS u
                ON t.member_uid = u.member_uid
                WHERE t.placement_id = '". $member_uid ."' AND t.status_ != -99 ORDER BY t.position_ ASC
        ");
@@ -107,7 +108,7 @@ class BLHelper
                        "placement_id" => $arrays[0]->placement_id,
                        "member_uid" => $arrays[0]->member_uid,
                        "position_" => $arrays[0]->position_,
-                       "type_" => $arrays[0]->type_
+                       "type_" => $arrays[0]->type
                    );
                    $list[] = $this->set_placement_null();
                }
@@ -120,7 +121,7 @@ class BLHelper
                        "placement_id" => $arrays[0]->placement_id,
                        "member_uid" => $arrays[0]->member_uid,
                        "position_" => $arrays[0]->position_,
-                       "type_" => $arrays[0]->type_
+                       "type_" => $arrays[0]->type
                    );
                }
 
@@ -134,7 +135,7 @@ class BLHelper
                        "placement_id" => $arrays[$i]->placement_id,
                        "member_uid" => $arrays[$i]->member_uid,
                        "position_" => $arrays[$i]->position_,
-                       "type_" => $arrays[$i]->type_
+                       "type_" => $arrays[$i]->type
                    );
                }
            }
@@ -145,6 +146,100 @@ class BLHelper
            }
        }
        return $list;
+    }
+
+    public function get_member_pairing($member_uid)
+    {
+        $counts = DB::select("
+        SELECT
+        (SELECT COUNT(*) FROM user_genealogy_summary WHERE member_uid = '{$member_uid}' AND position_id = 21) AS p_left,
+        (SELECT COUNT(*) FROM user_genealogy_summary WHERE member_uid = '{$member_uid}' AND position_id = 22) AS p_right
+        ");
+        $referrals = $this->get_member_referral($member_uid, 100);
+
+        $l = $counts[0]->p_left;
+        $r = $counts[0]->p_right;
+
+        if ($l > $r)
+        {
+            $t_remaining = $l - $r;
+            $t_paired = $l - $t_remaining;
+
+            $status = array(
+                "member_uid" => $member_uid,
+                "referral" => $referrals["referral"],
+                "starter" => $referrals["starter"],
+                "remaining" => $t_remaining,
+                "position" => 21,
+                "pairing" => $t_paired,
+                "amount" => ($t_paired * 100) + $referrals["starter"]
+            );
+        }
+        else if ($l < $r)
+        {
+            $t_remaining = $r - $l;
+            $t_paired = $r - $t_remaining;
+
+            $status = array(
+                "member_uid" => $member_uid,
+                "referral" => $referrals["referral"],
+                "starter" => $referrals["starter"],
+                "remaining" => $t_remaining,
+                "position" => 22,
+                "pairing" => $t_paired,
+                "amount" => ($t_paired * 100) + $referrals["starter"]
+            );
+
+        }
+        else if ($l == $r)
+        {
+            $t_paired = $l;
+
+            $status = array(
+                "member_uid" => $member_uid,
+                "referral" => $referrals["referral"],
+                "starter" => $referrals["starter"],
+                "remaining" => 0,
+                "position" => 0,
+                "pairing" => $t_paired,
+                "amount" => ($t_paired * 100) + $referrals["starter"]
+            );
+        }
+        else {
+            $status = array(
+                "member_uid" => $member_uid,
+                "referral" => $referrals["referral"],
+                "starter" => $referrals["starter"],
+                "remaining" => 0,
+                "position" => 0,
+                "pairing" => 0,
+                "amount" => 0
+            );
+        }
+        return $status;
+    }
+
+    public function get_member_referral($member_uid, $amount)
+    {
+        $referral = $this->get_referral($member_uid);
+
+        $referral_count = array(
+            "referral" => $referral,
+            "starter" => ($referral * $amount)
+        );
+
+        return $referral_count;
+    }
+
+    public function get_referral($member_uid)
+    {
+        $users = $this->get_member_info($member_uid);
+
+        $referral = DB::select("
+        SELECT COUNT(*) AS total_ref FROM users WHERE connected_to = '{$users->id}';;
+        ");
+
+        return $referral[0]->total_ref;
     }
 
     private function set_placement_null()
@@ -159,6 +254,13 @@ class BLHelper
            "type" => 0
        );
     }
+
+    public function generate_reference()
+  	{
+  		$t = explode( " ", microtime() );
+  		$mil = ($t[1]).substr((string)$t[0],1,4);
+  		return date("ymd") . str_replace(".", "", $mil);
+  	}
 
     public function generate_number($country = null)
     {
@@ -189,12 +291,24 @@ class BLHelper
         // generate member unique id
         do {
             $member_uid = $this->generate_number($country_code);
-            $u = DB::select("SELECT member_uid FROM user_account WHERE member_uid = '{$member_uid}';");
+            $u = DB::select("SELECT member_uid FROM users WHERE member_uid = '{$member_uid}';");
         } while ($u != null);
 
         if($u == null) {
             return $member_uid;
         }
+    }
+
+    public function check_member_info($value)
+    {
+      $d = DB::select("
+        SELECT * FROM users
+        WHERE member_uid = '{$value}'
+        OR username = '{$value}'
+        OR email = '{$value}'
+        OR mobile = '{$value}';"
+      );
+      return $d;
     }
 
     public function check_username($username, $is_sponsor)
@@ -297,29 +411,23 @@ class BLHelper
       //   "activation_id" => 0,
       // );
 
-      $id = DB::table('user_account')->insertGetId(
-                $member_info
-            );
-
-      return ["Insert_GetId" => $id];
+      $id = DB::table('users')->insertGetId($member_info);
+      return $id;
     }
 
     public function add_member_genealogy($data)
     {
+      // $data = array(
+      //   "transaction" => 0,
+      //   "sponsor_id" => 0,
+      //   "placement_id" => 0,
+      //   "member_uid" => 0,
+      //   "activation_code" => 0,
+      //   "position_" => 0,
+      //   "status_" => 0,
+      // );
 
-      $data = array(
-        "transaction" => 0,
-        "sponsor_id" => 0,
-        "placement_id" => 0,
-        "member_uid" => 0,
-        "activation_code" => 0,
-        "position_" => 0,
-        "status_" => 0,
-      );
-
-      $id = DB::table('user_genealogy_transaction')->insertGetId(
-                $data
-            );
+      $id = DB::table('user_genealogy_transaction')->insertGetId($data);
       return $id;
     }
 
@@ -327,22 +435,22 @@ class BLHelper
     {
        $users = DB::select("
            SELECT t.sponsor_id, t.placement_id, t.member_uid, t.position_,
-           a.username, a.mobile_, a.type_, a.status_
+           a.username, a.mobile, a.type, a.status
            FROM user_genealogy_transaction AS t
-           INNER JOIN user_account AS a
+           INNER JOIN users AS a
            ON t.member_uid = a.member_uid
-           WHERE a.member_uid = '{$member_uid}' AND a.status_ != -99;
+           WHERE a.member_uid = '{$member_uid}' AND a.status != -99;
        ");
 
-       if($users == null) {
+       if( COUNT($users) == 0 ) {
            return false;
        }
 
-       if($users[0]->type_ > 0) {
+       if($users[0]->type > 0) {
            $lookup_ = $this->lookup_process(
                $users[0]->member_uid,
                $users[0]->position_,
-               $users[0]->type_
+               1
            );
        }
 
@@ -357,14 +465,14 @@ class BLHelper
         do{
             $users = DB::select("
             SELECT t.sponsor_id, t.placement_id, t.member_uid, t.position_,
-            a.username, a.mobile_, a.type_, a.status_
+            a.username, a.mobile, a.type, a.status
             FROM user_genealogy_transaction AS t
-            INNER JOIN user_account AS a
+            INNER JOIN users AS a
             ON t.member_uid = a.member_uid
             WHERE t.member_uid = '{$m_uid}';
             ");
 
-            if($users != null) {
+            if( COUNT($users) > 0 ) {
                 $data = [];
                 if($ctr == 0)
                 {
@@ -372,7 +480,7 @@ class BLHelper
                     $data = array(
                       "member_uid" => $users[0]->placement_id,
                       "position_id" => $position,
-                      "type_id" => $users[0]->type_,
+                      "type_id" => $users[0]->type,
                       "points" => $points,
                     );
                 }
@@ -381,17 +489,17 @@ class BLHelper
                     $data = array(
                       "member_uid" => $users[0]->placement_id,
                       "position_id" => $users[0]->position_,
-                      "type_id" => $users[0]->type_,
+                      "type_id" => $users[0]->type,
                       "points" => $points,
                     );
                 }
 
-                $sum = DB::table('user_account')->insertGetId($data);
+                $sum = DB::table('user_genealogy_summary')->insertGetId($data);
                 $status[] = array("Code" => $sum);
                 $m_uid = $users[0]->placement_id;
                 $ctr++;
             }
-        }while ( $users != null );
+        }while ( COUNT($users) > 0 );
         return $status;
     }
 }

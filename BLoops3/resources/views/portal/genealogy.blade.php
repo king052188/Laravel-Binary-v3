@@ -1,279 +1,308 @@
 @extends('layouts.app')
 @section('content')
+
 <div class="container" style="width: 80%;">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Genealogy Structure</div>
-
                 <div class="panel-body">
+                  <h3>Summary</h3>
+                  <table class="tbl_history" id="tbl_gHistory" border="0" cellSpacing="0" cellPadding="5">
+                    <thead>
+                      <tr>
+                        <th>Account#</th>
+                        <th style="width: 110px;">Remaining</th>
+                        <th style="width: 110px;">Position</th>
+                        <th style="width: 100px;">Referral</th>
+                        <th style="width: 110px;">Pairing</th>
+                        <th style="width: 150px;">Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>***</td>
+                        <td>***</td>
+                        <td>***</td>
+                        <td>***</td>
+                        <td>***</td>
+                        <td>***</td>
+                      </tr>
+                    </tbody>
+                  </table>
 
-                  <div class="container-fluid" style="background-color: #eaedf1; width:100%; border-radius: 5px;">
-                    <!-- // Head Leader -->
-                    <div class="row">
-                      <?php $Top_Leader = $structure["Data"]["Top_Leader"]; ?>
-                      <div class="col-md-12" style="margin: 10px 0 0 0;">
-                        <div style="margin: 0 auto; width: 30px; height: 85px;">
-                            <a class="g_link" href="/genealogy" >
-                                <img class="g_image" style="margin: 0 0 0 -10px;" src="{{ app()->getUrl(false, 'images/top-img.png') }}" />
-                                <p class="g_title">
-                                  {{ $Top_Leader->username }}
-                                </p>
-                            </a>
+                  <h3>Structure</h3>
+                  @if($structure["Code"] == 200)
+                    <div class="container-fluid" style="background-color: #eaedf1; width:100%; border-radius: 5px;">
+                      <!-- // Head Leader -->
+                      <div class="row">
+                        <?php $Top_Leader = $structure["Data"]["Top_Leader"]; ?>
+                        <div class="col-md-12" style="margin: 10px 0 0 0;">
+                          <div style="margin: 0 auto; width: 30px; height: 85px;">
+                              <a class="g_link" href="/genealogy" >
+                                  <img class="g_image" style="margin: 0 0 0 -10px;" src="{{ app()->getUrl(false, 'images/top-img.png') }}" />
+                                  <p class="g_title">
+                                    {{ $Top_Leader->username }}
+                                  </p>
+                              </a>
+                          </div>
                         </div>
                       </div>
+                      <!-- // Level 1 -->
+                      <div class="L1" >
+                        <?php $level_1 = $structure["Data"]["Level_1"]; ?>
+                        <div class="col-md-12" style="margin: 10px 0 0 0;">
+                          <div class="col-md-6" style="height: 85px;">
+                              <div style="margin: 0 auto; width: 60px;">
+                                @if( $level_1[0]["username"] != null )
+                                  <a href="?p={{ $level_1[0]['username'] }}">
+                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
+                                    <p class="g_title"> {{ $level_1[0]["username"] }} </p>
+                                  </a>
+                                @else
+                                  <a href="#" onclick="_event(this);" data-a="{{ $Top_Leader->member_uid }}" data-b="21">
+                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
+                                    <p class="g_title"> N/A </p>
+                                  </a>
+                                @endif
+                              </div>
+                          </div>
+                          <div class="col-md-6" style="height: 85px;">
+                              <div style="margin: 0 auto; width: 60px;">
+                                @if( $level_1[1]["username"] != null )
+                                  <a href="?p={{ $level_1[1]['username'] }}">
+                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/right-img.png') }}" />
+                                    <p class="g_title"> {{ $level_1[1]["username"] }} </p>
+                                  </a>
+                                @else
+                                  <a href="#" onclick="_event(this);" data-a="{{ $Top_Leader->member_uid }}" data-b="22">
+                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/na-right-img.png') }}" />
+                                    <p class="g_title"> N/A </p>
+                                  </a>
+                                @endif
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- // level 2 -->
+                      <div class="L2">
+                        <?php $level_2 = $structure["Data"]["Level_2"]; ?>
+
+                        <div class="col-md-6" style="margin: 20px 0 0 0;">
+                          <div class="col-md-6" style="height: 85px;">
+                              <div style="margin: 0 auto; width: 60px;">
+                                @if( $level_2[0][0]["username"] != null )
+                                  <a href="?p={{ $level_2[0][0]['username'] }}">
+                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
+                                    <p class="g_title"> {{ $level_2[0][0]["username"] }} </p>
+                                  </a>
+                                @else
+                                  <a href="#" onclick="_event(this);" data-a="{{ $level_1[0]['member_uid'] }}" data-b="21">
+                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
+                                    <p class="g_title"> N/A </p>
+                                  </a>
+                                @endif
+                              </div>
+                          </div>
+                          <div class="col-md-6" style="height: 85px;">
+                              <div style="margin: 0 auto; width: 60px;">
+                                @if( $level_2[0][1]["username"] != null )
+                                  <a href="?p={{ $level_2[0][1]['username'] }}">
+                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
+                                    <p class="g_title"> {{ $level_2[0][1]["username"] }} </p>
+                                  </a>
+                                @else
+                                  <a href="#" onclick="_event(this);" data-a="{{ $level_1[0]['member_uid'] }}" data-b="22">
+                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
+                                    <p class="g_title"> N/A </p>
+                                  </a>
+                                @endif
+                              </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6" style="margin: 20px 0 0 0;">
+                          <div class="col-md-6" style="height: 85px;">
+                              <div style="margin: 0 auto; width: 60px;">
+                                @if( $level_2[1][0]["username"] != null )
+                                  <a href="?p={{ $level_2[1][0]['username'] }}">
+                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
+                                    <p class="g_title"> {{ $level_2[1][0]["username"] }} </p>
+                                  </a>
+                                @else
+                                  <a href="#" onclick="_event(this);" data-a="{{ $level_1[1]['member_uid'] }}" data-b="21">
+                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
+                                    <p class="g_title"> N/A </p>
+                                  </a>
+                                @endif
+                              </div>
+                          </div>
+                          <div class="col-md-6" style="height: 85px;">
+                              <div style="margin: 0 auto; width: 60px;">
+                                @if( $level_2[1][1]["username"] != null )
+                                  <a href="?p={{ $level_2[1][1]['username'] }}">
+                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
+                                    <p class="g_title"> {{ $level_2[1][1]["username"] }} </p>
+                                  </a>
+                                @else
+                                  <a href="#" onclick="_event(this);" data-a="{{ $level_1[1]['member_uid'] }}" data-b="22">
+                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
+                                    <p class="g_title"> N/A </p>
+                                  </a>
+                                @endif
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- // level 3 -->
+                      <div class="L3">
+                        <?php $level_3 = $structure["Data"]["Level_3"]; ?>
+                        <div class="col-md-6" style="margin: 40px 0 20px 0;">
+                          <!-- // 0  -->
+                          <div class="col-md-6">
+                            <div class="col-md-6" style="height: 85px;">
+                                <div style="margin: 0 auto; width: 60px;">
+                                  @if( $level_3[0][0]["username"] != null )
+                                    <a href="?p={{ $level_3[0][0]['username'] }}">
+                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
+                                      <p class="g_title"> {{ $level_3[0][0]["username"] }} </p>
+                                    </a>
+                                  @else
+                                    <a href="#" onclick="_event(this);" data-a="{{ $level_2[0][0]['member_uid'] }}" data-b="21">
+                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
+                                      <p class="g_title"> N/A </p>
+                                    </a>
+                                  @endif
+                                </div>
+                            </div>
+                            <div class="col-md-6" style="height: 85px;">
+                                <div style="margin: 0 auto; width: 60px;">
+                                  @if( $level_3[0][1]["username"] != null )
+                                    <a href="?p={{ $level_3[0][1]['username'] }}">
+                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
+                                      <p class="g_title"> {{ $level_3[0][1]["username"] }} </p>
+                                    </a>
+                                  @else
+                                    <a href="#" onclick="_event(this);" data-a="{{ $level_2[0][0]['member_uid'] }}" data-b="22">
+                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
+                                      <p class="g_title"> N/A </p>
+                                    </a>
+                                  @endif
+                                </div>
+                            </div>
+                          </div>
+                          <!-- // 1  -->
+                          <div class="col-md-6">
+                            <div class="col-md-6" style="height: 85px;">
+                                <div style="margin: 0 auto; width: 60px;">
+                                  @if( $level_3[1][0]["username"] != null )
+                                    <a href="?p={{ $level_3[1][0]['username'] }}">
+                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
+                                      <p class="g_title"> {{ $level_3[1][0]["username"] }} </p>
+                                    </a>
+                                  @else
+                                    <a href="#" onclick="_event(this);" data-a="{{ $level_2[0][1]['member_uid'] }}" data-b="21">
+                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
+                                      <p class="g_title"> N/A </p>
+                                    </a>
+                                  @endif
+                                </div>
+                            </div>
+                            <div class="col-md-6" style="height: 85px;">
+                                <div style="margin: 0 auto; width: 60px;">
+                                  @if( $level_3[1][1]["username"] != null )
+                                    <a href="?p={{ $level_3[1][1]['username'] }}">
+                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
+                                      <p class="g_title"> {{ $level_3[1][1]["username"] }} </p>
+                                    </a>
+                                  @else
+                                    <a href="#" onclick="_event(this);" data-a="{{ $level_2[0][1]['member_uid'] }}" data-b="22">
+                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
+                                      <p class="g_title"> N/A </p>
+                                    </a>
+                                  @endif
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- // 2  -->
+                        <div class="col-md-6" style="margin: 40px 0 20px 0;">
+                          <div class="col-md-6">
+                            <div class="col-md-6" style="height: 85px;">
+                                <div style="margin: 0 auto; width: 60px;">
+                                  @if( $level_3[2][0]["username"] != null )
+                                    <a href="?p={{ $level_3[2][0]['username'] }}">
+                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
+                                      <p class="g_title"> {{ $level_3[2][0]["username"] }} </p>
+                                    </a>
+                                  @else
+                                    <a href="#" onclick="_event(this);" data-a="{{ $level_2[1][0]['member_uid'] }}" data-b="21">
+                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
+                                      <p class="g_title"> N/A </p>
+                                    </a>
+                                  @endif
+                                </div>
+                            </div>
+                            <div class="col-md-6" style="height: 85px;">
+                                <div style="margin: 0 auto; width: 60px;">
+                                  @if( $level_3[2][1]["username"] != null )
+                                    <a href="?p={{ $level_3[2][1]['username'] }}">
+                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
+                                      <p class="g_title"> {{ $level_3[2][1]["username"] }} </p>
+                                    </a>
+                                  @else
+                                    <a href="#" onclick="_event(this);" data-a="{{ $level_2[1][0]['member_uid'] }}" data-b="22">
+                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
+                                      <p class="g_title"> N/A </p>
+                                    </a>
+                                  @endif
+                                </div>
+                            </div>
+                          </div>
+                          <!-- // 3  -->
+                          <div class="col-md-6">
+                            <div class="col-md-6" style="height: 85px;">
+                                <div style="margin: 0 auto; width: 60px;">
+                                  @if( $level_3[3][0]["username"] != null )
+                                    <a href="?p={{ $level_3[3][1]['username'] }}">
+                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
+                                      <p class="g_title"> {{ $level_3[3][1]["username"] }} </p>
+                                    </a>
+                                  @else
+                                    <a href="#" onclick="_event(this);" data-a="{{ $level_2[1][1]['member_uid'] }}" data-b="21">
+                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
+                                      <p class="g_title"> N/A </p>
+                                    </a>
+                                  @endif
+                                </div>
+                            </div>
+                            <div class="col-md-6" style="height: 85px;">
+                                <div style="margin: 0 auto; width: 60px;">
+                                  @if( $level_3[3][1]["username"] != null )
+                                    <a href="?p={{ $level_3[3][1]['username'] }}">
+                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
+                                      <p class="g_title"> {{ $level_3[3][1]["username"] }} </p>
+                                    </a>
+                                  @else
+                                    <a href="#" onclick="_event(this);" data-a="{{ $level_2[1][1]['member_uid'] }}" data-b="22">
+                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
+                                      <p class="g_title"> N/A </p>
+                                    </a>
+                                  @endif
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+
                     </div>
+                  @else
+                    <h3>No Structure</h3>
+                  @endif
 
-                    <!-- // Level 1 -->
-                    <div class="L1" >
-                      <?php $level_1 = $structure["Data"]["Level_1"]; ?>
-                      <div class="col-md-12" style="margin: 10px 0 0 0;">
-                        <div class="col-md-6" style="height: 85px;">
-                            <div style="margin: 0 auto; width: 60px;">
-                              @if( $level_1[0]["username"] != null )
-                                <a href="?p={{ $level_1[0]['username'] }}">
-                                  <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
-                                  <p class="g_title"> {{ $level_1[0]["username"] }} </p>
-                                </a>
-                              @else
-                                <a href="#" onclick="_event(this);" data-a="{{ $Top_Leader->member_uid }}" data-b="21">
-                                  <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
-                                  <p class="g_title"> N/A </p>
-                                </a>
-                              @endif
-                            </div>
-                        </div>
-                        <div class="col-md-6" style="height: 85px;">
-                            <div style="margin: 0 auto; width: 60px;">
-                              @if( $level_1[1]["username"] != null )
-                                <a href="?p={{ $level_1[1]['username'] }}">
-                                  <img class="g_image" src="{{ app()->getUrl(false, 'images/right-img.png') }}" />
-                                  <p class="g_title"> {{ $level_1[1]["username"] }} </p>
-                                </a>
-                              @else
-                                <a href="#" onclick="_event(this);" data-a="{{ $Top_Leader->member_uid }}" data-b="22">
-                                  <img class="g_image" src="{{ app()->getUrl(false, 'images/na-right-img.png') }}" />
-                                  <p class="g_title"> N/A </p>
-                                </a>
-                              @endif
-                            </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- // level 2 -->
-                    <div class="L2">
-                      <?php $level_2 = $structure["Data"]["Level_2"]; ?>
-                      <div class="col-md-6" style="margin: 20px 0 0 0;">
-                        <div class="col-md-6" style="height: 85px;">
-                            <div style="margin: 0 auto; width: 60px;">
-                              @if( $level_2[0][0]["username"] != null )
-                                <a href="?p={{ $level_2[0][0]['username'] }}">
-                                  <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
-                                  <p class="g_title"> {{ $level_2[0][0]["username"] }} </p>
-                                </a>
-                              @else
-                                <a href="#" onclick="_event(this);" data-a="{{ $level_1[0]['member_uid'] }}" data-b="21">
-                                  <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
-                                  <p class="g_title"> N/A </p>
-                                </a>
-                              @endif
-                            </div>
-                        </div>
-                        <div class="col-md-6" style="height: 85px;">
-                            <div style="margin: 0 auto; width: 60px;">
-                              @if( $level_2[0][1]["username"] != null )
-                                <a href="?p={{ $level_2[0][0]['username'] }}">
-                                  <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
-                                  <p class="g_title"> {{ $level_2[0][1]["username"] }} </p>
-                                </a>
-                              @else
-                                <a href="#" onclick="_event(this);" data-a="{{ $level_1[0]['member_uid'] }}" data-b="22">
-                                  <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
-                                  <p class="g_title"> N/A </p>
-                                </a>
-                              @endif
-                            </div>
-                        </div>
-                      </div>
-
-                      <div class="col-md-6" style="margin: 20px 0 0 0;">
-                        <div class="col-md-6" style="height: 85px;">
-                            <div style="margin: 0 auto; width: 60px;">
-                              @if( $level_2[1][0]["username"] != null )
-                                <a href="?p={{ $level_2[1][0]['username'] }}">
-                                  <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
-                                  <p class="g_title"> {{ $level_2[1][0]["username"] }} </p>
-                                </a>
-                              @else
-                                <a href="#" onclick="_event(this);" data-a="{{ $level_1[1]['member_uid'] }}" data-b="21">
-                                  <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
-                                  <p class="g_title"> N/A </p>
-                                </a>
-                              @endif
-                            </div>
-                        </div>
-                        <div class="col-md-6" style="height: 85px;">
-                            <div style="margin: 0 auto; width: 60px;">
-                              @if( $level_2[1][1]["username"] != null )
-                                <a href="?p={{ $level_2[1][0]['username'] }}">
-                                  <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
-                                  <p class="g_title"> {{ $level_2[1][1]["username"] }} </p>
-                                </a>
-                              @else
-                                <a href="#" onclick="_event(this);" data-a="{{ $level_1[1]['member_uid'] }}" data-b="22">
-                                  <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
-                                  <p class="g_title"> N/A </p>
-                                </a>
-                              @endif
-                            </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- // level 3 -->
-                    <div class="L3">
-                      <?php $level_3 = $structure["Data"]["Level_3"]; ?>
-
-                      <div class="col-md-6" style="margin: 40px 0 20px 0;">
-                        <div class="col-md-6">
-                          <div class="col-md-6" style="height: 85px;">
-                              <div style="margin: 0 auto; width: 60px;">
-                                @if( $level_3[0][0]["username"] != null )
-                                  <a href="?p={{ $level_3[0][0]['username'] }}">
-                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
-                                    <p class="g_title"> {{ $level_3[0][0]["username"] }} </p>
-                                  </a>
-                                @else
-                                  <a href="#" onclick="_event(this);" data-a="{{ $level_2[0][0]['member_uid'] }}" data-b="21">
-                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
-                                    <p class="g_title"> N/A </p>
-                                  </a>
-                                @endif
-                              </div>
-                          </div>
-                          <div class="col-md-6" style="height: 85px;">
-                              <div style="margin: 0 auto; width: 60px;">
-                                @if( $level_3[0][1]["username"] != null )
-                                  <a href="?p={{ $level_3[0][0]['username'] }}">
-                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
-                                    <p class="g_title"> {{ $level_3[0][1]["username"] }} </p>
-                                  </a>
-                                @else
-                                  <a href="#" onclick="_event(this);" data-a="{{ $level_2[0][0]['member_uid'] }}" data-b="22">
-                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
-                                    <p class="g_title"> N/A </p>
-                                  </a>
-                                @endif
-                              </div>
-                          </div>
-                        </div>
-
-                        <div class="col-md-6">
-                          <div class="col-md-6" style="height: 85px;">
-                              <div style="margin: 0 auto; width: 60px;">
-                                @if( $level_3[1][0]["username"] != null )
-                                  <a href="?p={{ $level_3[1][0]['username'] }}">
-                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
-                                    <p class="g_title"> {{ $level_3[1][0]["username"] }} </p>
-                                  </a>
-                                @else
-                                  <a href="#" onclick="_event(this);" data-a="{{ $level_2[0][1]['member_uid'] }}" data-b="21">
-                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
-                                    <p class="g_title"> N/A </p>
-                                  </a>
-                                @endif
-                              </div>
-                          </div>
-                          <div class="col-md-6" style="height: 85px;">
-                              <div style="margin: 0 auto; width: 60px;">
-                                @if( $level_3[1][1]["username"] != null )
-                                  <a href="?p={{ $level_3[1][0]['username'] }}">
-                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
-                                    <p class="g_title"> {{ $level_3[1][1]["username"] }} </p>
-                                  </a>
-                                @else
-                                  <a href="#" onclick="_event(this);" data-a="{{ $level_2[0][1]['member_uid'] }}" data-b="22">
-                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
-                                    <p class="g_title"> N/A </p>
-                                  </a>
-                                @endif
-                              </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-md-6" style="margin: 40px 0 20px 0;">
-                        <div class="col-md-6">
-                          <div class="col-md-6" style="height: 85px;">
-                              <div style="margin: 0 auto; width: 60px;">
-                                @if( $level_3[2][0]["username"] != null )
-                                  <a href="?p={{ $level_3[2][0]['username'] }}">
-                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
-                                    <p class="g_title"> {{ $level_3[2][0]["username"] }} </p>
-                                  </a>
-                                @else
-                                  <a href="#" onclick="_event(this);" data-a="{{ $level_2[1][0]['member_uid'] }}" data-b="21">
-                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
-                                    <p class="g_title"> N/A </p>
-                                  </a>
-                                @endif
-                              </div>
-                          </div>
-                          <div class="col-md-6" style="height: 85px;">
-                              <div style="margin: 0 auto; width: 60px;">
-                                @if( $level_3[2][1]["username"] != null )
-                                  <a href="?p={{ $level_3[2][0]['username'] }}">
-                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
-                                    <p class="g_title"> {{ $level_3[2][1]["username"] }} </p>
-                                  </a>
-                                @else
-                                  <a href="#" onclick="_event(this);" data-a="{{ $level_2[1][0]['member_uid'] }}" data-b="22">
-                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
-                                    <p class="g_title"> N/A </p>
-                                  </a>
-                                @endif
-                              </div>
-                          </div>
-                        </div>
-
-
-                        <div class="col-md-6">
-                          <div class="col-md-6" style="height: 85px;">
-                              <div style="margin: 0 auto; width: 60px;">
-                                @if( $level_3[2][1]["username"] != null )
-                                  <a href="?p={{ $level_3[2][1]['username'] }}">
-                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
-                                    <p class="g_title"> {{ $level_3[2][1]["username"] }} </p>
-                                  </a>
-                                @else
-                                  <a href="#" onclick="_event(this);" data-a="{{ $level_2[1][1]['member_uid'] }}" data-b="21">
-                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
-                                    <p class="g_title"> N/A </p>
-                                  </a>
-                                @endif
-                              </div>
-                          </div>
-                          <div class="col-md-6" style="height: 85px;">
-                              <div style="margin: 0 auto; width: 60px;">
-                                @if( $level_3[2][1]["username"] != null )
-                                  <a href="?p={{ $level_3[2][1]['username'] }}">
-                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
-                                    <p class="g_title"> {{ $level_3[2][1]["username"] }} </p>
-                                  </a>
-                                @else
-                                  <a href="#" onclick="_event(this);" data-a="{{ $level_2[1][1]['member_uid'] }}" data-b="22">
-                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
-                                    <p class="g_title"> N/A </p>
-                                  </a>
-                                @endif
-                              </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
                 </div>
             </div>
         </div>
@@ -362,7 +391,7 @@
                 <div class="col-md-9 inputGroupContainer">
                   <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <input id="_sponsor_username" name="_sponsor_username" placeholder="Sponsor Username" class="form-control" type="text" required autofocus>
+                    <input id="_sponsor_username" name="_sponsor_username" placeholder="Sponsor Username" value="{{ Auth::user()->username }}" class="form-control" type="text" disabled>
                   </div>
                 </div>
               </div>
@@ -384,11 +413,10 @@
                 <div class="col-md-9">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="_placement" id="_placement_left" value="Left" /> Left
+                            <input type="radio" name="_placement" id="_placement_left" value="21" disabled /> Left
                         </label>
-
                         <label style="margin-left: 20px;">
-                            <input type="radio" name="_placement" id="_placement_right" value="Right" /> Right
+                            <input type="radio" name="_placement" id="_placement_right" value="22" disabled /> Right
                         </label>
                     </div>
                 </div>
@@ -400,7 +428,7 @@
                 <div class="col-md-9 inputGroupContainer">
                   <div class="input-group">
                       <span class="input-group-addon"><i class="glyphicon glyphicon-qrcode"></i></span>
-                      <input id="_activation_code" name="_activation_code" placeholder="Activation Code" class="form-control" type="text" required autofocus>
+                      <input id="_activation_code" name="_activation_code" placeholder="Activation Code" value="45575e4b23c" class="form-control" type="text" required autofocus>
                   </div>
                 </div>
               </div>
@@ -420,4 +448,5 @@
     </div>
   </div>
 </div>
+
 @endsection

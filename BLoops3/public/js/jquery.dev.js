@@ -33,7 +33,6 @@ function _event(x) {
     $("#_placement_left").attr('checked', false);
     $("#_placement_right").attr('checked', true);
   }
-
   var data = {a : _a, b : _b};
   ajax_execute("/bloops/v1/placement-validation", data, "encoding-loading")
 }
@@ -84,22 +83,24 @@ $("#btnEncode").click(function() {
   };
   $("#_span_error_msg").text("");
   $("#_span_error_msg").hide();
-  ajax_exec("/genealogy/encoding", data, this);
+  var url = "/genealogy/encoding/"+_a+"/"+_b;
+  console.log(url);
+  ajax_exec(url, data, this);
 })
 
 function ajax_exec(url, data, control) {
     $(document).ready(function() {
         $.ajax({
             dataType: 'json',
-            type:'POST',
+            type:'GET',
             url: url,
             data: data,
             beforeSend: function () {
-              $("control").text("Please wait...");
+              $(control).text("Please wait...");
             }
         }).done(function(json){
-            console.log(json.Insert_GetId);
-            if(json.Insert_GetId > 0) {
+            console.log(json);
+            if(json.Status == 200) {
               swal({
                 title: 'Thank You!',
                 text: "You have successfully registered a new member. By clicking the OK button, the page will auto-reload.",
@@ -113,6 +114,14 @@ function ajax_exec(url, data, control) {
               })
               return false;
             }
+            if(json.Status != 200 || json.Status != 500) {
+              swal(
+                'Oops...',
+                json.Message,
+                'error'
+              )
+              return false;
+            }
             swal(
               'Oops...',
               'Something went wrong! Please inform your UP-Line.',
@@ -121,6 +130,7 @@ function ajax_exec(url, data, control) {
         });
     })
 }
+
 function ajax_execute(url, data) {
     $(document).ready(function() {
         $.ajax({
@@ -150,6 +160,48 @@ function ajax_execute(url, data) {
                 'warning'
               )
             }
+        });
+    })
+}
+
+populate_genealogy_history();
+function populate_genealogy_history() {
+    $(document).ready(function() {
+        $.ajax({
+            dataType: 'json',
+            type:'GET',
+            url: '/genealogy/pairing-referral-summary',
+            beforeSend: function () {
+              html = "<tr>";
+              html += "<td>***</td>";
+              html += "<td>***</td>";
+              html += "<td>***</td>";
+              html += "<td>***</td>";
+              html += "<td>***</td>";
+              html += "<td>***</td>";
+              html += "</tr>";
+              console.log(html);
+              $("#tbl_gHistory > tbody").empty().prepend(html);
+            }
+        }).done(function(json){
+            console.log(json);
+            var html = "";
+            $(json.Data).each(function(a, b) {
+                console.log(b);
+                html = "<tr>";
+                html += "<td>"+b.member_uid+"</td>";
+                html += "<td>"+b.remaining+"</td>";
+
+                var pos = b.position == 21 ? "Left" : "Right";
+
+                html += "<td>"+pos+"</td>";
+                html += "<td>"+b.referral+"</td>";
+                html += "<td>"+b.pairing+"</td>";
+                html += "<td>"+b.amount+"</td>";
+                html += "</tr>";
+            })
+            console.log(html);
+            $("#tbl_gHistory > tbody").empty().prepend(html);
         });
     })
 }

@@ -29,6 +29,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('mobile')->unique();
             $table->integer('connected_to')->unique();
+            $table->integer('activation_id')->unique();
             $table->boolean('type');
             $table->boolean('status');
             $table->rememberToken();

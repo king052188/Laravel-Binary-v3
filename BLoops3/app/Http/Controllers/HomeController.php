@@ -25,7 +25,6 @@ class HomeController extends Controller
 
         $this::$users = null;
     }
-
     /**
      * Show the application dashboard.
      *
@@ -66,22 +65,29 @@ class HomeController extends Controller
         return view('home', compact('top_notifier'));
     }
 
-    public function genealogy(Request $request) {
-
+    public function genealogy(Request $request)
+    {
       $this::$users = Auth::user();
       $username = $this::$users->username;
       if(IsSet($request["p"])) {
         $username = $request["p"];
       }
-
       $structure = BinaryLoops::Populate_Genealogy($username);
-
       return view('portal.genealogy', compact('structure'));
     }
 
-    public function encoding(Request $request) {
+    public function encoding($placement, $position, Request $request)
+    {
       $this::$users = Auth::user();
-      return BinaryLoops::Encode($this::$users, $request);
+
+      return BinaryLoops::Encode($this::$users, $request, $placement, $position);
+    }
+
+    public function summary_pairing()
+    {
+      $this::$users = Auth::user();
+      
+      return BinaryLoops::Member_Pairing($this::$users->member_uid);
     }
 
 }
