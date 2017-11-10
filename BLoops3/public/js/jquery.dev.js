@@ -84,7 +84,6 @@ $("#btnEncode").click(function() {
   $("#_span_error_msg").text("");
   $("#_span_error_msg").hide();
   var url = "/genealogy/encoding/"+_a+"/"+_b;
-  console.log(url);
   ajax_exec(url, data, this);
 })
 
@@ -99,7 +98,6 @@ function ajax_exec(url, data, control) {
               $(control).text("Please wait...");
             }
         }).done(function(json){
-            console.log(json);
             if(json.Status == 200) {
               swal({
                 title: 'Thank You!',
@@ -143,7 +141,6 @@ function ajax_execute(url, data) {
               $("#encoding-form").hide();
             }
         }).done(function(json){
-            console.log(json);
             if(json.Data.Status == 0) {
               $('#modal-encoding').modal({
                   show: true
@@ -180,14 +177,11 @@ function populate_genealogy_history() {
               html += "<td>***</td>";
               html += "<td>***</td>";
               html += "</tr>";
-              console.log(html);
               $("#tbl_gHistory > tbody").empty().prepend(html);
             }
         }).done(function(json){
-            console.log(json);
             var html = "";
             $(json.Data).each(function(a, b) {
-                console.log(b);
                 html = "<tr>";
                 html += "<td>"+b.member_uid+"</td>";
                 html += "<td>"+b.remaining+"</td>";
@@ -200,7 +194,6 @@ function populate_genealogy_history() {
                 html += "<td>"+b.amount+"</td>";
                 html += "</tr>";
             })
-            console.log(html);
             $("#tbl_gHistory > tbody").empty().prepend(html);
         });
     })
