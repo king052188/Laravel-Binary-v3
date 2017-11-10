@@ -16,13 +16,22 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('user_token')->unique();
-            $table->string('name');
+            $table->string('member_uid')->unique();
+            $table->string('fb_uid')->unique();
+            $table->string('fb_primary_photo');
+            $table->string('username');
+            $table->string('password');
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('streets');
+            $table->string('city');
+            $table->string('country');
             $table->string('email')->unique();
             $table->string('mobile')->unique();
-            $table->string('password');
             $table->integer('connected_to')->unique();
-            $table->rememberToken();
+            $table->boolean('type');
             $table->boolean('status');
+            $table->rememberToken();
             $table->timestamps();
         });
     }

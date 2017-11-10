@@ -51,7 +51,9 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'user_token' => 'required|string|max:200|unique:users',
-            'name' => 'required|string|max:100',
+            'username' => 'required|string|max:20|unique:users',
+            'first_name' => 'required|string|max:100',
+            'last_name' => 'required|string|max:100',
             'email' => 'required|string|email|max:100|unique:users',
             'mobile' => 'required|string|max:11|unique:users',
             'password' => 'required|string|min:6|confirmed',
@@ -69,7 +71,9 @@ class RegisterController extends Controller
     {
       return User::create([
           'user_token' => bcrypt($data["user_token"]),
-          'name' => $data['name'],
+          'username' => $data['username'],
+          'first_name' => $data['first_name'],
+          'last_name' => $data['last_name'],
           'email' => $data['email'],
           'mobile' => $data['mobile'],
           'password' => bcrypt($data["password"]),

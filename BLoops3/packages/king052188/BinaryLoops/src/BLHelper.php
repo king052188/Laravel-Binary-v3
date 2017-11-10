@@ -5,17 +5,159 @@ namespace king052188\BinaryLoops;
 use Illuminate\Support\Facades\Config;
 
 use DB;
+use App\User;
 
 
 class BLHelper
 {
-    public function get_member_info($uid)
+    public function get_member_info($value, $isUsername = false)
     {
-        $d = DB::table('user_account')
-             ->where('member_uid',$uid)
-             ->first();
+        if($isUsername) {
+          $d = DB::table('user_account')
+               ->where('username', $value)
+               ->first();
+          return $d;
+        }
 
-        return $d;
+        $d = DB::table('user_account')
+             ->where('member_uid', $value)
+             ->first();
+       return $d;
+    }
+
+    public function get_genealogy_structure($username = null) {
+        if($username == null) {
+            $username = "company";
+        }
+
+        // top leader information
+        $top_info = $this->get_member_info($username, true);
+        if($top_info == null) {
+          return array(
+            'Code' => 404,
+            'Message' => 'Username did not found.',
+            'Data' => null
+          );
+        }
+
+        // level 1
+        $get_level1 = $this->get_placement($top_info->member_uid);
+
+        // level 2
+        $get_level2 = [];
+        if( COUNT($get_level1) > 0 ) {
+            for($i = 0; $i < count($get_level1); $i++) {
+                $get_level2[] = $this->get_placement($get_level1[$i]['member_uid']);
+            }
+        }
+        else {
+          return array(
+            'Code' => 500,
+            'Message' => 'No downline.',
+            'Data' => null
+          );
+        }
+
+        // level 3
+        $get_level3 = null;
+        if($get_level2 != null) {
+            for($i = 0; $i < count($get_level2); $i++) {
+                for($x = 0; $x < count($get_level2[$i]); $x++) {
+                    $get_level3[] = $this->get_placement($get_level2[$i][$x]['member_uid']);
+                }
+            }
+        }
+        else {
+          return array(
+            'Code' => 500,
+            'Message' => 'No downline.',
+            'Data' => null
+          );
+        }
+
+        return array(
+          'Code' => 200,
+          'Message' => 'Success.',
+          'Data' => array(
+            'Top_Leader' => $top_info,
+            'Level_1' => $get_level1,
+            'Level_2' => $get_level2,
+            'Level_3' => $get_level3
+          )
+        );
+    }
+
+    public function get_placement($member_uid)
+    {
+       $arrays = DB::select("
+               SELECT t.Id, u.username, t.sponsor_id, t.placement_id, t.member_uid, t.position_, u.type_
+               FROM user_genealogy_transaction AS t
+               INNER JOIN user_account AS u
+               ON t.member_uid = u.member_uid
+               WHERE t.placement_id = '". $member_uid ."' AND t.status_ != -99 ORDER BY t.position_ ASC
+       ");
+
+       if(count($arrays) > 0) {
+           if(count($arrays) == 1) {
+               if($arrays[0]->position_ == 21) {
+                   $list[] = array(
+                       "Id" => $arrays[0]->Id,
+                       "username" => $arrays[0]->username,
+                       "sponsor_id" => $arrays[0]->sponsor_id,
+                       "placement_id" => $arrays[0]->placement_id,
+                       "member_uid" => $arrays[0]->member_uid,
+                       "position_" => $arrays[0]->position_,
+                       "type_" => $arrays[0]->type_
+                   );
+                   $list[] = $this->set_placement_null();
+               }
+               else {
+                   $list[] = $this->set_placement_null();
+                   $list[] = array(
+                       "Id" => $arrays[0]->Id,
+                       "username" => $arrays[0]->username,
+                       "sponsor_id" => $arrays[0]->sponsor_id,
+                       "placement_id" => $arrays[0]->placement_id,
+                       "member_uid" => $arrays[0]->member_uid,
+                       "position_" => $arrays[0]->position_,
+                       "type_" => $arrays[0]->type_
+                   );
+               }
+
+           }
+           else {
+               for($i = 0; $i < count($arrays); $i++) {
+                   $list[] = array(
+                       "Id" => $arrays[$i]->Id,
+                       "username" => $arrays[$i]->username,
+                       "sponsor_id" => $arrays[$i]->sponsor_id,
+                       "placement_id" => $arrays[$i]->placement_id,
+                       "member_uid" => $arrays[$i]->member_uid,
+                       "position_" => $arrays[$i]->position_,
+                       "type_" => $arrays[$i]->type_
+                   );
+               }
+           }
+       }
+       else {
+           for($i = 0; $i < 2; $i++) {
+               $list[] = $this->set_placement_null();
+           }
+       }
+       return $list;
+    }
+
+    private function set_placement_null()
+    {
+       return array(
+           "Id" =>0,
+           "username" => null,
+           "sponsor_id" => null,
+           "placement_id" => null,
+           "member_uid" => null,
+           "position" => 0,
+           "type" => 0
+       );
     }
 
     public function generate_number($country = null)

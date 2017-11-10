@@ -18,9 +18,7 @@ use App\Events\eventTrigger;
 //     return view('welcome');
 // });
 
-Route::get('/', 'HomeController@index');
 
-Auth::routes();
 
 Route::get('/genealogy', 'HomeController@genealogy');
 
@@ -29,9 +27,9 @@ Route::post('/genealogy/encoding', 'HomeController@encoding');
 Route::get('/account/verified/{email}', 'AccountController@account_verified');
 
 
+Auth::routes();
 
-
-
+Route::get('/{username?}', 'HomeController@index');
 
 
 

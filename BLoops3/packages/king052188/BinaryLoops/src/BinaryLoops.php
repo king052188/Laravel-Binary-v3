@@ -73,6 +73,14 @@ class BinaryLoops
 
   }
 
+  public function Populate_Genealogy($username) {
+
+    $result = BLHelper::get_genealogy_structure($username);
+
+    return $result;
+
+  }
+
   // classes
 
   public function getConfigApp($key = null) {

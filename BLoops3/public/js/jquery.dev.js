@@ -9,6 +9,14 @@ var _a, _b;
 function _event(x) {
   _a = $(x).data("a");
   _b = parseInt($(x).data("b"));
+  if(_a == "") {
+    swal(
+      'Oops...',
+      'The position that you have selected is not available.',
+      'warning'
+    )
+    return false;
+  }
   if(_b == 0) {
     swal(
       'Oops...',
@@ -21,10 +29,11 @@ function _event(x) {
     $("#_placement_left").attr('checked', true);
     $("#_placement_right").attr('checked', false);
   }
-  else {
+  if(_b == 22) {
     $("#_placement_left").attr('checked', false);
     $("#_placement_right").attr('checked', true);
   }
+
   var data = {a : _a, b : _b};
   ajax_execute("/bloops/v1/placement-validation", data, "encoding-loading")
 }
@@ -137,7 +146,7 @@ function ajax_execute(url, data) {
               $('#btnCancel').click();
               swal(
                 'Oops...',
-                'The position of placement that you have selected is not available.',
+                'The position that you have selected is not available.',
                 'warning'
               )
             }

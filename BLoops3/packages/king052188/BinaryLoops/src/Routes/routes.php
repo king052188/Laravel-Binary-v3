@@ -34,3 +34,7 @@ Route::any('/bloops/v1/encode', function(Request $request) {
 Route::any('/bloops/v1/placement-validation', function(Request $request) {
   return BinaryLoops::Placement_Validate($request);
 });
+
+Route::any('/bloops/v1/populate-genealogy', function(Request $request) {
+  return BinaryLoops::Populate_Genealogy($request);
+});

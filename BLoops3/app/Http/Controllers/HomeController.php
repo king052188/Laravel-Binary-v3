@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use BinaryLoops;
+use App\User;
 
 use App\Notifications\UserRegisteredNotification;
 
@@ -30,14 +31,18 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($username = null)
     {
+        if($username != null) {
+            $users = User::where("username", $username)->first();
+            if($users != null) {
+                return view('portal.profile');
+            }
+            return view('error.404');
+        }
+
         $top_notifier = [];
         $message = null;
-
-        if(Auth::guest()) {
-          return view('welcome');
-        }
 
         $users = Auth::user();
 
@@ -62,7 +67,16 @@ class HomeController extends Controller
     }
 
     public function genealogy(Request $request) {
-      return view('portal.genealogy');
+
+      $this::$users = Auth::user();
+      $username = $this::$users->username;
+      if(IsSet($request["p"])) {
+        $username = $request["p"];
+      }
+
+      $structure = BinaryLoops::Populate_Genealogy($username);
+
+      return view('portal.genealogy', compact('structure'));
     }
 
     public function encoding(Request $request) {

@@ -12,7 +12,7 @@
                         </div>
                     @endif
                     Hello <b>{{ Auth::guest() ? "" : strtoupper(Auth::user()->name) }}</b> You are logged in! <br />
-                    <h3>Members Loading Transactions</h3>
+                    <h3>Transactions</h3>
                     <table class="tbl_loading" id="tbl_usersTransactions" border="0" cellSpacing="0" cellPadding="5">
                       <thead>
                         <tr>

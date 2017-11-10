@@ -13,10 +13,8 @@
 
                         <div class="form-group{{ $errors->has('user_token') ? ' has-error' : '' }}" style="display: none;">
                             <label for="user_token" class="col-md-4 control-label">User Token</label>
-
-                            <div class="col-md-6">
+                            <div class="col-md-6 ">
                                 <input id="user_token" type="text" class="form-control" name="user_token" value="{{ bcrypt(csrf_token()) }}" required autofocus>
-
                                 @if ($errors->has('user_token'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('user_token') }}</strong>
@@ -25,29 +23,52 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('connected_to') ? ' has-error' : '' }}" style="display: none;">
-                            <label for="connected_to" class="col-md-4 control-label">Sponsor ID</label>
+                        <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
+                            <label for="name" class="col-md-4 control-label">Username</label>
 
-                            <div class="col-md-6">
-                                <input id="connected_to" type="text" class="form-control" name="connected_to" value="1" required autofocus>
+                            <div class="col-md-6 inputGroupContainer">
+                                <div class="input-group">
+                                  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                  <input id="username" type="text" class="form-control" name="username" value="{{ old('username') }}" required autofocus>
+                                </div>
 
-                                @if ($errors->has('connected_to'))
+                                @if ($errors->has('username'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('connected_to') }}</strong>
+                                        <strong>{{ $errors->first('username') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Name</label>
+                        <div class="form-group{{ $errors->has('first_name') ? ' has-error' : '' }}">
+                            <label for="name" class="col-md-4 control-label">First Name</label>
 
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                            <div class="col-md-6 inputGroupContainer">
+                                <div class="input-group">
+                                  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                  <input id="first_name" type="text" class="form-control" name="first_name" value="{{ old('first_name') }}" required autofocus>
+                                </div>
 
-                                @if ($errors->has('name'))
+                                @if ($errors->has('first_name'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
+                                        <strong>{{ $errors->first('first_name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('last_name') ? ' has-error' : '' }}">
+                            <label for="name" class="col-md-4 control-label">Last Name</label>
+
+                            <div class="col-md-6 inputGroupContainer">
+                                <div class="input-group">
+                                  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                  <input id="last_name" type="text" class="form-control" name="last_name" value="{{ old('last_name') }}" required autofocus>
+                                </div>
+
+                                @if ($errors->has('last_name'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('last_name') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -56,8 +77,11 @@
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
+                            <div class="col-md-6 inputGroupContainer">
+                                <div class="input-group">
+                                  <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                  <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
+                                </div>
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">
@@ -70,12 +94,32 @@
                         <div class="form-group{{ $errors->has('mobile') ? ' has-error' : '' }}">
                             <label for="mobile" class="col-md-4 control-label">Mobile</label>
 
-                            <div class="col-md-6">
-                                <input id="mobile" type="text" class="form-control" name="mobile" value="{{ old('mobile') }}" required>
+                            <div class="col-md-6 inputGroupContainer">
+                                <div class="input-group">
+                                  <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                                  <input id="mobile" type="text" class="form-control" name="mobile" value="{{ old('mobile') }}" required>
+                                </div>
 
                                 @if ($errors->has('mobile'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('mobile') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('connected_to') ? ' has-error' : '' }}">
+                            <label for="connected_to" class="col-md-4 control-label">Sponsor ID</label>
+
+                            <div class="col-md-6 inputGroupContainer">
+                                <div class="input-group">
+                                  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                  <input id="connected_to" type="text" class="form-control" name="connected_to" value="1" required autofocus>
+                                </div>
+
+                                @if ($errors->has('connected_to'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('connected_to') }}</strong>
                                     </span>
                                 @endif
                             </div>
