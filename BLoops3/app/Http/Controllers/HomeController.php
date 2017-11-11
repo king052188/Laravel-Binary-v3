@@ -17,11 +17,12 @@ class HomeController extends Controller
      * @return void
      */
 
+
     public static $users;
 
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
 
         $this::$users = null;
     }
@@ -32,23 +33,24 @@ class HomeController extends Controller
      */
     public function index($username = null)
     {
-        if($username != null) {
-            $users = User::where("username", $username)->first();
-            if($users != null) {
-                return view('portal.profile');
-            }
-            return view('error.404');
+        if(!Auth::check()) {
+          if($username != null) {
+              $users = User::where("username", $username)->first();
+              if($users != null) {
+                  return view('portal.profile');
+              }
+              return view('error.404');
+          }
+          return view('welcome');
         }
 
         $top_notifier = [];
         $message = null;
-
         $users = Auth::user();
 
         if($users->status == 0) {
           $message = "<strong>Well done!</strong> You are successfully registered. Please check your email for verification.";
           // $users->notify(new UserRegisteredNotification($users));
-
           $top_notifier = [
             "Message" => $message,
             "Type" => "success",
@@ -79,14 +81,12 @@ class HomeController extends Controller
     public function encoding($placement, $position, Request $request)
     {
       $this::$users = Auth::user();
-
       return BinaryLoops::Encode($this::$users, $request, $placement, $position);
     }
 
     public function summary_pairing()
     {
       $this::$users = Auth::user();
-      
       return BinaryLoops::Member_Pairing($this::$users->member_uid);
     }
 

@@ -11,18 +11,56 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    Hello <b>{{ Auth::guest() ? "" : strtoupper(Auth::user()->name) }}</b> You are logged in! <br />
-                    <h3>Transactions</h3>
-                    <table class="tbl_loading" id="tbl_usersTransactions" border="0" cellSpacing="0" cellPadding="5">
+
+                    <h3>Summary</h3>
+
+                    <table class="tbl_history" id="tbl_gHistory" border="0" cellSpacing="0" cellPadding="5">
                       <thead>
                         <tr>
-                          <th>Trans#</th>
-                          <th>Account</th>
-                          <th>Descriptions</th>
-                          <th>Time</th>
+                          <th>Account#</th>
+                          <th style="width: 280px;">Available Amount</th>
                         </tr>
                       </thead>
                       <tbody>
+                        <tr>
+                          <td>***</td>
+                          <td>***</td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <h3>Structure</h3>
+
+                    <table class="tbl_history" id="tbl_gHistoryDetails" border="0" cellSpacing="0" cellPadding="0">
+                      <thead>
+                        <tr>
+                          <th colspan="3">Account Details</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td style="text-align: left; padding: 5px;">Remaining</td>
+                          <td style="text-align: right; width: 130px; padding: 5px;">***</td>
+                          <td style="text-align: right; width: 150px; padding: 5px;">***</td>
+                        </tr>
+                        <tr>
+                          <td style="text-align: left; padding: 5px;">Referral</td>
+                          <td style="text-align: right; width: 130px; padding: 5px;">***</td>
+                          <td style="text-align: right; width: 150px; padding: 5px;">***</td>
+                        </tr>
+                        <tr>
+                          <td style="text-align: left; padding: 5px;">Pairing</td>
+                          <td style="text-align: right; width: 130px; padding: 5px;">***</td>
+                          <td style="text-align: right; width: 150px; padding: 5px;">***</td>
+                        </tr>
+                        <tr>
+                          <td style="text-align: left; padding: 5px;">-</td>
+                          <td colspan="2" style="text-align: right; width: 130px; padding: 5px; font-weight: 600;">Amount</td>
+                        </tr>
+                        <tr>
+                          <td style="text-align: left; padding: 5px;">Balance</td>
+                          <td colspan="2" style="text-align: right; width: 130px; padding: 5px;">***</td>
+                        </tr>
                       </tbody>
                     </table>
 

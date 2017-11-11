@@ -32,12 +32,18 @@
 
       table.tbl_history { width: 100%; margin-top: 10px; }
       table.tbl_history thead tr th { padding: 5px; }
-      table.tbl_history thead tr th, tbody tr td { text-align: center; }
+      table.tbl_history thead tr th, tbody tr td { text-align: center; font-size: 1em; }
       table.tbl_history thead tr th { background-color: #eaedf1; color: #3E3E3E; border: 1px solid #E1E1E1; }
       table.tbl_history tbody tr td { border: 1px solid #E1E1E1; }
 
-      a.g_link { color: #000000; text-decoration: none; font-family: "Raleway", sans-serif; }
-      a.g_link:hover { color: #b8074c; text-decoration: none; }
+      a.title_link { color: #3097D1; text-decoration: none; font-size: .99em; }
+      a.title_link:hover { color: #6d8a0a; text-decoration: none; border-bottom: 1px solid; padding-bottom: -2px; }
+
+      input#_username { text-transform: lowercase; }
+      input#_first_name { text-transform: capitalize; }
+      input#_last_name { text-transform: capitalize; }
+      a.g_link { color: #000000; text-decoration: none; font-family: "Raleway", sans-serif; text-transform: capitalize; }
+      a.g_link:hover { color: #6d8a0a; text-decoration: none; }
       img.g_image {
          width: 60px;
          height: 60px;
@@ -50,13 +56,14 @@
          -moz-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
 
       }
-      p.g_title { margin: 10px 0 0 0; padding: 0; text-align: center; font-weight: 600; }
+      p.g_title { margin: 10px 0 0 0; padding: 0; text-align: center; font-weight: 600;  }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js"></script>
     <!-- Include a polyfill for ES6 Promises (optional) for IE11 and Android browser -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/1.5.6/numeral.min.js"></script>
 </head>
 <body>
     <div id="app">
@@ -94,16 +101,16 @@
                             <li><a href="{{ app()->getUrl(true, '/register') }}">Register</a></li>
                         @else
                             <li><a href="{{ app()->getUrl(true, '/') }}">Home</a></li>
-                            <li><a href="{{ app()->getUrl(true, '/') }}">Services</a></li>
+                            <!-- <li><a href="{{ app()->getUrl(true, '/') }}">Services</a></li> -->
                             <li><a href="{{ app()->getUrl(true, '/genealogy') }}">Genealogy</a></li>
-                            <li><a href="{{ app()->getUrl(true, '/leveling') }}">Leveling</a></li>
+                            <!-- <li><a href="{{ app()->getUrl(true, '/leveling') }}">Leveling</a></li> -->
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="text-transform: capitalize;">
                                     {{ Auth::user()->first_name . ' ' . Auth::user()->last_name }} <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="{{ app()->getUrl(true, '/' . Auth::user()->username) }}">Profile</a></li>
-                                    <li><a href="{{ app()->getUrl(true, '/') }}">Settings</a></li>
+                                    <!-- <li><a href="{{ app()->getUrl(true, '/') }}">Settings</a></li> -->
                                     <li>
                                         <a href="{{ app()->getUrl(true, '/logout') }}"
                                             onclick="event.preventDefault();

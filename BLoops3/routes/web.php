@@ -28,6 +28,8 @@ Route::get('/genealogy/pairing-referral-summary', 'HomeController@summary_pairin
 
 Route::get('/account/verified/{email}', 'AccountController@account_verified');
 
+Route::post('/account/check/username', 'AccountController@check_username');
+
 
 Auth::routes();
 

@@ -1,9 +1,70 @@
+var IsNotAllowed = false;
+var IsShow = false;
 $(document).ready(function() {
   $.ajaxSetup({
       headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
   });
+  $("#_username").keyup(function (e) {
+    if(e.keyCode == 8 || e.keyCode == 13) {
+      if(!/[^a-zA-Z0-9^.]/.test($(this).val())) {
+        IsNotAllowed = false;
+      }
+      if($(this).val().split('.').length > 2) {
+        IsNotAllowed = true;
+      }
+      else {
+        IsNotAllowed = false;
+      }
+      if(e.keyCode == 8) {
+        check_username_ajax($(this).val());
+      }
+      return false;
+    }
+    if(/[^a-zA-Z0-9^.]/.test($(this).val())) {
+      swal(
+        'Oops...',
+        'Allow Numbers and Special Characters only not alphabets.',
+        'warning'
+      )
+      IsNotAllowed = true;
+      return false;
+    }
+    if($(this).val().split('.').length > 2) {
+      swal(
+        'Oops...',
+        'Allow 1 decimal only.',
+        'warning'
+      )
+      IsNotAllowed = true;
+      return false;
+    }
+    IsNotAllowed = false;
+    check_username_ajax($(this).val());
+  });
+  $("#_email").keyup(function (e) {
+    if( !isValidEmailAddress( $(this).val() ) ) {
+      IsNotAllowed = true;
+      username_img_status("#_email_img_loader", false);
+    }
+    else {
+      IsNotAllowed = false;
+      $("#_email_img_loader").hide();
+    }
+  });
+  $("#btnShowDetails").click(function() {
+      if(IsShow) {
+        IsShow = false;
+        $("#div_gHistoryDetails").hide();
+        $(this).empty().prepend('<i class="fa fa-bar-chart" aria-hidden="true"></i> Show Summary Details');
+      }
+      else {
+        IsShow = true;
+        $("#div_gHistoryDetails").show();
+        $(this).empty().prepend('<i class="fa fa-bar-chart" aria-hidden="true"></i> Hide Summary Details');
+      }
+  })
 })
 var _a, _b;
 function _event(x) {
@@ -37,6 +98,14 @@ function _event(x) {
   ajax_execute("/bloops/v1/placement-validation", data, "encoding-loading")
 }
 $("#btnEncode").click(function() {
+  if(IsNotAllowed) {
+    swal(
+      'Oops...',
+      'Please fix first your username.',
+      'warning'
+    )
+    return false;
+  }
   var username = $("#_username").val();
   var first_name = $("#_first_name").val();
   var last_name = $("#_last_name").val();
@@ -128,7 +197,6 @@ function ajax_exec(url, data, control) {
         });
     })
 }
-
 function ajax_execute(url, data) {
     $(document).ready(function() {
         $.ajax({
@@ -160,7 +228,50 @@ function ajax_execute(url, data) {
         });
     })
 }
+function check_username_ajax(username) {
+  $(document).ready(function(){
+    $.ajax({
+        dataType: 'json',
+        type:"post",
+        url:"/account/check/username",
+        data: { u : username},
+        beforeSend: function () {
+          username_img_status("#_username_img_loader", true);
+        },
+        success:function(data){
+          console.log(data);
+          $("#_username_img_loader").hide();
+          if(data.Status==200) {
+            IsNotAllowed = false;
 
+          }
+          else {
+            IsNotAllowed = true;
+            username_img_status("#_username_img_loader", false);
+            swal(
+              'Oops...',
+              'Username already exists.',
+              'warning'
+            )
+          }
+        }
+     });
+   });
+}
+function username_img_status(control, isDefaul) {
+  $(control).removeAttr("src");
+  if(isDefaul) {
+    $(control).attr("src", "http://localhost:4444/images/facebook.gif");
+  }
+  else {
+    $(control).attr("src", "http://icons.iconarchive.com/icons/paomedia/small-n-flat/24/sign-error-icon.png");
+  }
+  $(control).show();
+}
+function isValidEmailAddress(emailAddress) {
+    var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
+    return pattern.test(emailAddress);
+};
 populate_genealogy_history();
 function populate_genealogy_history() {
     $(document).ready(function() {
@@ -172,29 +283,70 @@ function populate_genealogy_history() {
               html = "<tr>";
               html += "<td>***</td>";
               html += "<td>***</td>";
-              html += "<td>***</td>";
-              html += "<td>***</td>";
-              html += "<td>***</td>";
-              html += "<td>***</td>";
               html += "</tr>";
               $("#tbl_gHistory > tbody").empty().prepend(html);
+
+              html = "<tr>";
+              html += "<td style='text-align: left; padding: 5px;'>Remaining</td>";
+              html += "<td style='text-align: right; width: 130px; padding: 5px;'>***</td>";
+              html += "<td style='text-align: right; width: 150px; padding: 5px;'>***</td>";
+              html += "</tr>";
+              html += "<tr>";
+              html += "<td style='text-align: left; padding: 5px;'>Referral</td>";
+              html += "<td style='text-align: right; width: 130px; padding: 5px;'>***</td>";
+              html += "<td style='text-align: right; width: 150px; padding: 5px;'>***</td>";
+              html += "</tr>";
+              html += "<tr>";
+              html += "<td style='text-align: left; padding: 5px;'>Pairing</td>";
+              html += "<td style='text-align: right; width: 130px; padding: 5px;'>***</td>";
+              html += "<td style='text-align: right; width: 150px; padding: 5px;'>***</td>";
+              html += "</tr>";
+              html += "<tr>";
+              html += "<td style='text-align: left; padding: 5px;'>-</td>";
+              html += "<td colspan='2' style='text-align: center; width: 130px; padding: 5px; font-weight: 600;'>Amount</td>";
+              html += "</tr>";
+              html += "<tr>";
+              html += "<td style='text-align: left; padding: 5px;'>Balance</td>";
+              html += "<td colspan='2' style='text-align: right; width: 130px; padding: 5px;'>***</td>";
+              html += "</tr>";
+              $("#tbl_gHistoryDetails > tbody").empty().prepend(html);
             }
         }).done(function(json){
-            var html = "";
+            console.log(json);
+            var html = "", html2 = "";
             $(json.Data).each(function(a, b) {
+                var pos = b.position == 21 ? "Left" : "Right";
                 html = "<tr>";
                 html += "<td>"+b.member_uid+"</td>";
-                html += "<td>"+b.remaining+"</td>";
-
-                var pos = b.position == 21 ? "Left" : "Right";
-
-                html += "<td>"+pos+"</td>";
-                html += "<td>"+b.referral+"</td>";
-                html += "<td>"+b.pairing+"</td>";
-                html += "<td>"+b.amount+"</td>";
+                html += "<td>0</td>";
                 html += "</tr>";
+
+                html2 = "<tr>";
+                html2 += "<td style='text-align: left; padding: 5px;'>Remaining</td>";
+                html2 += "<td style='text-align: right; width: 130px; padding: 5px;'>"+pos+"</td>";
+                html2 += "<td style='text-align: right; width: 150px; padding: 5px; font-weight: 600;'>"+b.remaining+"</td>";
+                html2 += "</tr>";
+                html2 += "<tr>";
+                html2 += "<td style='text-align: left; padding: 5px;'>Referral</td>";
+                html2 += "<td style='text-align: right; width: 130px; padding: 5px;'>"+b.referral+" x 100 =</td>";
+                html2 += "<td style='text-align: right; width: 150px; padding: 5px; font-weight: 600;'>"+numeral(b.total_referral_amount).format('0,0.00')+"</td>";
+                html2 += "</tr>";
+                html2 += "<tr>";
+                html2 += "<td style='text-align: left; padding: 5px;'>Pairing</td>";
+                html2 += "<td style='text-align: right; width: 130px; padding: 5px;'>"+b.pairing+" x 100 =</td>";
+                html2 += "<td style='text-align: right; width: 150px; padding: 5px; font-weight: 600;'>"+numeral(b.total_pairing_amount).format('0,0.00')+"</td>";
+                html2 += "</tr>";
+                html2 += "<tr>";
+                html2 += "<td style='text-align: left; padding: 5px;'>-</td>";
+                html2 += "<td colspan='2' style='text-align: center; width: 130px; padding: 5px; font-weight: 600;'>Amount</td>";
+                html2 += "</tr>";
+                html2 += "<tr>";
+                html2 += "<td style='text-align: left; padding: 5px;'>Balance</td>";
+                html2 += "<td colspan='2' style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>"+numeral(b.total_amount).format('0,0.00')+"</td>";
+                html2 += "</tr>";
             })
             $("#tbl_gHistory > tbody").empty().prepend(html);
+            $("#tbl_gHistoryDetails > tbody").empty().prepend(html2);
         });
     })
 }

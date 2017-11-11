@@ -168,11 +168,12 @@ class BLHelper
             $status = array(
                 "member_uid" => $member_uid,
                 "referral" => $referrals["referral"],
-                "starter" => $referrals["starter"],
+                "total_referral_amount" => $referrals["total_referral_amount"],
                 "remaining" => $t_remaining,
                 "position" => 21,
                 "pairing" => $t_paired,
-                "amount" => ($t_paired * 100) + $referrals["starter"]
+                "total_pairing_amount" => ($t_paired * 100),
+                "total_amount" => ($t_paired * 100) + $referrals["total_referral_amount"]
             );
         }
         else if ($l < $r)
@@ -183,11 +184,12 @@ class BLHelper
             $status = array(
                 "member_uid" => $member_uid,
                 "referral" => $referrals["referral"],
-                "starter" => $referrals["starter"],
+                "total_referral_amount" => $referrals["total_referral_amount"],
                 "remaining" => $t_remaining,
                 "position" => 22,
                 "pairing" => $t_paired,
-                "amount" => ($t_paired * 100) + $referrals["starter"]
+                "total_pairing_amount" => ($t_paired * 100),
+                "total_amount" => ($t_paired * 100) + $referrals["total_referral_amount"]
             );
 
         }
@@ -198,22 +200,24 @@ class BLHelper
             $status = array(
                 "member_uid" => $member_uid,
                 "referral" => $referrals["referral"],
-                "starter" => $referrals["starter"],
+                "total_referral_amount" => $referrals["total_referral_amount"],
                 "remaining" => 0,
                 "position" => 0,
                 "pairing" => $t_paired,
-                "amount" => ($t_paired * 100) + $referrals["starter"]
+                "total_pairing_amount" => ($t_paired * 100),
+                "total_amount" => ($t_paired * 100) + $referrals["total_referral_amount"]
             );
         }
         else {
             $status = array(
                 "member_uid" => $member_uid,
                 "referral" => $referrals["referral"],
-                "starter" => $referrals["starter"],
+                "total_referral_amount" => $referrals["total_referral_amount"],
                 "remaining" => 0,
                 "position" => 0,
                 "pairing" => 0,
-                "amount" => 0
+                "total_pairing_amount" => 0,
+                "total_amount" => 0
             );
         }
         return $status;
@@ -225,7 +229,7 @@ class BLHelper
 
         $referral_count = array(
             "referral" => $referral,
-            "starter" => ($referral * $amount)
+            "total_referral_amount" => ($referral * $amount)
         );
 
         return $referral_count;
