@@ -173,7 +173,9 @@ class BLHelper
                 "position" => 21,
                 "pairing" => $t_paired,
                 "total_pairing_amount" => ($t_paired * 100),
-                "total_amount" => ($t_paired * 100) + $referrals["total_referral_amount"]
+                "total_amount" => ($t_paired * 100) + $referrals["total_referral_amount"],
+                "total_left" => $l,
+                "total_right" => $r
             );
         }
         else if ($l < $r)
@@ -189,7 +191,9 @@ class BLHelper
                 "position" => 22,
                 "pairing" => $t_paired,
                 "total_pairing_amount" => ($t_paired * 100),
-                "total_amount" => ($t_paired * 100) + $referrals["total_referral_amount"]
+                "total_amount" => ($t_paired * 100) + $referrals["total_referral_amount"],
+                "total_left" => $l,
+                "total_right" => $r
             );
 
         }
@@ -205,7 +209,9 @@ class BLHelper
                 "position" => 0,
                 "pairing" => $t_paired,
                 "total_pairing_amount" => ($t_paired * 100),
-                "total_amount" => ($t_paired * 100) + $referrals["total_referral_amount"]
+                "total_amount" => ($t_paired * 100) + $referrals["total_referral_amount"],
+                "total_left" => $l,
+                "total_right" => $r
             );
         }
         else {
@@ -217,7 +223,9 @@ class BLHelper
                 "position" => 0,
                 "pairing" => 0,
                 "total_pairing_amount" => 0,
-                "total_amount" => 0
+                "total_amount" => 0,
+                "total_left" => $l,
+                "total_right" => $r
             );
         }
         return $status;

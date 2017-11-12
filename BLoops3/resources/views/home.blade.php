@@ -5,7 +5,7 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Dashboard</div>
-                <div class="panel-body" style="height: 440px;">
+                <div class="panel-body" >
                     @if (session('status'))
                         <div class="alert alert-success">
                             {{ session('status') }}
@@ -39,27 +39,32 @@
                       </thead>
                       <tbody>
                         <tr>
+                          <td style="text-align: left; padding: 5px;">Structure	</td>
+                          <td style="text-align: right; width: 130px; padding: 5px; font-weight: 600;">Left = ***</td>
+                          <td style="text-align: right; width: 150px; padding: 5px; font-weight: 600;">Right = ***</td>
+                        </tr>
+                        <tr>
                           <td style="text-align: left; padding: 5px;">Remaining</td>
-                          <td style="text-align: right; width: 130px; padding: 5px;">***</td>
-                          <td style="text-align: right; width: 150px; padding: 5px;">***</td>
-                        </tr>
-                        <tr>
-                          <td style="text-align: left; padding: 5px;">Referral</td>
-                          <td style="text-align: right; width: 130px; padding: 5px;">***</td>
-                          <td style="text-align: right; width: 150px; padding: 5px;">***</td>
-                        </tr>
-                        <tr>
-                          <td style="text-align: left; padding: 5px;">Pairing</td>
-                          <td style="text-align: right; width: 130px; padding: 5px;">***</td>
-                          <td style="text-align: right; width: 150px; padding: 5px;">***</td>
+                          <td style="text-align: right; width: 130px; padding: 5px; font-weight: 600;">***</td>
+                          <td style="text-align: right; width: 150px; padding: 5px; font-weight: 600;">***</td>
                         </tr>
                         <tr>
                           <td style="text-align: left; padding: 5px;">-</td>
-                          <td colspan="2" style="text-align: right; width: 130px; padding: 5px; font-weight: 600;">Amount</td>
+                          <td colspan="2" style="text-align: center; width: 130px; padding: 5px; font-weight: 600;">Amount</td>
                         </tr>
                         <tr>
-                          <td style="text-align: left; padding: 5px;">Balance</td>
-                          <td colspan="2" style="text-align: right; width: 130px; padding: 5px;">***</td>
+                          <td style="text-align: left; padding: 5px;">Referral</td>
+                          <td style="text-align: right; width: 130px; padding: 5px; font-weight: 600;">***</td>
+                          <td style="text-align: right; width: 150px; padding: 5px; font-weight: 600;">***</td>
+                        </tr>
+                        <tr>
+                          <td style="text-align: left; padding: 5px;">Pairing</td>
+                          <td style="text-align: right; width: 130px; padding: 5px; font-weight: 600;">***</td>
+                          <td style="text-align: right; width: 150px; padding: 5px; font-weight: 600;">***</td>
+                        </tr>
+                        <tr>
+                          <td style="text-align: left; padding: 5px;">Wallet</td>
+                          <td colspan="2" style="text-align: right; width: 130px; padding: 5px; font-weight: 600;">***</td>
                         </tr>
                       </tbody>
                     </table>

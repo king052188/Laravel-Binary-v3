@@ -90,7 +90,7 @@
                         <a href="{{ app()->getUrl(true, '/dashboard') }}">Dashboard</a>
                     @else
                         <a href="{{ app()->getUrl(true, '/login') }}">Login</a>
-                        <a href="{{ app()->getUrl(true, '/register') }}">Register</a>
+                        <!-- <a href="{{ app()->getUrl(true, '/register') }}">Register</a> -->
                     @endif
                 </div>
             @endif
@@ -99,19 +99,7 @@
                 <div class="title m-b-md">
                     {{ config('app.name', 'Wazzel') }}
                 </div>
-                <h3>Loading Real-Time Transactions</h3>
-                <table id="tbl_usersTransactions" border="0" cellSpacing="0" cellPadding="5">
-                  <thead>
-                    <tr>
-                      <th>Trans#</th>
-                      <th>Requester</th>
-                      <th>Descriptions</th>
-                      <th>Time</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  </tbody>
-                </table>
+                <h3>=== THIS WEBSITE WILL SOON BE OPEN FOR THE PUBLIC! ===</h3>
             </div>
         </div>
       </div>

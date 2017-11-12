@@ -97,8 +97,9 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                            <li><a href="{{ app()->getUrl(true, '/login') }}">Login</a></li>
-                            <li><a href="{{ app()->getUrl(true, '/register') }}">Register</a></li>
+                            <li><a href="{{ app()->getUrl(true, '/') }}">Home</a></li>
+                            <!-- <li><a href="{{ app()->getUrl(true, '/login') }}">Login</a></li> -->
+                            <!-- <li><a href="{{ app()->getUrl(true, '/register') }}">Register</a></li> -->
                         @else
                             <li><a href="{{ app()->getUrl(true, '/') }}">Home</a></li>
                             <!-- <li><a href="{{ app()->getUrl(true, '/') }}">Services</a></li> -->

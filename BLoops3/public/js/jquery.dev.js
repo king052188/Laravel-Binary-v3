@@ -287,9 +287,18 @@ function populate_genealogy_history() {
               $("#tbl_gHistory > tbody").empty().prepend(html);
 
               html = "<tr>";
+              html += "<td style='text-align: left; padding: 5px;'>Structure</td>";
+              html += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>Left = ***</td>";
+              html += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>Right = ***</td>";
+              html += "</tr>";
+              html += "<tr>";
               html += "<td style='text-align: left; padding: 5px;'>Remaining</td>";
               html += "<td style='text-align: right; width: 130px; padding: 5px;'>***</td>";
               html += "<td style='text-align: right; width: 150px; padding: 5px;'>***</td>";
+              html += "</tr>";
+              html += "<tr>";
+              html += "<td style='text-align: left; padding: 5px;'>-</td>";
+              html += "<td colspan='2' style='text-align: center; width: 130px; padding: 5px; font-weight: 600;'>Amount</td>";
               html += "</tr>";
               html += "<tr>";
               html += "<td style='text-align: left; padding: 5px;'>Referral</td>";
@@ -302,17 +311,12 @@ function populate_genealogy_history() {
               html += "<td style='text-align: right; width: 150px; padding: 5px;'>***</td>";
               html += "</tr>";
               html += "<tr>";
-              html += "<td style='text-align: left; padding: 5px;'>-</td>";
-              html += "<td colspan='2' style='text-align: center; width: 130px; padding: 5px; font-weight: 600;'>Amount</td>";
-              html += "</tr>";
-              html += "<tr>";
-              html += "<td style='text-align: left; padding: 5px;'>Balance</td>";
+              html += "<td style='text-align: left; padding: 5px;'>Wallet</td>";
               html += "<td colspan='2' style='text-align: right; width: 130px; padding: 5px;'>***</td>";
               html += "</tr>";
               $("#tbl_gHistoryDetails > tbody").empty().prepend(html);
             }
         }).done(function(json){
-            console.log(json);
             var html = "", html2 = "";
             $(json.Data).each(function(a, b) {
                 var pos = b.position == 21 ? "Left" : "Right";
@@ -322,27 +326,32 @@ function populate_genealogy_history() {
                 html += "</tr>";
 
                 html2 = "<tr>";
+                html2 += "<td style='text-align: left; padding: 5px;'>Structure</td>";
+                html2 += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>Left = "+b.total_left+"</td>";
+                html2 += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>Right = "+b.total_right+"</td>";
+                html2 += "</tr>";
+                html2 += "<tr>";
                 html2 += "<td style='text-align: left; padding: 5px;'>Remaining</td>";
-                html2 += "<td style='text-align: right; width: 130px; padding: 5px;'>"+pos+"</td>";
+                html2 += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>"+pos+"</td>";
                 html2 += "<td style='text-align: right; width: 150px; padding: 5px; font-weight: 600;'>"+b.remaining+"</td>";
                 html2 += "</tr>";
                 html2 += "<tr>";
-                html2 += "<td style='text-align: left; padding: 5px;'>Referral</td>";
-                html2 += "<td style='text-align: right; width: 130px; padding: 5px;'>"+b.referral+" x 100 =</td>";
-                html2 += "<td style='text-align: right; width: 150px; padding: 5px; font-weight: 600;'>"+numeral(b.total_referral_amount).format('0,0.00')+"</td>";
-                html2 += "</tr>";
-                html2 += "<tr>";
-                html2 += "<td style='text-align: left; padding: 5px;'>Pairing</td>";
-                html2 += "<td style='text-align: right; width: 130px; padding: 5px;'>"+b.pairing+" x 100 =</td>";
-                html2 += "<td style='text-align: right; width: 150px; padding: 5px; font-weight: 600;'>"+numeral(b.total_pairing_amount).format('0,0.00')+"</td>";
-                html2 += "</tr>";
-                html2 += "<tr>";
-                html2 += "<td style='text-align: left; padding: 5px;'>-</td>";
+                html2 += "<td style='text-align: left; padding: 5px;'></td>";
                 html2 += "<td colspan='2' style='text-align: center; width: 130px; padding: 5px; font-weight: 600;'>Amount</td>";
                 html2 += "</tr>";
                 html2 += "<tr>";
-                html2 += "<td style='text-align: left; padding: 5px;'>Balance</td>";
-                html2 += "<td colspan='2' style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>"+numeral(b.total_amount).format('0,0.00')+"</td>";
+                html2 += "<td style='text-align: left; padding: 5px;'>Referral</td>";
+                html2 += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>"+b.referral+" x 100 =</td>";
+                html2 += "<td style='text-align: right; width: 150px; padding: 5px; font-weight: 600;'>+ "+numeral(b.total_referral_amount).format('0,0.00')+"</td>";
+                html2 += "</tr>";
+                html2 += "<tr>";
+                html2 += "<td style='text-align: left; padding: 5px;'>Pairing</td>";
+                html2 += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>"+b.pairing+" x 100 =</td>";
+                html2 += "<td style='text-align: right; width: 150px; padding: 5px; font-weight: 600;'>+ "+numeral(b.total_pairing_amount).format('0,0.00')+"</td>";
+                html2 += "</tr>";
+                html2 += "<tr>";
+                html2 += "<td style='text-align: left; padding: 5px;'>Wallet</td>";
+                html2 += "<td colspan='2' style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>= "+numeral(b.total_amount).format('0,0.00')+"</td>";
                 html2 += "</tr>";
             })
             $("#tbl_gHistory > tbody").empty().prepend(html);
