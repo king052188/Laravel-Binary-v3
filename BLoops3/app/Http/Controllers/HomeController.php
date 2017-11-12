@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use BinaryLoops;
 use App\User;
+use DB;
 
 use App\Notifications\UserRegisteredNotification;
 
@@ -37,11 +38,31 @@ class HomeController extends Controller
           if($username != null) {
               $users = User::where("username", $username)->first();
               if($users != null) {
-                  return view('portal.profile');
+                $uid = $users->id;
+                $follower = DB::select("
+                SELECT
+                	(SELECT COUNT(*) FROM users WHERE connected_to = {$uid}) AS follower,
+                	(SELECT COUNT(*) FROM users) AS active
+                ");
+                return view('layouts.profile', compact('users', 'follower'));
               }
               return view('error.404');
           }
           return view('welcome');
+        }
+
+        if($username != null) {
+            $users = User::where("username", $username)->first();
+            if($users != null) {
+              $uid = $users->id;
+              $follower = DB::select("
+              SELECT
+                (SELECT COUNT(*) FROM users WHERE connected_to = {$uid}) AS follower,
+                (SELECT COUNT(*) FROM users) AS active
+              ");
+              return view('layouts.profile', compact('users', 'follower'));
+            }
+            return view('error.404');
         }
 
         $top_notifier = [];
