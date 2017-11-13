@@ -164,7 +164,7 @@ function ajax_exec(url, data, control) {
             url: url,
             data: data,
             beforeSend: function () {
-              $(control).text("Please wait...");
+              $(control).empty().prepend("Please wait...");
             }
         }).done(function(json){
             if(json.Status == 200) {
@@ -187,6 +187,7 @@ function ajax_exec(url, data, control) {
                 json.Message,
                 'error'
               )
+              $(control).empty().prepend("<i class='fa fa-floppy-o' aria-hidden='true'></i> Encode");
               return false;
             }
             swal(

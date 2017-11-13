@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use BinaryLoops;
+use BLHelper;
 use App\User;
 use DB;
 
@@ -67,9 +68,9 @@ class HomeController extends Controller
 
         $top_notifier = [];
         $message = null;
-        $users = Auth::user();
+        $this::$users = Auth::user();
 
-        if($users->status == 0) {
+        if($this::$users->status == 0) {
           $message = "<strong>Well done!</strong> You are successfully registered. Please check your email for verification.";
           // $users->notify(new UserRegisteredNotification($users));
           $top_notifier = [
@@ -78,7 +79,7 @@ class HomeController extends Controller
           ];
         }
 
-        if($users->verification_sent == 1) {
+        if($this::$users->verification_sent == 1) {
           $message = "<strong>Warning!</strong> You haven't verified your account. Please check your email or <a href='#'>Resend the verification link?</a>";
           $top_notifier = [
             "Message" => $message,
@@ -102,7 +103,21 @@ class HomeController extends Controller
     public function encoding($placement, $position, Request $request)
     {
       $this::$users = Auth::user();
-      return BinaryLoops::Encode($this::$users, $request, $placement, $position);
+      $result = BinaryLoops::Encode($this::$users, $request, $placement, $position);
+      if($result["Status"] == 200) {
+        $wallet = new WalletController();
+        $data = array(
+          'member_uid' => $this::$users["member_uid"],
+          't_number' => BLHelper::generate_reference(),
+          't_description' => "Referral Bonus",
+          't_type' => 20,
+          't_role' => 1,
+          't_amount' => 100,
+          't_status' => 2,
+        );
+        $wallet->update_wallet($data);
+      }
+      return $result;
     }
 
     public function summary_pairing()

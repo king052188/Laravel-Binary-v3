@@ -43,13 +43,9 @@ class BinaryLoops
     if( COUNT($username) > 0 ) {
       return ["Status" => 401, "Message" => "Username already exists.", "Insert_Uid" => 0];
     }
-    $email = BLHelper::check_member_info($request["email"]);
-    if( COUNT($email) > 0 ) {
-      return ["Status" => 402, "Message" => "Email address already exists.", "Insert_Uid" => 0];
-    }
-    $mobile = BLHelper::check_member_info($request["mobile"]);
-    if( COUNT($mobile) > 0 ) {
-      return ["Status" => 403, "Message" => "Mobile number already exists.", "Insert_Uid" => 0];
+    $multiple_account = $this->validate_multiple_accounts($request["email"], $request["mobile"]);
+    if( $multiple_account["Status"] > 200 ) {
+      return $multiple_account;
     }
     $placement = BLHelper::check_member_info($placement_id);
     if( COUNT($placement) == 0 ) {
@@ -65,7 +61,7 @@ class BinaryLoops
     }
     $cross_lining = BLHelper::check_is_crossline($users["member_uid"], $placement_id);
     if($cross_lining) {
-      return ["Status" => 406, "Message" => "Cross-lining is not allowed.", "Insert_Uid" => 0];
+      return ["Status" => 407, "Message" => "Cross-lining is not allowed.", "Insert_Uid" => 0];
     }
 
     $dt = Carbon::now();
@@ -113,6 +109,30 @@ class BinaryLoops
       return ["Status" => 500, "Message" => "Something went wrong. Error#: 002", "Insert_Uid" => $result];
     }
     return ["Status" => 500, "Message" => "Something went wrong. Error#: 001", "Insert_Uid" => 0];
+  }
+
+  public function validate_multiple_accounts($email, $mobile) {
+    $multiple_account = BLHelper::check_member_multiple_account($email, false);
+    if( COUNT($multiple_account) > 0 ) {
+      if($multiple_account["total_used"] > 6) {
+        return ["Status" => 402, "Message" => "This email [". $email ."] has reached 7 accounts.", "Insert_Uid" => 0];
+      }
+      if($multiple_account["mobile"] != $mobile) {
+        return ["Status" => 402, "Message" => "The mobile number should be same as the PRIMARY Account.", "Insert_Uid" => 0];
+      }
+    }
+
+    $multiple_account = BLHelper::check_member_multiple_account($mobile, true);
+    if( COUNT($multiple_account) > 0 ) {
+      if($multiple_account["total_used"] > 6) {
+        return ["Status" => 402, "Message" => "This mobile# [". $mobile ."] has reached 7 accounts.", "Insert_Uid" => 0];
+      }
+      if($multiple_account["email"] != $email) {
+        return ["Status" => 402, "Message" => "The email address should be same as the PRIMARY Account.", "Insert_Uid" => 0];
+      }
+    }
+
+    return ["Status" => 200, "Message" => "Success.", "Insert_Uid" => 0];
   }
 
   public function Placement_Validate($request) {

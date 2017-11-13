@@ -323,6 +323,27 @@ class BLHelper
       return $d;
     }
 
+    public function check_member_multiple_account($value, $IsMobile = false)
+    {
+      $query = $IsMobile ? "WHERE mobile = '{$value}';" : "WHERE email = '{$value}';";
+      $d = DB::select("
+        SELECT email, mobile
+        FROM users {$query}
+      ");
+
+      $arrayName = [];
+
+      if( COUNT($d) > 0) {
+        $arrayName = array(
+          'email' => $d[0]->email,
+          'mobile' => $d[0]->mobile,
+          'total_used' => COUNT($d)
+        );
+      }
+
+      return $arrayName;
+    }
+
     public function check_username($username, $is_sponsor)
     {
        $u = User::where("username", "=", $username)->first();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use DB;
+use BLHelper;
 
 use App\User;
 
@@ -50,5 +51,12 @@ class AccountController extends Controller
           "Data" => null
         ];
 
+    }
+
+    public function check_multiple_account(Request $request)
+    {
+        $email = $request["e"];
+        $user = BLHelper::check_member_multiple_account($email);
+        return $user;
     }
 }

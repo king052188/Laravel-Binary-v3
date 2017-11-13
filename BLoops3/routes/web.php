@@ -30,6 +30,10 @@ Route::get('/account/verified/{email}', 'AccountController@account_verified');
 
 Route::post('/account/check/username', 'AccountController@check_username');
 
+Route::get('/account/check-multiple', 'AccountController@check_multiple_account');
+
+Route::get('/account/wallet/{account}', 'WalletController@get_wallet');
+
 
 Auth::routes();
 
