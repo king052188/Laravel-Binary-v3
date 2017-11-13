@@ -470,7 +470,7 @@
               </li>
               <li role="presentation">
                 <h3>{{ number_format($follower[0]->active, 0) }}<br>
-                  <small>Activity</small> </h3>
+                  <small>Active</small> </h3>
               </li>
             </ul>
             @if (Auth::guest())
