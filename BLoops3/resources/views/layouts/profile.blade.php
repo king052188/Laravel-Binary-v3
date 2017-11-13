@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'Wazzel') }}</title>
+    <title>{{ ucwords($users->first_name . ' ' . $users->last_name) }}</title>
     <meta property="og:url"           content="{{ app()->getUrl(true, '/') }}" />
     <meta property="og:type"          content="Website Application" />
     <meta property="og:title"         content="{{ config('app.name', 'Laravel') }}" />
@@ -427,6 +427,10 @@
           color: #2a6496;
           text-decoration: underline;
         }
+        .btn-group.open .dropdown-toggle {
+            -webkit-box-shadow: inset 0 0 0 rgba(0, 0, 0, 0.125);
+            box-shadow: inset 0 0 0 rgba(0, 0, 0, 0.125);
+        }
         #btnSignIn { display: block; }
         @media screen and (max-width: 699px) {
           #btnSignIn { display: none; }
@@ -474,8 +478,7 @@
             @else
             <a href="/" id="btnSignIn" class="btn btn-default followbtn"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Dashboard</a>
             @endif
-            <button id="btnJoin" class="btn btn-primary followbtn"> <i class="fa fa-sign-in" aria-hidden="true"></i> Follow and Join</button>
-
+            <button id="btnJoin" class="btn btn-primary followbtn"> <i class="fa fa-users" aria-hidden="true"></i> Follow and Join</button>
           </div>
           <div class="clearfix"></div>
         </div>
@@ -503,10 +506,8 @@
               </ul>
             </div>
           </div>
-
           <div class="clearfix"></div>
         </div>
-
       </div>
 
       <div class="col-md-8 col-sm-12 pull-left posttimeline">

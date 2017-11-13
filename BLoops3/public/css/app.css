@@ -59,6 +59,7 @@ a {
 a:active,
 a:hover {
   outline: 0;
+  color: #6d8a0a;
 }
 
 abbr[title] {
@@ -4412,7 +4413,7 @@ fieldset[disabled] .btn-danger.focus {
 }
 
 .btn-link {
-  color: #3097D1;
+  color: #6d8a0a;
   font-weight: normal;
   border-radius: 0;
 }
@@ -4436,7 +4437,7 @@ fieldset[disabled] .btn-link {
 
 .btn-link:hover,
 .btn-link:focus {
-  color: #216a94;
+  color: #6d8a0a;
   text-decoration: underline;
   background-color: transparent;
 }

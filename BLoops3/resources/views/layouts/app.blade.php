@@ -57,6 +57,9 @@
 
       }
       p.g_title { margin: 10px 0 0 0; padding: 0; text-align: center; font-weight: 600;  }
+      @media screen and (max-width: 1200px) {
+        #g_structure_container { overflow: scroll; max-height: 470px; }
+      }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js"></script>
     <!-- Include a polyfill for ES6 Promises (optional) for IE11 and Android browser -->

@@ -7,10 +7,9 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                   Genealogy Structure
-                  <a href="#" id="btnShowDetails" class="pull-right title_link" style="margin: 0 0 0 0;"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Show Summary Details</a>
+                  <a href="#" id="btnShowDetails" class="pull-right btn_link" style="margin: 0 0 0 0;"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Show Summary Details</a>
                 </div>
                 <div class="panel-body">
-
                   <div id="div_gHistoryDetails" style="display: none;">
                     <h3>Summary</h3>
                     <table class="tbl_history" id="tbl_gHistory" border="0" cellSpacing="0" cellPadding="5">
@@ -65,14 +64,9 @@
                       </tbody>
                     </table>
                   </div>
-
-                  <!-- <div>
-                    <button id="btnShowDetails" class="pull-right">Show-Details</button>
-                  </div> -->
-
                   <h3>Structure</h3>
                   @if($structure["Code"] == 200)
-                    <div class="container-fluid" style="background-color: #eaedf1; width:100%; border-radius: 5px;">
+                    <div id="g_structure_container" class="container-fluid" style="background-color: #eaedf1; border-radius: 5px;">
                       <!-- // Head Leader -->
                       <div class="row">
                         <?php $Top_Leader = $structure["Data"]["Top_Leader"]; ?>
@@ -341,7 +335,6 @@
                   @else
                     <h3>No Structure</h3>
                   @endif
-
                 </div>
             </div>
         </div>
