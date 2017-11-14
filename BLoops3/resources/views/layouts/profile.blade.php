@@ -15,7 +15,7 @@
     <title>{{ ucwords($users->first_name . ' ' . $users->last_name) }}</title>
     <meta property="og:url"           content="{{ app()->getUrl(true, '/') }}" />
     <meta property="og:type"          content="Website Application" />
-    <meta property="og:title"         content="{{ config('app.name', 'Laravel') }}" />
+    <meta property="og:title"         content="{{ ucwords($users->first_name . ' ' . $users->last_name) }} | {{ config('app.name', 'Laravel') }}" />
     <meta property="og:description"   content="{{ config('app.description', 'Application Description') }}" />
     <meta property="og:image"         content="{{ app()->getUrl(false, 'images/k-icon.png') }}" />
     <!-- Styles -->
@@ -31,7 +31,8 @@
         /*==============================*/
         /*====== siderbar user profile =====*/
         /*==============================*/
-
+        input#_first_name { text-transform: capitalize; }
+        input#_last_name { text-transform: capitalize; }
         .nav>li>a.userdd {
             padding: 5px 15px
         }
@@ -437,13 +438,11 @@
         }
     </style>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script>
-      $(document).ready(function() {
-        $("#btnJoin").click(function() {
-          alert("It's being updated.");
-        })
-      })
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js"></script>
+    <!-- Include a polyfill for ES6 Promises (optional) for IE11 and Android browser -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.min.css">
 </head>
 <body>
 <div id="app">
@@ -510,6 +509,90 @@
         </div>
       </div>
 
+      <div id="sign-up-form" class="col-md-8 col-sm-12 pull-left posttimeline" style="display: none;">
+        <div class="panel panel-default">
+          <div class="btn-group pull-right postbtn">
+            <button type="button" class="dotbtn dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> <span class="dots"></span> </button>
+            <ul class="dropdown-menu pull-right" role="menu">
+              <li><a href="javascript:void(0)">Hide this</a></li>
+              <li><a href="javascript:void(0)">Report</a></li>
+            </ul>
+          </div>
+          <div class="col-md-12">
+            <div class="media">
+              <div class="media-left">
+                <a href="javascript:void(0)">
+                  <img src="{{ app()->getUrl(false, 'images/nobody_m.original.jpg') }}" class="media-object" style="width:60px">
+                </a>
+              </div>
+              <div class="media-body">
+                <div>
+                  <h4 class="media-heading" style="margin: 9px 0 0 0; font-weight: 600;">{{ ucwords($users->first_name . ' ' . $users->last_name) }}</h4>
+                  <p><small>Please complete the form below.</small></p>
+                </div>
+              </div>
+              <div style="margin: 20px 0 0 0;"></div>
+              <div class="col-md-12">
+                  <div class="panel panel-default">
+                      <div class="panel-heading">Sign Up Form</div>
+                      <div class="panel-body">
+                          <div class="form-horizontal">
+                              <div class="form-group">
+                                  <label for="name" class="col-md-4 control-label">First Name</label>
+                                  <div class="col-md-6 inputGroupContainer">
+                                      <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <input id="_first_name" type="text" class="form-control" name="_first_name" placeholder="First Name" required autofocus>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="form-group">
+                                  <label for="name" class="col-md-4 control-label">Last Name</label>
+                                  <div class="col-md-6 inputGroupContainer">
+                                      <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <input id="_last_name" type="text" class="form-control" name="_last_name" placeholder="Last Name" required autofocus>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="form-group">
+                                  <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                                  <div class="col-md-6 inputGroupContainer">
+                                      <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                        <input id="_email" type="email" class="form-control" name="_email" placeholder="Email Address" required>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="form-group">
+                                  <label for="mobile" class="col-md-4 control-label">Mobile</label>
+                                  <div class="col-md-6 inputGroupContainer">
+                                      <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                                        <input id="_mobile" type="text" class="form-control" name="_mobile" placeholder="Mobile Number" required>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="form-group">
+                                  <div class="col-md-6 col-md-offset-4">
+                                      <button id="btnSignUp" type="submit" class="btn btn-primary"><i aria-hidden="true" class="fa fa-floppy-o"></i> Sign Up</button>
+                                  </div>
+                              </div>
+
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
       <div class="col-md-8 col-sm-12 pull-left posttimeline">
         <div class="panel panel-default">
           <div class="btn-group pull-right postbtn">
@@ -543,9 +626,118 @@
 
         </div>
       </div>
+      
     </div>
   </div>
 </div>
 <script src="{{ app()->getUrl(true, 'js/app.js') }}"></script>
+<script>
+  $(document).ready(function() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $("#btnJoin").click(function() {
+      $("#sign-up-form").show();
+      $('html,body').animate({
+        scrollTop: $("#sign-up-form").offset().top},
+        'slow');
+    });
+
+    $("#btnSignUp").click(function() {
+      var suid = "{{ $users->id }}";
+      var first_name = $("#_first_name").val();
+      var last_name = $("#_last_name").val();
+      var email = $("#_email").val();
+      var mobile = $("#_mobile").val();
+      if(first_name=="") {
+        swal(
+          'Oops...',
+          'Please check the First name.',
+          'warning'
+        )
+        return false;
+      }
+      if(last_name=="") {
+        swal(
+          'Oops...',
+          'Please check the Last name.',
+          'warning'
+        )
+        return false;
+      }
+      if(email=="") {
+        swal(
+          'Oops...',
+          'Please check the Email Address.',
+          'warning'
+        )
+        return false;
+      }
+      if(mobile=="") {
+        swal(
+          'Oops...',
+          'Please check the Phone#',
+          'warning'
+        )
+        return false;
+      }
+      var data = {
+        suid: suid,
+        first_name: first_name,
+        last_name: last_name,
+        email: email,
+        mobile: mobile
+      };
+      var url = "/referral/sign-up/"+suid;
+      ajax_exec(url, data, this);
+    });
+  })
+
+  function ajax_exec(url, data, control) {
+      $(document).ready(function() {
+          $.ajax({
+              dataType: 'json',
+              type:'POST',
+              url: url,
+              data: data,
+              beforeSend: function () {
+                $(control).empty().prepend("Please wait...");
+              }
+          }).done(function(json){
+              if(json.Status == 200) {
+                swal({
+                  title: 'Thank You!',
+                  text: "You have successfully registered. By clicking the OK button, the page will auto-reload.",
+                  type: 'success',
+                  showCancelButton: false,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'OK'
+                }).then(function () {
+                  setInterval(function(){ location.reload(); }, 500);
+                })
+                return false;
+              }
+              if(json.Status != 200 || json.Status != 500) {
+                swal(
+                  'Oops...',
+                  json.Message,
+                  'error'
+                )
+                $(control).empty().prepend("<i class='fa fa-floppy-o' aria-hidden='true'></i> Encode");
+                return false;
+              }
+              swal(
+                'Oops...',
+                'Something went wrong! Please inform your UP-Line.',
+                'error'
+              )
+          });
+      })
+  }
+</script>
 </body>
 </html>

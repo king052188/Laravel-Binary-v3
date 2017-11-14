@@ -26,6 +26,8 @@ Route::get('/genealogy/encoding/{placement}/{position}', 'HomeController@encodin
 
 Route::get('/genealogy/pairing-referral-summary', 'HomeController@summary_pairing');
 
+Route::post('/referral/sign-up/{sponsor_uid}', 'AccountController@register_via_user_url');
+
 Route::get('/account/verified/{email}', 'AccountController@account_verified');
 
 Route::post('/account/check/username', 'AccountController@check_username');

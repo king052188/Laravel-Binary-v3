@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use DB;
 use BLHelper;
+use BinaryLoops;
 
 use App\User;
 
@@ -58,5 +59,11 @@ class AccountController extends Controller
         $email = $request["e"];
         $user = BLHelper::check_member_multiple_account($email);
         return $user;
+    }
+
+    public function register_via_user_url($sponsor_uid, Request $request)
+    {
+      $result = BinaryLoops::Encode_Via_UserUrl($sponsor_uid, $request);
+      return $result;
     }
 }

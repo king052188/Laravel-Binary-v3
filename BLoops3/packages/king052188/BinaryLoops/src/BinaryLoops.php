@@ -111,6 +111,42 @@ class BinaryLoops
     return ["Status" => 500, "Message" => "Something went wrong. Error#: 001", "Insert_Uid" => 0];
   }
 
+  public function Encode_Via_UserUrl($sponsor_uid, $request) {
+    $multiple_account = $this->validate_multiple_accounts($request["email"], $request["mobile"]);
+    if( $multiple_account["Status"] > 200 ) {
+      return $multiple_account;
+    }
+
+    $dt = Carbon::now();
+    $new_member_uid = BLHelper::generate_unique_id(null);
+    $hex_code = "123456"; //sprintf('%06X', mt_rand(0, 0xFFFFFF));
+    $encrypted_hexcode = bcrypt($hex_code);
+    $passwords = ["Password"=> $hex_code, "Encrypted" => $encrypted_hexcode];
+    $user_token = md5(sprintf('%06X', mt_rand(0, 0xFFFFFF)));
+
+    $member_info = array(
+      "user_token" => $user_token,
+      "member_uid" => $new_member_uid,
+      "username" => $new_member_uid,
+      "password" => $encrypted_hexcode,
+      "first_name" => $request["first_name"] != "" ? $request["first_name"] : null,
+      "last_name" => $request["last_name"] != "" ? $request["last_name"] : null,
+      "email" => $request["email"] != "" ? $request["email"] : null,
+      "mobile" => $request["mobile"] != "" ? $request["mobile"] : null,
+      "type" => 2,
+      "status" => 0,
+      "connected_to" => (int)$sponsor_uid,
+      "activation_id" => 0,
+      'updated_at' => $dt,
+      'created_at' => $dt
+    );
+    $result = BLHelper::add_member($member_info);
+    if($result > 0) {
+      return ["Status" => 200, "Message" => "Success.", "Insert_Uid" => $result];
+    }
+    return ["Status" => 500, "Message" => "Something went wrong. Error#: 001", "Insert_Uid" => 0];
+  }
+
   public function validate_multiple_accounts($email, $mobile) {
     $multiple_account = BLHelper::check_member_multiple_account($email, false);
     if( COUNT($multiple_account) > 0 ) {
@@ -136,27 +172,18 @@ class BinaryLoops
   }
 
   public function Placement_Validate($request) {
-
     $result = BLHelper::check_position_of_placement($request["a"], $request["b"]);
-
     return ["Data" => $result];
-
   }
 
   public function Member_Pairing($member_uid) {
-
     $result = BLHelper::get_member_pairing($member_uid);
-
     return ["Data" => $result];
-
   }
 
   public function Populate_Genealogy($username) {
-
     $result = BLHelper::get_genealogy_structure($username);
-
     return $result;
-
   }
 
   // classes
