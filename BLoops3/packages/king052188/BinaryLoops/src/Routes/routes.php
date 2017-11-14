@@ -42,3 +42,7 @@ Route::any('/bloops/v1/member-pairing-status/{username}', function($member_uid) 
 Route::any('/bloops/v1/populate-genealogy/{username}', function($username) {
   return BinaryLoops::Populate_Genealogy($username);
 });
+
+Route::any('/bloops/v1/populate-leveling/{username}', function($username) {
+  return BinaryLoops::Populate_Leveling($username);
+});

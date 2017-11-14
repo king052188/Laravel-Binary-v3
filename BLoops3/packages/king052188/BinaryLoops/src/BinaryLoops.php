@@ -186,6 +186,11 @@ class BinaryLoops
     return $result;
   }
 
+  public function Populate_Leveling($username) {
+    $result = BLHelper::get_leveling_structure($username);
+    return $result;
+  }
+
   // classes
 
   public function getConfigApp($key = null) {
