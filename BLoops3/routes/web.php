@@ -39,7 +39,7 @@ Route::get('/account/wallet/{account}', 'WalletController@get_wallet');
 
 Auth::routes();
 
-Route::get('/{username?}', 'HomeController@index');
+Route::get('/{username?}', 'AccountController@index');
 
 
 

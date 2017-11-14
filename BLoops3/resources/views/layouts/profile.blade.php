@@ -626,7 +626,7 @@
 
         </div>
       </div>
-      
+
     </div>
   </div>
 </div>
@@ -709,8 +709,8 @@
           }).done(function(json){
               if(json.Status == 200) {
                 swal({
-                  title: 'Thank You!',
-                  text: "You have successfully registered. By clicking the OK button, the page will auto-reload.",
+                  title: 'Hooray!',
+                  text: "You have successfully registered. You should received a welcome message with your login info.",
                   type: 'success',
                   showCancelButton: false,
                   confirmButtonColor: '#3085d6',

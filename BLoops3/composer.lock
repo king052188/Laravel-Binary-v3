@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7267d5c9dca5f303a8c4f87d8cf9f342",
+    "content-hash": "90967fd187766059a5735654621506fe",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -415,6 +415,39 @@
                 }
             ],
             "time": "2015-04-20T18:58:01+00:00"
+        },
+        {
+            "name": "king052188/kpapostmail",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/king052188/KPAPostMail.git",
+                "reference": "e3990cdd35f9aaf5cc68bc4bf8c9b93301c7db4e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/king052188/KPAPostMail/zipball/e3990cdd35f9aaf5cc68bc4bf8c9b93301c7db4e",
+                "reference": "e3990cdd35f9aaf5cc68bc4bf8c9b93301c7db4e",
+                "shasum": ""
+            },
+            "type": "laravel",
+            "autoload": {
+                "psr-4": {
+                    "king052188\\KPAPostMail\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "King Paulo Aquino",
+                    "email": "kingpauloaquino@gmail.com"
+                }
+            ],
+            "description": "This is KPAPostMail Service",
+            "time": "2017-11-02T10:39:06+00:00"
         },
         {
             "name": "laravel/framework",

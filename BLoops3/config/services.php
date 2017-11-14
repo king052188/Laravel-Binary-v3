@@ -35,6 +35,12 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'KPAPostMail' => [
+        'domain' => env('KPAPostMail_DOMAIN'),
+        'email' => env('KPAPostMail_EMAIL'),
+        'uid' => env('KPAPostMail_UID'),
+    ],
+
     'BinaryLoops' => [
         'host' => env('BINARYLOOPS_HOST', 'binaryloops.kpa.ph'),
         'email' => env('BINARYLOOPS_EMAIL', 'kingpauloaquino@gmail.com'),

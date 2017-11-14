@@ -142,9 +142,9 @@ class BinaryLoops
     );
     $result = BLHelper::add_member($member_info);
     if($result > 0) {
-      return ["Status" => 200, "Message" => "Success.", "Insert_Uid" => $result];
+      return ["Status" => 200, "Message" => "Success.", "Member_UID" => $new_member_uid];
     }
-    return ["Status" => 500, "Message" => "Something went wrong. Error#: 001", "Insert_Uid" => 0];
+    return ["Status" => 500, "Message" => "Something went wrong. Error#: 001", "Member_UID" => null];
   }
 
   public function validate_multiple_accounts($email, $mobile) {
