@@ -88,10 +88,40 @@ class BLHelper
         );
     }
 
-    public function get_leveling_structure($username = null)
+    public function get_leveling_summary($username) {
+
+      $data_left = $this->get_leveling_structure($username, 21);
+      $data_right = $this->get_leveling_structure($username, 22);
+
+      $data = [];
+      $total_profit = 0;
+      for($i = 0; $i < COUNT($data_left["Data"]); $i++) {
+
+        $l = $data_left["Data"]["Level_". ($i + 1)];
+        $r = $data_right["Data"]["Level_". ($i + 1)];
+
+        $total = $this->check_left_right_per_level($l, $r, 400);
+        $total_profit += $total;
+        $data[] = array(
+          'Level' => ($i + 1),
+          'Left' => $l,
+          'Right' => $r,
+          'Total' => $total
+        );
+      }
+
+      return array(
+        'Code' => 200,
+        'Message' => 'Success.',
+        'Total_Profit' => $total_profit,
+        'Data' => $data
+      );
+    }
+
+    public function get_leveling_structure($username = null, $position)
     {
         if($username == null) {
-            $username = "company";
+            $username = "king.a";
         }
 
         // top leader information
@@ -105,21 +135,14 @@ class BLHelper
         }
 
         // level 1
-        $get_level1 = $this->get_count_pairing_per_level($top_info->member_uid);
+        $get_level1 = $this->get_count_pairing_per_level($top_info->member_uid, $position, 1);
 
         // level 2
-        $get_level2 = [];
+        $get_level2 = null;
         if( COUNT($get_level1) > 0 ) {
             for($i = 0; $i < count($get_level1); $i++) {
-                $get_level2[] = $this->get_count_pairing_per_level($get_level1[$i]['member_uid']);
+                $get_level2[] = $this->get_count_pairing_per_level($get_level1[$i]['member_uid'], 0, 2);
             }
-        }
-        else {
-          return array(
-            'Code' => 500,
-            'Message' => 'No downline.',
-            'Data' => null
-          );
         }
 
         // level 3
@@ -127,16 +150,9 @@ class BLHelper
         if($get_level2 != null) {
             for($i = 0; $i < count($get_level2); $i++) {
                 for($x = 0; $x < count($get_level2[$i]); $x++) {
-                    $get_level3[] = $this->get_count_pairing_per_level($get_level2[$i][$x]['member_uid']);
+                    $get_level3[] = $this->get_count_pairing_per_level($get_level2[$i][$x]['member_uid'], 0, 3);
                 }
             }
-        }
-        else {
-          return array(
-            'Code' => 500,
-            'Message' => 'No downline.',
-            'Data' => null
-          );
         }
 
         // level 4
@@ -144,16 +160,9 @@ class BLHelper
         if($get_level3 != null) {
             for($i = 0; $i < count($get_level3); $i++) {
                 for($x = 0; $x < count($get_level3[$i]); $x++) {
-                    $get_level4[] = $this->get_count_pairing_per_level($get_level3[$i][$x]['member_uid']);
+                    $get_level4[] = $this->get_count_pairing_per_level($get_level3[$i][$x]['member_uid'], 0, 4);
                 }
             }
-        }
-        else {
-          return array(
-            'Code' => 500,
-            'Message' => 'No downline.',
-            'Data' => null
-          );
         }
 
         // level 5
@@ -161,31 +170,130 @@ class BLHelper
         if($get_level4 != null) {
             for($i = 0; $i < count($get_level4); $i++) {
                 for($x = 0; $x < count($get_level4[$i]); $x++) {
-                    $get_level5[] = $this->get_count_pairing_per_level($get_level4[$i][$x]['member_uid']);
+                    $get_level5[] = $this->get_count_pairing_per_level($get_level4[$i][$x]['member_uid'], 0, 5);
                 }
             }
         }
-        else {
-          return array(
-            'Code' => 500,
-            'Message' => 'No downline.',
-            'Data' => null
-          );
+
+        // level 6
+        $get_level6 = null;
+        if($get_level5 != null) {
+            for($i = 0; $i < count($get_level5); $i++) {
+                for($x = 0; $x < count($get_level5[$i]); $x++) {
+                    $get_level6[] = $this->get_count_pairing_per_level($get_level5[$i][$x]['member_uid'], 0, 6);
+                }
+            }
+        }
+
+        // level 7
+        $get_level7 = null;
+        if($get_level6 != null) {
+            for($i = 0; $i < count($get_level6); $i++) {
+                for($x = 0; $x < count($get_level6[$i]); $x++) {
+                    $get_level7[] = $this->get_count_pairing_per_level($get_level6[$i][$x]['member_uid'], 0, 7);
+                }
+            }
+        }
+
+        // level 8
+        $get_level8 = null;
+        if($get_level7 != null) {
+            for($i = 0; $i < count($get_level7); $i++) {
+                for($x = 0; $x < count($get_level7[$i]); $x++) {
+                    $get_level8[] = $this->get_count_pairing_per_level($get_level7[$i][$x]['member_uid'], 0, 8);
+                }
+            }
+        }
+
+        // level 9
+        $get_level9 = null;
+        if($get_level8 != null) {
+            for($i = 0; $i < count($get_level8); $i++) {
+                for($x = 0; $x < count($get_level8[$i]); $x++) {
+                    $get_level9[] = $this->get_count_pairing_per_level($get_level8[$i][$x]['member_uid'], 0, 9);
+                }
+            }
+        }
+
+        // level 10
+        $get_level10 = null;
+        if($get_level9 != null) {
+            for($i = 0; $i < count($get_level9); $i++) {
+                for($x = 0; $x < count($get_level9[$i]); $x++) {
+                    $get_level10[] = $this->get_count_pairing_per_level($get_level9[$i][$x]['member_uid'], 0, 1);
+                }
+            }
         }
 
         return array(
           'Code' => 200,
           'Message' => 'Success.',
+          'Position' => $position == 21 ? "Left" : "Right",
           'Data' => array(
-            'Top_Leader' => $top_info,
-            'Level_1' => COUNT($get_level1),
-            'Level_2' => COUNT($get_level2),
-            'Level_3' => COUNT($get_level3),
-            'Level_4' => COUNT($get_level4),
-            'Level_5' => COUNT($get_level5)
+            'Level_1' => $this->get_count_pairing_per_level_validation($get_level1),
+            'Level_2' => $this->get_count_pairing_per_level_validation($get_level2),
+            'Level_3' => $this->get_count_pairing_per_level_validation($get_level3),
+            'Level_4' => $this->get_count_pairing_per_level_validation($get_level4),
+            'Level_5' => $this->get_count_pairing_per_level_validation($get_level5),
+            'Level_6' => $this->get_count_pairing_per_level_validation($get_level6),
+            'Level_7' => $this->get_count_pairing_per_level_validation($get_level7),
+            'Level_8' => $this->get_count_pairing_per_level_validation($get_level8),
+            'Level_9' => $this->get_count_pairing_per_level_validation($get_level9),
+            'Level_10' => $this->get_count_pairing_per_level_validation($get_level10)
           )
         );
     }
+
+    public function get_corporate_account($member_uid, $mobile, $limit)
+    {
+       $results = [];
+       $top_head_uid = "N/A";
+       $users = DB::table('users')
+                 ->where('mobile', $mobile)
+                 ->take($limit)
+                 ->get()
+                 ->toArray();
+
+       if( COUNT($users) > 0) {
+           $top_head_uid = $member_uid;
+           $top_head_info = $this->get_member_pairing($top_head_uid);
+
+           $corp_income = 0;
+           $incomes = [];
+           for( $m = 0; $m < count($users); $m++ ) {
+               $m_uid = $users[$m]->member_uid;
+               $income = $this->get_member_pairing($m_uid);
+               $incomes[] = $income;
+               $corp_income += $income["total_amount"];
+           }
+
+           $results[] = array(
+               "level" => 1,
+               "member_uid" => $top_head_info["member_uid"],
+               "referral" => $top_head_info["referral"],
+               "remaining" => $top_head_info["remaining"],
+               "position" => $top_head_info["position"],
+               "pairing" => $top_head_info["pairing"],
+               "total_amount" => $corp_income,
+               "corporate_account" => $incomes
+           );
+       }
+       else {
+           $results[] = array(
+               "level" => 1,
+               "member_uid" => $top_head_uid,
+               "referral" => 0,
+               "remaining" => 0,
+               "position" => 0,
+               "pairing" => 0,
+               "fifth_pairs" => 0,
+               "d_fund" => 0
+           );
+       }
+
+       return $results;
+
+     }
 
     public function get_placement($member_uid)
     {
@@ -247,16 +355,20 @@ class BLHelper
        return $list;
     }
 
-    public function get_count_pairing_per_level($member_uid)
+    public function get_count_pairing_per_level($member_uid, $position = 0, $level)
     {
+      $set_position = "";
+      if($level == 1) {
+        $set_position = "AND position_ = {$position}";
+      }
        $arrays = DB::select("
                SELECT t.Id, u.username, t.sponsor_id, t.placement_id, t.member_uid, t.position_, u.type
                FROM user_genealogy_transaction AS t
                INNER JOIN users AS u
                ON t.member_uid = u.member_uid
-               WHERE t.placement_id = '". $member_uid ."' AND t.status_ != -99 ORDER BY t.position_ ASC
+               WHERE t.placement_id = '". $member_uid ."' {$set_position} AND t.status_ != -99 ORDER BY t.position_ ASC
        ");
-
+       $list = [];
        if(count($arrays) > 0) {
            if(count($arrays) == 1) {
                if($arrays[0]->position_ == 21) {
@@ -268,12 +380,12 @@ class BLHelper
                        "member_uid" => $arrays[0]->member_uid,
                        "position_" => $arrays[0]->position_,
                        "type_" => $arrays[0]->type,
-                       "count_" => 0
+                       "level_" => $level
                    );
-                   $list[] = $this->set_placement_null();
+                   // $list[] = $this->set_placement_null();
                }
                else {
-                   $list[] = $this->set_placement_null();
+                   // $list[] = $this->set_placement_null();
                    $list[] = array(
                        "Id" => $arrays[0]->Id,
                        "username" => $arrays[0]->username,
@@ -282,7 +394,7 @@ class BLHelper
                        "member_uid" => $arrays[0]->member_uid,
                        "position_" => $arrays[0]->position_,
                        "type_" => $arrays[0]->type,
-                       "count_" => 0
+                       "level_" => $level
                    );
                }
 
@@ -297,17 +409,30 @@ class BLHelper
                        "member_uid" => $arrays[$i]->member_uid,
                        "position_" => $arrays[$i]->position_,
                        "type_" => $arrays[$i]->type,
-                       "count_" => 1
+                       "level_" => $level
                    );
                }
            }
        }
-       else {
-           for($i = 0; $i < 2; $i++) {
-               $list[] = $this->set_placement_null();
-           }
-       }
+       // else {
+       //     for($i = 0; $i < 2; $i++) {
+       //         $list[] = $this->set_placement_null();
+       //     }
+       // }
        return $list;
+    }
+
+    public function get_count_pairing_per_level_validation($array) {
+      if($array == null) {
+        return 0;
+      }
+      $ctr = 0;
+      for($i = 0; $i < COUNT($array); $i++) {
+          if( COUNT($array[$i]) > 0) {
+            $ctr++;
+          }
+      }
+      return $ctr;
     }
 
     public function get_member_pairing($member_uid)
@@ -326,7 +451,6 @@ class BLHelper
         {
             $t_remaining = $l - $r;
             $t_paired = $l - $t_remaining;
-
             $status = array(
                 "member_uid" => $member_uid,
                 "referral" => $referrals["referral"],
@@ -344,7 +468,6 @@ class BLHelper
         {
             $t_remaining = $r - $l;
             $t_paired = $r - $t_remaining;
-
             $status = array(
                 "member_uid" => $member_uid,
                 "referral" => $referrals["referral"],
@@ -362,7 +485,6 @@ class BLHelper
         else if ($l == $r)
         {
             $t_paired = $l;
-
             $status = array(
                 "member_uid" => $member_uid,
                 "referral" => $referrals["referral"],
@@ -426,7 +548,7 @@ class BLHelper
            "member_uid" => null,
            "position" => 0,
            "type" => 0,
-           "count" => 0
+           "level" => 0
        );
     }
 
@@ -588,6 +710,20 @@ class BLHelper
             $user_info = $this::get_member_info($member_id);
             return array('User_Info' => $user_info, "Status" => 0);
         }
+    }
+
+    public function check_left_right_per_level($left, $right, $budget) {
+      $i = 0;
+      if($left > 0) {
+        $i++;
+      }
+      if($right > 0) {
+        $i++;
+      }
+      if($i > 1) {
+        return $budget;
+      }
+      return 0;
     }
 
     public function add_member($member_info)

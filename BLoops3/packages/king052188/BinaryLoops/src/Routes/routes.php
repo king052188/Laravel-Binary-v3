@@ -46,3 +46,11 @@ Route::any('/bloops/v1/populate-genealogy/{username}', function($username) {
 Route::any('/bloops/v1/populate-leveling/{username}', function($username) {
   return BinaryLoops::Populate_Leveling($username);
 });
+
+// Route::any('/bloops/v1/populate-leveling/{username}/{position}', function($username, $position) {
+//   return BinaryLoops::Populate_Leveling($username, $position);
+// });
+
+Route::any('/bloops/v1/populate-corporate-account/{member_uid}/{mobile}/{limit?}', function($username, $mobile) {
+  return BinaryLoops::Populate_Corporate_Account($username, $mobile);
+});

@@ -8,7 +8,7 @@ use DB;
 use Auth;
 use BLHelper;
 use BinaryLoops;
-use KPAPostMail;
+// use KPAPostMail;
 use App\User;
 
 class AccountController extends Controller
@@ -123,19 +123,19 @@ class AccountController extends Controller
     public function register_via_user_url($sponsor_uid, Request $request)
     {
       $result = BinaryLoops::Encode_Via_UserUrl($sponsor_uid, $request);
-      if($result["Status"] == 200) {
-        $member = array(
-          "Name"=>ucwords($request["first_name"] . ' ' . $request["last_name"]),
-          "Email"=>$request["email"]
-        );
-        $member_uid = $result["Member_UID"];
-        $msg = "Here's your account information <br /><br />
-        Your Account Number: <strong>{$member_uid}</strong> <br />
-        Your Temporary Username: is your <strong>Account Number</strong>, Please use that to be able to login. <br />
-        Your Password: <strong>123456</strong>
-        ";
-        $r = KPAPostMail::send($member, "Congratulation you are successfully registered", $msg);
-      }
+      // if($result["Status"] == 200) {
+      //   $member = array(
+      //     "Name"=>ucwords($request["first_name"] . ' ' . $request["last_name"]),
+      //     "Email"=>$request["email"]
+      //   );
+      //   $member_uid = $result["Member_UID"];
+      //   $msg = "Here's your account information <br /><br />
+      //   Your Account Number: <strong>{$member_uid}</strong> <br />
+      //   Your Temporary Username: is your <strong>Account Number</strong>, Please use that to be able to login. <br />
+      //   Your Password: <strong>123456</strong>
+      //   ";
+      //   $r = KPAPostMail::send($member, "Congratulation you are successfully registered", $msg);
+      // }
       return $result;
     }
 }

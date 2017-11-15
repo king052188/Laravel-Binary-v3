@@ -70,4 +70,16 @@ class HomeController extends Controller
       return BinaryLoops::Member_Pairing($this::$users->member_uid);
     }
 
+    public function leveling()
+    {
+      return view('portal.leveling');
+    }
+
+    public function leveling_populate(Request $request)
+    {
+      $this::$users = Auth::user();
+      $username = $this::$users->username;
+      $structure = BinaryLoops::Populate_Leveling($username);
+      return $structure;
+    }
 }

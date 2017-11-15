@@ -36,6 +36,9 @@ Route::get('/account/check-multiple', 'AccountController@check_multiple_account'
 
 Route::get('/account/wallet/{account}', 'WalletController@get_wallet');
 
+Route::get('/leveling', 'HomeController@leveling');
+
+Route::get('/leveling/pairing-per-level-summary', 'HomeController@leveling_populate');
 
 Auth::routes();
 

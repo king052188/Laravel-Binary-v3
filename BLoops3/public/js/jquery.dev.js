@@ -155,7 +155,6 @@ $("#btnEncode").click(function() {
   var url = "/genealogy/encoding/"+_a+"/"+_b;
   ajax_exec(url, data, this);
 })
-
 function ajax_exec(url, data, control) {
     $(document).ready(function() {
         $.ajax({
@@ -357,6 +356,34 @@ function populate_genealogy_history() {
             })
             $("#tbl_gHistory > tbody").empty().prepend(html);
             $("#tbl_gHistoryDetails > tbody").empty().prepend(html2);
+        });
+    })
+}
+populate_leveling_history();
+function populate_leveling_history() {
+    $(document).ready(function() {
+        $.ajax({
+            dataType: 'json',
+            type:'GET',
+            url: '/leveling/pairing-per-level-summary'
+        }).done(function(json){
+          console.log(json);
+            var html = "";
+            var profit = 0;
+            $(json.Data).each(function(a, b) {
+              profit += b.Total;
+              html += "<tr>";
+              html += "<td style='text-align: center; padding: 5px;'>"+b.Level+"</td>";
+              html += "<td style='text-align: center; width: 130px; padding: 5px;'>"+b.Left+"</td>";
+              html += "<td style='text-align: center; width: 130px; padding: 5px;'>"+b.Right+"</td>";
+              html += "<td style='text-align: right; width: 200px; padding: 5px; font-weight: 600;'>"+numeral(b.Total).format('0,0.00')+"</td>";
+              html += "</tr>";
+            });
+            html += "<tr>";
+            html += "<td colspan='3' style='text-align: right; padding: 5px; font-weight: 600;'>Total Profit</td>";
+            html += "<td style='text-align: right; width: 200px; padding: 5px; font-weight: 600;'>"+numeral(profit).format('0,0.00')+"</td>";
+            html += "</tr>";
+            $("#tbl_lHistoryDetails > tbody").empty().prepend(html);
         });
     })
 }

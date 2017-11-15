@@ -187,7 +187,17 @@ class BinaryLoops
   }
 
   public function Populate_Leveling($username) {
-    $result = BLHelper::get_leveling_structure($username);
+    $result = BLHelper::get_leveling_summary($username);
+    return $result;
+  }
+
+  // public function Populate_Leveling($username, $position) {
+  //   $result = BLHelper::get_leveling_structure($username, (int)$position);
+  //   return $result;
+  // }
+
+  public function Populate_Corporate_Account($member_uid, $mobile, $limit = 7) {
+    $result = BLHelper::get_corporate_account($member_uid, $mobile, $limit);
     return $result;
   }
 

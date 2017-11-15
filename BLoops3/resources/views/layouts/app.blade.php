@@ -107,7 +107,7 @@
                             <li><a href="{{ app()->getUrl(true, '/') }}">Home</a></li>
                             <!-- <li><a href="{{ app()->getUrl(true, '/') }}">Services</a></li> -->
                             <li><a href="{{ app()->getUrl(true, '/genealogy') }}">Genealogy</a></li>
-                            <!-- <li><a href="{{ app()->getUrl(true, '/leveling') }}">Leveling</a></li> -->
+                            <li><a href="{{ app()->getUrl(true, '/leveling') }}">Leveling</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="text-transform: capitalize;">
                                     {{ Auth::user()->first_name . ' ' . Auth::user()->last_name }} <span class="caret"></span>
