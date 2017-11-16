@@ -17,15 +17,19 @@
                         <tr>
                           <th>Account#</th>
                           <th style="width: 280px;">Available Amount</th>
+                          <th style="width: 50px;">Action</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
                           <td>***</td>
                           <td>***</td>
+                          <td>***</td>
                         </tr>
                       </tbody>
                     </table>
+
+                    <h3>Details</h3>
                     <table class="tbl_history" id="tbl_gHistoryDetails" border="0" cellSpacing="0" cellPadding="0">
                       <thead>
                         <tr>

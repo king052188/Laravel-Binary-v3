@@ -259,6 +259,9 @@ function check_username_ajax(username) {
      });
    });
 }
+function alertShow() {
+  alert("Soon, It's being updated.");
+}
 function username_img_status(control, isDefaul) {
   $(control).removeAttr("src");
   if(isDefaul) {
@@ -282,6 +285,7 @@ function populate_genealogy_history(IsRefresh) {
             beforeSend: function () {
               if(!IsRefresh) {
                 html = "<tr>";
+                html += "<td>***</td>";
                 html += "<td>***</td>";
                 html += "<td>***</td>";
                 html += "</tr>";
@@ -344,8 +348,15 @@ function populate_genealogy_history(IsRefresh) {
             var total_points = 0, total_referral = 0;
             var pos = json.position == 21 ? "Left" : "Right";
             html = "<tr>";
-            html += "<td>"+json.member_uid+"</td>";
-            html += "<td>0</td>";
+            html += "<td style='padding: 7px; font-weight: 600; font-size: 1.2em;'>"+json.member_uid+"</td>";
+            html += "<td style='padding: 7px; font-weight: 600; font-size: 1.2em;'>0</td>";
+            html += "<td style='padding: 7px;'><button class='btn dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><i class='fa fa-bars' aria-hidden='true'></i></button>";
+            html += "<ul class='dropdown-menu pull-right' role='menu'>";
+            html += "<li><a href='javascript:void(0)' onClick='alertShow()'><i class='fa fa-tasks' aria-hidden='true'></i> Buy Code</a></li>";
+            html += "<li><a href='javascript:void(0)' onClick='alertShow()'><i class='fa fa-tasks' aria-hidden='true'></i> Buy Load</a></li>";
+            html += "<li><a href='javascript:void(0)' onClick='alertShow()'><i class='fa fa-tasks' aria-hidden='true'></i> Convert</a></li>";
+            html += "<li><a href='javascript:void(0)' onClick='alertShow()'><i class='fa fa-tasks' aria-hidden='true'></i> Withdraw</a></li>";
+            html += "</ul></td>";
             html += "</tr>";
 
             html2 = "<tr>";

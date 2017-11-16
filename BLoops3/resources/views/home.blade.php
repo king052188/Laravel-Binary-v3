@@ -18,10 +18,12 @@
                         <tr>
                           <th>Account#</th>
                           <th style="width: 280px;">Available Amount</th>
+                          <th style="width: 50px;">Action</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
+                          <td>***</td>
                           <td>***</td>
                           <td>***</td>
                         </tr>
@@ -94,7 +96,7 @@
 var IsRefresh = false;
 populate_genealogy_history(IsRefresh);
 
-setInterval(genealogy_history, 3000);
+// setInterval(genealogy_history, 3000);
 function genealogy_history() {
   if(!IsRefresh) {
     IsRefresh = true;
