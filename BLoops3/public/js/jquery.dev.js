@@ -341,7 +341,7 @@ function populate_genealogy_history(IsRefresh) {
             }
         }).done(function(json){
             var html = "", html2 = "";
-            var total_points = 0;
+            var total_points = 0, total_referral = 0;
             var pos = json.position == 21 ? "Left" : "Right";
             html = "<tr>";
             html += "<td>"+json.member_uid+"</td>";
@@ -385,6 +385,7 @@ function populate_genealogy_history(IsRefresh) {
             html2 += "</tr>";
 
             $(json.levelings).each(function(key, l) {
+              // total_referral = l.total_profit;
               html2 += "<tr>";
               html2 += "<td style='text-align: left; padding: 5px;'>Leveling</td>";
               html2 += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>Level "+l.level+"</td>";

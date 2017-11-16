@@ -231,7 +231,7 @@ class BLHelper
         if($get_level9 != null) {
             for($i = 0; $i < count($get_level9); $i++) {
                 for($x = 0; $x < count($get_level9[$i]); $x++) {
-                    $get_level10[] = $this->get_count_pairing_per_level($get_level9[$i][$x]['member_uid'], 0, 1);
+                    $get_level10[] = $this->get_count_pairing_per_level($get_level9[$i][$x]['member_uid'], 0, 10);
                 }
             }
         }
@@ -464,6 +464,11 @@ class BLHelper
         {
             $t_remaining = $l - $r;
             $t_paired = $l - $t_remaining;
+
+            $total_ = $t_paired * 100;
+            $total_ = $total_ + $referrals["total_referral_amount"];
+            $total_ = $total_ + $leveling["total_profit"];
+
             $status = array(
                 "username" => $counts[0]->username,
                 "member_uid" => $member_uid,
@@ -473,7 +478,7 @@ class BLHelper
                 "position" => 21,
                 "pairing" => $t_paired,
                 "total_pairing_amount" => ($t_paired * 100),
-                "total_amount" => ($t_paired * 100) + $referrals["total_referral_amount"] + $leveling["total_profit"],
+                "total_amount" => $total_,
                 "total_left" => $l,
                 "total_right" => $r
             );
@@ -482,6 +487,11 @@ class BLHelper
         {
             $t_remaining = $r - $l;
             $t_paired = $r - $t_remaining;
+
+            $total_ = $t_paired * 100;
+            $total_ = $total_ + $referrals["total_referral_amount"];
+            $total_ = $total_ + $leveling["total_profit"];
+
             $status = array(
                 "username" => $counts[0]->username,
                 "member_uid" => $member_uid,
@@ -491,7 +501,7 @@ class BLHelper
                 "position" => 22,
                 "pairing" => $t_paired,
                 "total_pairing_amount" => ($t_paired * 100),
-                "total_amount" => ($t_paired * 100) + $referrals["total_referral_amount"],
+                "total_amount" => $total_,
                 "total_left" => $l,
                 "total_right" => $r
             );
@@ -500,6 +510,11 @@ class BLHelper
         else if ($l == $r)
         {
             $t_paired = $l;
+
+            $total_ = $t_paired * 100;
+            $total_ = $total_ + $referrals["total_referral_amount"];
+            $total_ = $total_ + $leveling["total_profit"];
+
             $status = array(
                 "username" => $counts[0]->username,
                 "member_uid" => $member_uid,
@@ -509,7 +524,7 @@ class BLHelper
                 "position" => 0,
                 "pairing" => $t_paired,
                 "total_pairing_amount" => ($t_paired * 100),
-                "total_amount" => ($t_paired * 100) + $referrals["total_referral_amount"],
+                "total_amount" => $total_,
                 "total_left" => $l,
                 "total_right" => $r
             );
