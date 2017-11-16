@@ -88,28 +88,39 @@ class BLHelper
         );
     }
 
-    public function get_leveling_summary($username) {
+    public function get_leveling_summary($username, $dashboard = false) {
 
       $data_left = $this->get_leveling_structure($username, 21);
       $data_right = $this->get_leveling_structure($username, 22);
 
       $data = [];
+      $levet_ctr = 0;
       $total_profit = 0;
       for($i = 0; $i < COUNT($data_left["Data"]); $i++) {
-
         $l = $data_left["Data"]["Level_". ($i + 1)];
         $r = $data_right["Data"]["Level_". ($i + 1)];
-
         $total = $this->check_left_right_per_level($l, $r, 400);
         $total_profit += $total;
-        $data[] = array(
-          'Level' => ($i + 1),
-          'Left' => $l,
-          'Right' => $r,
-          'Total' => $total
+        if($dashboard) {
+          if($total > 0) {
+            $levet_ctr++;
+          }
+        }
+        else {
+          $data[] = array(
+            'Level' => ($i + 1),
+            'Left' => $l,
+            'Right' => $r,
+            'Total' => $total
+          );
+        }
+      }
+      if($dashboard) {
+        return array(
+          'level' => $levet_ctr,
+          'total_profit' => $total_profit
         );
       }
-
       return array(
         'Code' => 200,
         'Message' => 'Success.',
@@ -439,10 +450,12 @@ class BLHelper
     {
         $counts = DB::select("
         SELECT
+        (SELECT username FROM users WHERE member_uid = '{$member_uid}') AS username,
         (SELECT COUNT(*) FROM user_genealogy_summary WHERE member_uid = '{$member_uid}' AND position_id = 21) AS p_left,
         (SELECT COUNT(*) FROM user_genealogy_summary WHERE member_uid = '{$member_uid}' AND position_id = 22) AS p_right
         ");
-        $referrals = $this->get_member_referral($member_uid, 100);
+        $referrals = $this->get_member_referral($member_uid, 100, 20);
+        $leveling = $this->get_leveling_summary($counts[0]->username, true);
 
         $l = $counts[0]->p_left;
         $r = $counts[0]->p_right;
@@ -452,14 +465,15 @@ class BLHelper
             $t_remaining = $l - $r;
             $t_paired = $l - $t_remaining;
             $status = array(
+                "username" => $counts[0]->username,
                 "member_uid" => $member_uid,
-                "referral" => $referrals["referral"],
-                "total_referral_amount" => $referrals["total_referral_amount"],
+                "referrals" => $referrals,
+                "levelings" => $leveling,
                 "remaining" => $t_remaining,
                 "position" => 21,
                 "pairing" => $t_paired,
                 "total_pairing_amount" => ($t_paired * 100),
-                "total_amount" => ($t_paired * 100) + $referrals["total_referral_amount"],
+                "total_amount" => ($t_paired * 100) + $referrals["total_referral_amount"] + $leveling["total_profit"],
                 "total_left" => $l,
                 "total_right" => $r
             );
@@ -469,9 +483,10 @@ class BLHelper
             $t_remaining = $r - $l;
             $t_paired = $r - $t_remaining;
             $status = array(
+                "username" => $counts[0]->username,
                 "member_uid" => $member_uid,
-                "referral" => $referrals["referral"],
-                "total_referral_amount" => $referrals["total_referral_amount"],
+                "referrals" => $referrals,
+                "levelings" => $leveling,
                 "remaining" => $t_remaining,
                 "position" => 22,
                 "pairing" => $t_paired,
@@ -486,9 +501,10 @@ class BLHelper
         {
             $t_paired = $l;
             $status = array(
+                "username" => $counts[0]->username,
                 "member_uid" => $member_uid,
-                "referral" => $referrals["referral"],
-                "total_referral_amount" => $referrals["total_referral_amount"],
+                "referrals" => $referrals,
+                "levelings" => $leveling,
                 "remaining" => 0,
                 "position" => 0,
                 "pairing" => $t_paired,
@@ -500,9 +516,10 @@ class BLHelper
         }
         else {
             $status = array(
+                "username" => $counts[0]->username,
                 "member_uid" => $member_uid,
-                "referral" => $referrals["referral"],
-                "total_referral_amount" => $referrals["total_referral_amount"],
+                "referrals" => $referrals,
+                "levelings" => $leveling,
                 "remaining" => 0,
                 "position" => 0,
                 "pairing" => 0,
@@ -515,13 +532,15 @@ class BLHelper
         return $status;
     }
 
-    public function get_member_referral($member_uid, $amount)
+    public function get_member_referral($member_uid, $amt_referral, $amt_affliate)
     {
         $referral = $this->get_referral($member_uid);
 
         $referral_count = array(
-            "referral" => $referral,
-            "total_referral_amount" => ($referral * $amount)
+            "referral" => $referral[0]->total_referral,
+            "affliate" => $referral[0]->total_affliate,
+            "total_referral_amount" => ($referral[0]->total_referral * $amt_referral),
+            "total_affliate_amount" => ($referral[0]->total_affliate * $amt_affliate)
         );
 
         return $referral_count;
@@ -532,10 +551,12 @@ class BLHelper
         $users = $this->get_member_info($member_uid);
 
         $referral = DB::select("
-        SELECT COUNT(*) AS total_ref FROM users WHERE connected_to = '{$users->id}';;
+        SELECT
+        (SELECT COUNT(*) FROM users WHERE connected_to = '{$users->id}' AND type = 2) AS total_referral,
+        (SELECT COUNT(*) FROM users WHERE connected_to = '{$users->id}' AND type = 1) AS total_affliate;
         ");
 
-        return $referral[0]->total_ref;
+        return $referral;
     }
 
     private function set_placement_null()

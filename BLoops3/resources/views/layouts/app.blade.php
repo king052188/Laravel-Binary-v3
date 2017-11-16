@@ -139,5 +139,6 @@
     <script src="{{ app()->getUrl(true, 'js/app.js') }}"></script>
     <script src="{{ app()->getUrl(true, 'js/jquery.bootcomplete.js') }}"></script>
     <script src="{{ app()->getUrl(true, 'js/jquery.dev.js') }}"></script>
+    @yield('script')
 </body>
 </html>

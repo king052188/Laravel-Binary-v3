@@ -42,3 +42,9 @@
     </div>
 </div>
 @endsection
+
+@section('script')
+<script>
+populate_leveling_history();
+</script>
+@endsection

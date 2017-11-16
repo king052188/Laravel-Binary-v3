@@ -29,14 +29,14 @@
                     <table class="tbl_history" id="tbl_gHistoryDetails" border="0" cellSpacing="0" cellPadding="0">
                       <thead>
                         <tr>
-                          <th colspan="3">Account Details</th>
+                          <th colspan="3">Summary Details</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
                           <td style="text-align: left; padding: 5px;">Structure	</td>
-                          <td style="text-align: right; width: 130px; padding: 5px; font-weight: 600;">Left = ***</td>
-                          <td style="text-align: right; width: 150px; padding: 5px; font-weight: 600;">Right = ***</td>
+                          <td style="text-align: right; width: 130px; padding: 5px; font-weight: 600;">***</td>
+                          <td style="text-align: right; width: 150px; padding: 5px; font-weight: 600;">***</td>
                         </tr>
                         <tr>
                           <td style="text-align: left; padding: 5px;">Remaining</td>
@@ -45,7 +45,12 @@
                         </tr>
                         <tr>
                           <td style="text-align: left; padding: 5px;">-</td>
-                          <td colspan="2" style="text-align: center; width: 130px; padding: 5px; font-weight: 600;">Amount</td>
+                          <td colspan="2" style="text-align: center; width: 130px; padding: 5px; font-weight: 600; background-color: #eaedf1;">Summary</td>
+                        </tr>
+                        <tr>
+                          <td style="text-align: left; padding: 5px;">Affliate</td>
+                          <td style="text-align: right; width: 130px; padding: 5px; font-weight: 600;">***</td>
+                          <td style="text-align: right; width: 150px; padding: 5px; font-weight: 600;">***</td>
                         </tr>
                         <tr>
                           <td style="text-align: left; padding: 5px;">Referral</td>
@@ -58,8 +63,19 @@
                           <td style="text-align: right; width: 150px; padding: 5px; font-weight: 600;">***</td>
                         </tr>
                         <tr>
-                          <td style="text-align: left; padding: 5px;">Wallet</td>
-                          <td colspan="2" style="text-align: right; width: 130px; padding: 5px; font-weight: 600;">***</td>
+                          <td style="text-align: left; padding: 5px;">Leveling</td>
+                          <td style="text-align: right; width: 130px; padding: 5px; font-weight: 600;">***</td>
+                          <td style="text-align: right; width: 150px; padding: 5px; font-weight: 600;">***</td>
+                        </tr>
+                        <tr>
+                          <td style="text-align: left; padding: 5px;">-</td>
+                          <td style="text-align: center; width: 130px; padding: 5px; font-weight: 600; background-color: #eaedf1;">Points</td>
+                          <td style="text-align: center; width: 130px; padding: 5px; font-weight: 600; background-color: #eaedf1;">Wallet</td>
+                        </tr>
+                        <tr>
+                          <td style="text-align: left; padding: 5px;">Total</td>
+                          <td style="text-align: right; width: 130px; padding: 5px; font-weight: 600;">***</td>
+                          <td style="text-align: right; width: 130px; padding: 5px; font-weight: 600;">***</td>
                         </tr>
                       </tbody>
                     </table>
@@ -483,4 +499,10 @@
   </div>
 </div>
 
+@endsection
+
+@section('script')
+<script>
+// populate_genealogy_history();
+</script>
 @endsection

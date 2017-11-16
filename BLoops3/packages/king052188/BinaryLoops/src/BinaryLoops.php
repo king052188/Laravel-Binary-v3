@@ -80,8 +80,8 @@ class BinaryLoops
       "last_name" => $request["last_name"] != "" ? $request["last_name"] : null,
       "email" => $request["email"] != "" ? $request["email"] : null,
       "mobile" => $request["mobile"] != "" ? $request["mobile"] : null,
-      "type" => 2,
-      "status" => 1,
+      "type" => 2, //1 Affliate  by Sponsor, 2 Encoded by Sponsor, 3 Commission Deduction Account, 4 Free Slot
+      "status" => 2, //0 Deactivated Account, 1 Pending Account, 2 Activated Account
       "connected_to" => $users["id"],
       "activation_id" => 0,
       'updated_at' => $dt,
@@ -133,8 +133,8 @@ class BinaryLoops
       "last_name" => $request["last_name"] != "" ? $request["last_name"] : null,
       "email" => $request["email"] != "" ? $request["email"] : null,
       "mobile" => $request["mobile"] != "" ? $request["mobile"] : null,
-      "type" => 2,
-      "status" => 0,
+      "type" => 1, //1 Affliate  by Sponsor, 2 Encoded by Sponsor, 3 Commission Deduction Account, 4 Free Slot
+      "status" => 1, //0 Deactivated Account, 1 Pending Account, 2 Activated Account
       "connected_to" => (int)$sponsor_uid,
       "activation_id" => 0,
       'updated_at' => $dt,
@@ -178,7 +178,7 @@ class BinaryLoops
 
   public function Member_Pairing($member_uid) {
     $result = BLHelper::get_member_pairing($member_uid);
-    return ["Data" => $result];
+    return $result;
   }
 
   public function Populate_Genealogy($username) {
@@ -187,7 +187,7 @@ class BinaryLoops
   }
 
   public function Populate_Leveling($username) {
-    $result = BLHelper::get_leveling_summary($username);
+    $result = BLHelper::get_leveling_summary($username, false);
     return $result;
   }
 
