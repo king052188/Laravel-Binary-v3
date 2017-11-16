@@ -387,7 +387,7 @@ function populate_genealogy_history(IsRefresh) {
             $(json.levelings).each(function(key, l) {
               html2 += "<tr>";
               html2 += "<td style='text-align: left; padding: 5px;'>Leveling</td>";
-              html2 += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>"+l.level+"</td>";
+              html2 += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>Level "+l.level+"</td>";
               html2 += "<td style='text-align: right; width: 150px; padding: 5px; font-weight: 600;'>+ "+numeral(l.total_profit).format('0,0.00')+"</td>";
               html2 += "</tr>";
             })
