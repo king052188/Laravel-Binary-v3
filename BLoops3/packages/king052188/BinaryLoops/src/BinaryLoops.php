@@ -191,6 +191,25 @@ class BinaryLoops
     return $result;
   }
 
+  public function Populate_Indirect($member_uid) {
+    $uuid = $member_uid;
+    $json = array('Code' => 200);
+    $counter = 1;
+    do {
+      $data = BLHelper::get_member_indirect($uuid);
+      if( COUNT($data) > 0 ) {
+        $uuid = $data[0]->sponsor_id;
+        $json[] = $data;
+        $counter++;
+      }
+      else {
+        $uuid = null;
+      }
+    }while($uuid != null || $counter == 10);
+
+    return $json;
+  }
+
   // public function Populate_Leveling($username, $position) {
   //   $result = BLHelper::get_leveling_structure($username, (int)$position);
   //   return $result;

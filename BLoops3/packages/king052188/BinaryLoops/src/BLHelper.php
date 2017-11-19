@@ -88,7 +88,8 @@ class BLHelper
         );
     }
 
-    public function get_leveling_summary($username, $dashboard = false) {
+    public function get_leveling_summary($username, $dashboard = false)
+    {
 
       $data_left = $this->get_leveling_structure($username, 21);
       $data_right = $this->get_leveling_structure($username, 22);
@@ -433,7 +434,8 @@ class BLHelper
        return $list;
     }
 
-    public function get_count_pairing_per_level_validation($array) {
+    public function get_count_pairing_per_level_validation($array)
+    {
       if($array == null) {
         return 0;
       }
@@ -545,6 +547,17 @@ class BLHelper
             );
         }
         return $status;
+    }
+
+    public function get_member_indirect($member_uid) {
+      $select = DB::select("
+        SELECT t.Id, u.username, t.sponsor_id, t.placement_id, t.member_uid, t.position_, u.type
+        FROM user_genealogy_transaction AS t
+        INNER JOIN users AS u
+        ON t.member_uid = u.member_uid
+        WHERE t.member_uid = '{$member_uid}' AND t.status_ != -99;
+      ");
+      return $select;
     }
 
     public function get_member_referral($member_uid, $amt_referral, $amt_affliate)
@@ -748,7 +761,8 @@ class BLHelper
         }
     }
 
-    public function check_left_right_per_level($left, $right, $budget) {
+    public function check_left_right_per_level($left, $right, $budget)
+    {
       $i = 0;
       if($left > 0) {
         $i++;

@@ -47,6 +47,10 @@ Route::any('/bloops/v1/populate-leveling/{username}', function($username) {
   return BinaryLoops::Populate_Leveling($username);
 });
 
+Route::any('/bloops/v1/populate-indirect/{member_uid}', function($member_uid) {
+  return BinaryLoops::Populate_Indirect($member_uid);
+});
+
 // Route::any('/bloops/v1/populate-leveling/{username}/{position}', function($username, $position) {
 //   return BinaryLoops::Populate_Leveling($username, $position);
 // });
