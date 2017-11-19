@@ -638,14 +638,12 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-
     $("#btnJoin").click(function() {
       $("#sign-up-form").show();
       $('html,body').animate({
         scrollTop: $("#sign-up-form").offset().top},
         'slow');
     });
-
     $("#btnSignUp").click(function() {
       var suid = "{{ $users->id }}";
       var first_name = $("#_first_name").val();
@@ -668,10 +666,10 @@
         )
         return false;
       }
-      if(email=="") {
+      if(!isValidEmailAddress(email)) {
         swal(
           'Oops...',
-          'Please check the Email Address.',
+          'Please use a valid email address.',
           'warning'
         )
         return false;
@@ -694,8 +692,11 @@
       var url = "/referral/sign-up/"+suid;
       ajax_exec(url, data, this);
     });
+    function isValidEmailAddress(emailAddress) {
+        var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
+        return pattern.test(emailAddress);
+    };
   })
-
   function ajax_exec(url, data, control) {
       $(document).ready(function() {
           $.ajax({

@@ -114,32 +114,32 @@ $("#btnEncode").click(function() {
   var mobile = $("#_mobile").val();
   var activation_code = $("#_activation_code").val();
   if(username=="") {
-    $("#_span_error_msg").text("Opps, Please check the Username.");
+    $("#_span_error_msg").text("Oops, Please check the Username.");
     $("#_span_error_msg").show();
     return false;
   }
   if(first_name=="") {
-    $("#_span_error_msg").text("Opps, Please check the First name.");
+    $("#_span_error_msg").text("Oops, Please check the First name.");
     $("#_span_error_msg").show();
     return false;
   }
   if(last_name=="") {
-    $("#_span_error_msg").text("Opps, Please check the Last name.");
+    $("#_span_error_msg").text("Oops, Please check the Last name.");
     $("#_span_error_msg").show();
     return false;
   }
   if(email=="") {
-    $("#_span_error_msg").text("Opps, Please check the Email Address.");
+    $("#_span_error_msg").text("Oops, Please check the Email Address.");
     $("#_span_error_msg").show();
     return false;
   }
   if(mobile=="") {
-    $("#_span_error_msg").text("Opps, Please check the Phone#.");
+    $("#_span_error_msg").text("Oops, Please check the Phone#.");
     $("#_span_error_msg").show();
     return false;
   }
   if(activation_code=="") {
-    $("#_span_error_msg").text("Opps, Please check the Activation code.");
+    $("#_span_error_msg").text("Oops, Please check the Activation code.");
     $("#_span_error_msg").show();
     return false;
   }
@@ -240,20 +240,17 @@ function check_username_ajax(username) {
           username_img_status("#_username_img_loader", true);
         },
         success:function(data){
-          console.log(data);
+          $("#_span_error_msg").text("");
+          $("#_span_error_msg").hide();
           $("#_username_img_loader").hide();
           if(data.Status==200) {
             IsNotAllowed = false;
-
           }
           else {
             IsNotAllowed = true;
             username_img_status("#_username_img_loader", false);
-            swal(
-              'Oops...',
-              'Username already exists.',
-              'warning'
-            )
+            $("#_span_error_msg").text("Oops, Username already been used.");
+            $("#_span_error_msg").show();
           }
         }
      });
@@ -351,7 +348,7 @@ function populate_genealogy_history(IsRefresh) {
             html += "<td style='padding: 7px; font-weight: 600; font-size: 1.2em;'>"+json.member_uid+"</td>";
             html += "<td style='padding: 7px; font-weight: 600; font-size: 1.2em;'>0</td>";
             html += "<td style='padding: 7px;'><button class='btn dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><i class='fa fa-bars' aria-hidden='true'></i></button>";
-            html += "<ul class='dropdown-menu pull-right' role='menu'>";
+            html += "<ul class='ddlBtnMenu dropdown-menu pull-right' role='menu'>";
             html += "<li><a href='javascript:void(0)' onClick='alertShow()'><i class='fa fa-tasks' aria-hidden='true'></i> Buy Code</a></li>";
             html += "<li><a href='javascript:void(0)' onClick='alertShow()'><i class='fa fa-tasks' aria-hidden='true'></i> Buy Load</a></li>";
             html += "<li><a href='javascript:void(0)' onClick='alertShow()'><i class='fa fa-tasks' aria-hidden='true'></i> Convert</a></li>";

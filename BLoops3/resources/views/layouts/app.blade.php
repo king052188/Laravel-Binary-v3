@@ -35,7 +35,7 @@
       table.tbl_history thead tr th, tbody tr td { text-align: center; font-size: 1em; }
       table.tbl_history thead tr th { background-color: #eaedf1; color: #3E3E3E; border: 1px solid #E1E1E1; }
       table.tbl_history tbody tr td { border: 1px solid #E1E1E1; }
-      .dropdown-menu { top: 194px; margin-right: 32px; }
+      .ddlBtnMenu { top: 194px; margin-right: 32px; }
 
       a.title_link { color: #3097D1; text-decoration: none; font-size: .99em; }
       a.title_link:hover { color: #6d8a0a; text-decoration: none; border-bottom: 1px solid; padding-bottom: -2px; }
