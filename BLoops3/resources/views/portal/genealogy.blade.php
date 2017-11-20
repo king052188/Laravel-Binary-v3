@@ -16,7 +16,7 @@
                       <thead>
                         <tr>
                           <th>Account#</th>
-                          <th style="width: 280px;">Available Amount</th>
+                          <th style="width: 227px;">Available Amount</th>
                           <th style="width: 50px;">Action</th>
                         </tr>
                       </thead>
@@ -512,6 +512,18 @@
 
 @section('script')
 <script>
-// populate_genealogy_history();
+$("#btnShowDetails").click(function() {
+    if(IsShow) {
+      IsShow = false;
+      $("#div_gHistoryDetails").hide();
+      $(this).empty().prepend('<i class="fa fa-bar-chart" aria-hidden="true"></i> Show Summary Details');
+    }
+    else {
+      IsShow = true;
+      $("#div_gHistoryDetails").show();
+      $(this).empty().prepend('<i class="fa fa-bar-chart" aria-hidden="true"></i> Hide Summary Details');
+      populate_genealogy_history(false);
+    }
+})
 </script>
 @endsection

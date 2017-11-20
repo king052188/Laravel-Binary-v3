@@ -53,19 +53,6 @@ $(document).ready(function() {
       $("#_email_img_loader").hide();
     }
   });
-  $("#btnShowDetails").click(function() {
-      if(IsShow) {
-        IsShow = false;
-        $("#div_gHistoryDetails").hide();
-        $(this).empty().prepend('<i class="fa fa-bar-chart" aria-hidden="true"></i> Show Summary Details');
-      }
-      else {
-        IsShow = true;
-        $("#div_gHistoryDetails").show();
-        $(this).empty().prepend('<i class="fa fa-bar-chart" aria-hidden="true"></i> Hide Summary Details');
-        populate_genealogy_history(false);
-      }
-  })
 })
 var _a, _b;
 function _event(x) {
@@ -277,7 +264,7 @@ function populate_genealogy_history(IsRefresh) {
     $(document).ready(function() {
         $.ajax({
             dataType: 'json',
-            type:'GET',
+            type:'POST',
             url: '/genealogy/pairing-referral-summary',
             beforeSend: function () {
               if(!IsRefresh) {
@@ -352,8 +339,8 @@ function populate_genealogy_history(IsRefresh) {
             var total_points = 0, total_referral = 0, total_indirect = 0;
             var pos = json.position == 21 ? "Left" : "Right";
             html = "<tr>";
-            html += "<td style='padding: 7px; font-weight: 600; font-size: 1.2em;'>"+json.member_uid+"</td>";
-            html += "<td style='padding: 7px; font-weight: 600; font-size: 1.2em;'>0</td>";
+            html += "<td style='padding: 7px; font-weight: 600; font-size: 1.1em;'>"+json.member_uid+"</td>";
+            html += "<td style='padding: 7px; font-weight: 600; font-size: 1.1em;'>0</td>";
             html += "<td style='padding: 7px;'><button class='btn dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><i class='fa fa-bars' aria-hidden='true'></i></button>";
             html += "<ul class='ddlBtnMenu dropdown-menu pull-right' role='menu'>";
             html += "<li><a href='javascript:void(0)' onClick='alertShow()'><i class='fa fa-tasks' aria-hidden='true'></i> Buy Code</a></li>";
@@ -436,7 +423,7 @@ function populate_leveling_history() {
     $(document).ready(function() {
         $.ajax({
             dataType: 'json',
-            type:'GET',
+            type:'POST',
             url: '/leveling/pairing-per-level-summary'
         }).done(function(json){
             var html = "";
@@ -455,6 +442,31 @@ function populate_leveling_history() {
             html += "<td style='text-align: right; width: 200px; padding: 5px; font-weight: 600;'>"+numeral(profit).format('0,0.00')+"</td>";
             html += "</tr>";
             $("#tbl_lHistoryDetails > tbody").empty().prepend(html);
+        });
+    })
+}
+function populate_affliate_lists() {
+    $(document).ready(function() {
+        $.ajax({
+            dataType: 'json',
+            type:'POST',
+            url: '/affliate/member-lists'
+        }).done(function(json){
+            var html = "";
+            var top = 710;
+            $(json.Data).each(function(a, b) {
+              html += "<tr>";
+              html += "<td style='text-align: center; padding: 5px; font-weight: 600;'>"+b.member_uid+"</td>";
+              html += "<td style='text-align: center; padding: 5px;'>"+b.first_name +" "+ b.last_name+"</td>";
+              html += "<td style='text-align: center; padding: 5px;'><button class='btn dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><i class='fa fa-bars' aria-hidden='true'></i></button>";
+              html += "<ul class='ddlBtnMenuAffliate dropdown-menu pull-right' role='menu' style='top: "+top+"px;'>";
+              html += "<li><a href='javascript:void(0)' onClick='alertShow()'><i class='fa fa-tasks' aria-hidden='true'></i> Activate</a></li>";
+              html += "<li><a href='javascript:void(0)' onClick='alertShow()'><i class='fa fa-tasks' aria-hidden='true'></i> Deactivate</a></li>";
+              html += "</ul></td>";
+              html += "</tr>";
+              top = top+47;
+            });
+            $("#tbl_gAffliate > tbody").empty().prepend(html);
         });
     })
 }

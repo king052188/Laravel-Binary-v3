@@ -4,7 +4,10 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+                <div class="panel-heading">
+                  Dashboard
+                  <a href="#" id="btnShowCorpoAccount" class="pull-right btn_link" style="margin: 0 0 0 0;"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Show Corpo Account</a>
+                </div>
                 <div class="panel-body" >
                     @if (session('status'))
                         <div class="alert alert-success">
@@ -17,7 +20,7 @@
                       <thead>
                         <tr>
                           <th>Account#</th>
-                          <th style="width: 280px;">Available Amount</th>
+                          <th style="width: 227px;">Available Amount</th>
                           <th style="width: 50px;">Action</th>
                         </tr>
                       </thead>
@@ -89,6 +92,24 @@
                         </tr>
                       </tbody>
                     </table>
+
+                    <h3>Affliate Queueing</h3>
+                    <table class="tbl_history" id="tbl_gAffliate" border="0" cellSpacing="0" cellPadding="5">
+                      <thead>
+                        <tr>
+                          <th style="width: 180px;">Account#</th>
+                          <th>Name</th>
+                          <th style="width: 50px;">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>***</td>
+                          <td>***</td>
+                          <td>***</td>
+                        </tr>
+                      </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -98,8 +119,21 @@
 
 @section('script')
 <script>
+$("#btnShowCorpoAccount").click(function() {
+    if(IsShow) {
+      IsShow = false;
+      $("#div_gHistoryDetails").hide();
+      $(this).empty().prepend('<i class="fa fa-bar-chart" aria-hidden="true"></i> Show Corpo Account');
+    }
+    else {
+      IsShow = true;
+      $("#div_gHistoryDetails").show();
+      $(this).empty().prepend('<i class="fa fa-bar-chart" aria-hidden="true"></i> Hide Corpo Account');
+    }
+})
 var IsRefresh = false;
 populate_genealogy_history(IsRefresh);
+populate_affliate_lists();
 
 // setInterval(genealogy_history, 3000);
 function genealogy_history() {

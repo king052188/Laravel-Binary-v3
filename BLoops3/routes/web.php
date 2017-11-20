@@ -24,9 +24,11 @@ Route::get('/genealogy', 'HomeController@genealogy');
 
 Route::get('/genealogy/encoding/{placement}/{position}', 'HomeController@encoding');
 
-Route::get('/genealogy/pairing-referral-summary', 'HomeController@summary_pairing');
+Route::post('/genealogy/pairing-referral-summary', 'HomeController@summary_pairing');
 
 Route::post('/referral/sign-up/{sponsor_uid}', 'AccountController@register_via_user_url');
+
+Route::post('/affliate/member-lists', 'HomeController@affliate_queueing');
 
 Route::get('/account/verified/{email}', 'AccountController@account_verified');
 
@@ -38,7 +40,7 @@ Route::get('/account/wallet/{account}', 'WalletController@get_wallet');
 
 Route::get('/leveling', 'HomeController@leveling');
 
-Route::get('/leveling/pairing-per-level-summary', 'HomeController@leveling_populate');
+Route::post('/leveling/pairing-per-level-summary', 'HomeController@leveling_populate');
 
 Auth::routes();
 

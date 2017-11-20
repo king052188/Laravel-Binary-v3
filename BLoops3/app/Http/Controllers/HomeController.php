@@ -103,4 +103,15 @@ class HomeController extends Controller
       $structure = BinaryLoops::Populate_Leveling($username);
       return $structure;
     }
+
+    public function affliate_queueing() {
+      $this::$users = Auth::user();
+      $uuid = $this::$users->id;
+      $users = DB::select("SELECT * FROM users WHERE connected_to = {$uuid} AND type = 1 AND status = 1;");
+      return array(
+        "Status"=> 200,
+        "Message"=> "Success",
+        "Data" => $users
+      );
+    }
 }
