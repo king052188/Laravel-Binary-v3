@@ -457,6 +457,7 @@ class BLHelper
         (SELECT COUNT(*) FROM user_genealogy_summary WHERE member_uid = '{$member_uid}' AND position_id = 22) AS p_right
         ");
         $referrals = $this->get_member_referral($member_uid, 100, 20);
+        $indirects = $this->get_total_indirect($member_uid);
         $leveling = $this->get_leveling_summary($counts[0]->username, true);
 
         $l = $counts[0]->p_left;
@@ -469,12 +470,14 @@ class BLHelper
 
             $total_ = $t_paired * 100;
             $total_ = $total_ + $referrals["total_referral_amount"];
+            $total_ = $total_ + $indirects["total_indirect"];
             $total_ = $total_ + $leveling["total_profit"];
 
             $status = array(
                 "username" => $counts[0]->username,
                 "member_uid" => $member_uid,
                 "referrals" => $referrals,
+                "indirects" => $indirects,
                 "levelings" => $leveling,
                 "remaining" => $t_remaining,
                 "position" => 21,
@@ -498,6 +501,7 @@ class BLHelper
                 "username" => $counts[0]->username,
                 "member_uid" => $member_uid,
                 "referrals" => $referrals,
+                "indirects" => $indirects,
                 "levelings" => $leveling,
                 "remaining" => $t_remaining,
                 "position" => 22,
@@ -521,6 +525,7 @@ class BLHelper
                 "username" => $counts[0]->username,
                 "member_uid" => $member_uid,
                 "referrals" => $referrals,
+                "indirects" => $indirects,
                 "levelings" => $leveling,
                 "remaining" => 0,
                 "position" => 0,
@@ -536,6 +541,7 @@ class BLHelper
                 "username" => $counts[0]->username,
                 "member_uid" => $member_uid,
                 "referrals" => $referrals,
+                "indirects" => $indirects,
                 "levelings" => $leveling,
                 "remaining" => 0,
                 "position" => 0,
@@ -549,6 +555,25 @@ class BLHelper
         return $status;
     }
 
+    public function get_reverse_indirect($member_uid) {
+      $uuid = $member_uid;
+      $json = null;
+      $counter = 1;
+      do {
+        $data = BLHelper::get_member_indirect($uuid);
+        if( COUNT($data) > 0 ) {
+          $uuid = $data[0]->sponsor_id;
+          $json[] = $uuid;
+          $counter++;
+        }
+        else {
+          $uuid = null;
+        }
+      }while($uuid != null || $counter == 10);
+
+      return $json;
+    }
+
     public function get_member_indirect($member_uid) {
       $select = DB::select("
         SELECT t.Id, u.username, t.sponsor_id, t.placement_id, t.member_uid, t.position_, u.type
@@ -558,6 +583,24 @@ class BLHelper
         WHERE t.member_uid = '{$member_uid}' AND t.status_ != -99;
       ");
       return $select;
+    }
+
+    public function get_total_indirect($member_uid) {
+      $select = DB::select("
+        SELECT
+          CASE WHEN SUM(t_amount) > 0 THEN
+          SUM(t_amount) ELSE 0 END AS total_indirect,
+          COUNT(*) AS count_indirect
+        FROM user_wallet
+        WHERE member_uid = '{$member_uid}'
+        AND t_type = 21
+        AND t_role = 1
+        AND t_status = 2
+      ");
+      return array(
+        "total_indirect" => (float)$select[0]->total_indirect,
+        "count_indirect" => (int)$select[0]->count_indirect
+      );
     }
 
     public function get_member_referral($member_uid, $amt_referral, $amt_affliate)

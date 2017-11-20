@@ -309,8 +309,15 @@ function populate_genealogy_history(IsRefresh) {
                 html += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>***=</td>";
                 html += "<td style='text-align: right; width: 150px; padding: 5px; font-weight: 600;'>***</td>";
                 html += "</tr>";
+
                 html += "<tr>";
                 html += "<td style='text-align: left; padding: 5px;'>Referral</td>";
+                html += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>***</td>";
+                html += "<td style='text-align: right; width: 150px; padding: 5px; font-weight: 600;'>***</td>";
+                html += "</tr>";
+
+                html += "<tr>";
+                html += "<td style='text-align: left; padding: 5px;'>Indirect</td>";
                 html += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>***</td>";
                 html += "<td style='text-align: right; width: 150px; padding: 5px; font-weight: 600;'>***</td>";
                 html += "</tr>";
@@ -342,7 +349,7 @@ function populate_genealogy_history(IsRefresh) {
             }
         }).done(function(json){
             var html = "", html2 = "";
-            var total_points = 0, total_referral = 0;
+            var total_points = 0, total_referral = 0, total_indirect = 0;
             var pos = json.position == 21 ? "Left" : "Right";
             html = "<tr>";
             html += "<td style='padding: 7px; font-weight: 600; font-size: 1.2em;'>"+json.member_uid+"</td>";
@@ -385,6 +392,15 @@ function populate_genealogy_history(IsRefresh) {
               html2 += "<td style='text-align: right; width: 150px; padding: 5px; font-weight: 600;'>+ "+numeral(r.total_referral_amount).format('0,0.00')+"</td>";
               html2 += "</tr>";
             })
+
+            $(json.indirects).each(function(key, i) {
+              html2 += "<tr>";
+              html2 += "<td style='text-align: left; padding: 5px;'>Indirect</td>";
+              html2 += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>"+i.count_indirect+" x 10 =</td>";
+              html2 += "<td style='text-align: right; width: 150px; padding: 5px; font-weight: 600;'>+ "+numeral(i.total_indirect).format('0,0.00')+"</td>";
+              html2 += "</tr>";
+            })
+
 
             html2 += "<tr>";
             html2 += "<td style='text-align: left; padding: 5px;'>Pairing</td>";

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use DB;
 use App\Wallet;
+use BLHelper;
 
 class WalletController extends Controller
 {
@@ -25,6 +26,7 @@ class WalletController extends Controller
       ");
       return ["Data" => $wallet];
     }
+
     public function update_wallet($data) {
       // $data = array(
       //   'member_uid' => ,
@@ -36,10 +38,10 @@ class WalletController extends Controller
       // );
       $w = new Wallet();
       $w->member_uid = $data["member_uid"];
-      $w->t_number = $data["t_number"];
+      $w->t_number = BLHelper::generate_reference();
       $w->t_description = $data["t_description"];
-      $w->t_type = $data["t_type"]; // 20 - referral, 21 - pairing, 30 - Encashment
-      $w->t_type = $data["t_role"]; // 0 - debit, 1 - credit
+      $w->t_type = $data["t_type"]; // 20 - referral, 21 - indirect, 22 - pairing, 30 - Encashment
+      $w->t_role = $data["t_role"]; // 0 - debit, 1 - credit
       $w->t_amount = $data["t_amount"];
       $w->t_status = $data["t_status"];
       if($w->save()) {
