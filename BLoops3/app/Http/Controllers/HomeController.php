@@ -49,7 +49,6 @@ class HomeController extends Controller
       $this::$users = Auth::user();
       $result = BinaryLoops::Encode($this::$users, $request, $placement, $position);
       if($result["Status"] == 200) {
-
         $wallet = new WalletController();
 
         //pay referral bonus
@@ -68,16 +67,18 @@ class HomeController extends Controller
 
         if($result["Insert_Uid"] > 0) {
           $indirects = BLHelper::get_reverse_indirect($result["Member_Uid"]);
-          for($i = 1; $i <= COUNT($indirects); $i++) {
-            $data = array(
-              'member_uid' => $indirects[$i],
-              't_description' => "Indirect Bonus",
-              't_type' => 21,
-              't_role' => 1,
-              't_amount' => 10,
-              't_status' => 2,
-            );
-            $wallet->update_wallet($data);
+          for($i = 0; $i < COUNT($indirects); $i++) {
+            if($i > 0) {
+              $data = array(
+                'member_uid' => $indirects[$i],
+                't_description' => "Indirect Bonus",
+                't_type' => 21,
+                't_role' => 1,
+                't_amount' => 10,
+                't_status' => 2,
+              );
+              $wallet->update_wallet($data);  
+            }
           }
         }
 
