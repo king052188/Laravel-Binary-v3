@@ -1,0 +1,14 @@
+public function getUrl($is_url, $path)
+{
+    if($is_url) {
+        if($this['config']->get('app.ssl')) {
+            return secure_url($path);
+        }
+        return url($path);
+    }
+
+    if($this['config']->get('app.ssl')) {
+        return secure_asset($path);
+    }
+    return asset($path);
+}
