@@ -560,6 +560,9 @@ class BLHelper
       $json = null;
       $counter = 1;
       do {
+        if($counter > 10) {
+          break;
+        }
         $data = BLHelper::get_member_indirect($uuid);
         if( COUNT($data) > 0 ) {
           $uuid = $data[0]->sponsor_id;
@@ -569,7 +572,7 @@ class BLHelper
         else {
           $uuid = null;
         }
-      }while($uuid != null || $counter == 10);
+      }while($uuid != null);
 
       return $json;
     }
