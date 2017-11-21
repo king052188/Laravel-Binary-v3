@@ -68,7 +68,7 @@ class HomeController extends Controller
 
         if($result["Insert_Uid"] > 0) {
           $indirects = BLHelper::get_reverse_indirect($result["Member_Uid"]);
-          for($i = 0; $i < COUNT($indirects); $i++) {
+          for($i = 1; $i <= COUNT($indirects); $i++) {
             $data = array(
               'member_uid' => $indirects[$i],
               't_description' => "Indirect Bonus",
