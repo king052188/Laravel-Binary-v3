@@ -58,3 +58,7 @@ Route::any('/bloops/v1/populate-indirect/{member_uid}', function($member_uid) {
 Route::any('/bloops/v1/populate-corporate-account/{member_uid}/{mobile}/{limit?}', function($username, $mobile) {
   return BinaryLoops::Populate_Corporate_Account($username, $mobile);
 });
+
+Route::any('/bloops/v1/generate-activation-code', function(Request $request) {
+  return BinaryLoops::Generate_Activation_Code($request);
+});

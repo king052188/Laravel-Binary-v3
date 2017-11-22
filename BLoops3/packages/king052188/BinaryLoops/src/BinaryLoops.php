@@ -196,6 +196,11 @@ class BinaryLoops
     return $json;
   }
 
+  public function Generate_Activation_Code(Request $request) {
+    $json = BLHelper::get_activation_code($request->qty, $request->type);
+    return $json;
+  }
+
   // public function Populate_Leveling($username, $position) {
   //   $result = BLHelper::get_leveling_structure($username, (int)$position);
   //   return $result;

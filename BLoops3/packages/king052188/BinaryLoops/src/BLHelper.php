@@ -25,6 +25,60 @@ class BLHelper
        return $d;
     }
 
+    public function get_price_references($ref_code)
+    {
+        $d = DB::table('db_price_references')
+             ->where('ref_code', $ref_code)
+             ->first();
+       return $d;
+    }
+
+    public function get_activation_code($limit, $type)
+    {
+        $code_type = $this->get_price_references($type);
+        if($code_type == null) {
+          return array(
+            "Type_ID" => -0,
+            "Description" => null,
+            "Total_Codes" => 0,
+            "Codes" => null
+          );
+        }
+
+        $codes = [];
+        $limited = 0;
+        do{
+          $reference = $this->generate_reference();
+          $code = $this->generate_activation_code();
+          $d = DB::select("SELECT * FROM user_activation_code WHERE reference = '{$reference}' AND code = '{$code}';");
+          if( COUNT($d) == 0) {
+            $data =  array(
+              "reference" => $reference,
+              "code" => $code,
+              "amount" => $code_type->ref_amount,
+              "generated_by" => 0,
+              "type" => $code_type->Id,
+              "status" => 1
+            );
+            $codes[] = array(
+              "Reference" => $reference,
+              "Code" => $code
+            );
+            $r = $this->save_to_database($data, "user_activation_code");
+            $limited++;
+          }
+        }while($limited < $limit);
+
+       return array(
+         "Code_Type"=> $code_type->ref_name,
+         "Description" => $code_type->ref_descriptions,
+         "Amount" => $code_type->ref_amount,
+         "Total_Amount" => ((float)$code_type->ref_amount * $limit),
+         "Total_Codes" => COUNT($codes),
+         "Codes" => $codes
+       );
+    }
+
     public function get_genealogy_structure($username = null)
     {
         if($username == null) {
@@ -90,7 +144,6 @@ class BLHelper
 
     public function get_leveling_summary($username, $dashboard = false)
     {
-
       $data_left = $this->get_leveling_structure($username, 21);
       $data_right = $this->get_leveling_structure($username, 22);
 
@@ -555,7 +608,8 @@ class BLHelper
         return $status;
     }
 
-    public function get_reverse_indirect($member_uid) {
+    public function get_reverse_indirect($member_uid)
+    {
       $uuid = $member_uid;
       $json = null;
       $counter = 1;
@@ -577,7 +631,8 @@ class BLHelper
       return $json;
     }
 
-    public function get_member_indirect($member_uid) {
+    public function get_member_indirect($member_uid)
+    {
       $select = DB::select("
         SELECT t.Id, u.username, t.sponsor_id, t.placement_id, t.member_uid, t.position_, u.type
         FROM user_genealogy_transaction AS t
@@ -588,7 +643,8 @@ class BLHelper
       return $select;
     }
 
-    public function get_total_indirect($member_uid) {
+    public function get_total_indirect($member_uid)
+    {
       $select = DB::select("
         SELECT
           CASE WHEN SUM(t_amount) > 0 THEN
@@ -645,6 +701,17 @@ class BLHelper
            "type" => 0,
            "level" => 0
        );
+    }
+
+    public function generate_activation_code($length = 10)
+    {
+    	$characters = '23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPRSTUVWXYZ';
+    	$charactersLength = strlen($characters);
+    	$randomString = '';
+    	for ($i = 0; $i < $length; $i++) {
+    		$randomString .= $characters[rand(0, $charactersLength - 1)];
+    	}
+    	return $randomString;
     }
 
     public function generate_reference()
@@ -856,6 +923,12 @@ class BLHelper
       // );
 
       $id = DB::table('user_genealogy_transaction')->insertGetId($data);
+      return $id;
+    }
+
+    public function save_to_database($data, $table)
+    {
+      $id = DB::table($table)->insertGetId($data);
       return $id;
     }
 
