@@ -113,12 +113,12 @@
                           <div class="col-md-6" style="height: 85px;">
                               <div style="margin: 0 auto; width: 60px;">
                                 @if( $level_1[0]["username"] != null )
-                                  <a class="g_link" href="?p={{ $level_1[0]['username'] }}">
+                                  <a class="g_link" href="?p={{ $level_1[0]['username'] . $activate['affliliate'] }}">
                                     <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
                                     <p class="g_title"> {{ $level_1[0]["username"] }} </p>
                                   </a>
                                 @else
-                                  <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $Top_Leader->member_uid }}" data-b="21">
+                                  <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $Top_Leader->member_uid }}" data-b="21" {{ $activate['data_affliliate'] }}>
                                     <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
                                     <p class="g_title"> N/A </p>
                                   </a>
@@ -128,12 +128,12 @@
                           <div class="col-md-6" style="height: 85px;">
                               <div style="margin: 0 auto; width: 60px;">
                                 @if( $level_1[1]["username"] != null )
-                                  <a class="g_link" href="?p={{ $level_1[1]['username'] }}">
+                                  <a class="g_link" href="?p={{ $level_1[1]['username'] . $activate['affliliate'] }}">
                                     <img class="g_image" src="{{ app()->getUrl(false, 'images/right-img.png') }}" />
                                     <p class="g_title"> {{ $level_1[1]["username"] }} </p>
                                   </a>
                                 @else
-                                  <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $Top_Leader->member_uid }}" data-b="22">
+                                  <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $Top_Leader->member_uid }}" data-b="22" {{ $activate['data_affliliate'] }}>
                                     <img class="g_image" src="{{ app()->getUrl(false, 'images/na-right-img.png') }}" />
                                     <p class="g_title"> N/A </p>
                                   </a>
@@ -151,12 +151,12 @@
                           <div class="col-md-6" style="height: 85px;">
                               <div style="margin: 0 auto; width: 60px;">
                                 @if( $level_2[0][0]["username"] != null )
-                                  <a class="g_link" href="?p={{ $level_2[0][0]['username'] }}">
+                                  <a class="g_link" href="?p={{ $level_2[0][0]['username'] . $activate['affliliate'] }}">
                                     <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
                                     <p class="g_title"> {{ $level_2[0][0]["username"] }} </p>
                                   </a>
                                 @else
-                                  <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $level_1[0]['member_uid'] }}" data-b="21">
+                                  <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $level_1[0]['member_uid'] }}" data-b="21" {{ $activate['data_affliliate'] }}>
                                     <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
                                     <p class="g_title"> N/A </p>
                                   </a>
@@ -166,12 +166,12 @@
                           <div class="col-md-6" style="height: 85px;">
                               <div style="margin: 0 auto; width: 60px;">
                                 @if( $level_2[0][1]["username"] != null )
-                                  <a class="g_link" href="?p={{ $level_2[0][1]['username'] }}">
+                                  <a class="g_link" href="?p={{ $level_2[0][1]['username'] . $activate['affliliate'] }}">
                                     <img class="g_image" src="{{ app()->getUrl(false, 'images/right-img.png') }}" />
                                     <p class="g_title"> {{ $level_2[0][1]["username"] }} </p>
                                   </a>
                                 @else
-                                  <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $level_1[0]['member_uid'] }}" data-b="22">
+                                  <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $level_1[0]['member_uid'] }}" data-b="22" {{ $activate['data_affliliate'] }}>
                                     <img class="g_image" src="{{ app()->getUrl(false, 'images/na-right-img.png') }}" />
                                     <p class="g_title"> N/A </p>
                                   </a>
@@ -184,12 +184,12 @@
                           <div class="col-md-6" style="height: 85px;">
                               <div style="margin: 0 auto; width: 60px;">
                                 @if( $level_2[1][0]["username"] != null )
-                                  <a class="g_link" href="?p={{ $level_2[1][0]['username'] }}">
+                                  <a class="g_link" href="?p={{ $level_2[1][0]['username'] . $activate['affliliate'] }}">
                                     <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
                                     <p class="g_title"> {{ $level_2[1][0]["username"] }} </p>
                                   </a>
                                 @else
-                                  <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $level_1[1]['member_uid'] }}" data-b="21">
+                                  <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $level_1[1]['member_uid'] }}" data-b="21" {{ $activate['data_affliliate'] }}>
                                     <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
                                     <p class="g_title"> N/A </p>
                                   </a>
@@ -199,12 +199,12 @@
                           <div class="col-md-6" style="height: 85px;">
                               <div style="margin: 0 auto; width: 60px;">
                                 @if( $level_2[1][1]["username"] != null )
-                                  <a class="g_link" href="?p={{ $level_2[1][1]['username'] }}">
+                                  <a class="g_link" href="?p={{ $level_2[1][1]['username'] . $activate['affliliate'] }}">
                                     <img class="g_image" src="{{ app()->getUrl(false, 'images/right-img.png') }}" />
                                     <p class="g_title"> {{ $level_2[1][1]["username"] }} </p>
                                   </a>
                                 @else
-                                  <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $level_1[1]['member_uid'] }}" data-b="22">
+                                  <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $level_1[1]['member_uid'] }}" data-b="22" {{ $activate['data_affliliate'] }}>
                                     <img class="g_image" src="{{ app()->getUrl(false, 'images/na-right-img.png') }}" />
                                     <p class="g_title"> N/A </p>
                                   </a>
@@ -223,12 +223,12 @@
                             <div class="col-md-6" style="height: 85px;">
                                 <div style="margin: 0 auto; width: 60px;">
                                   @if( $level_3[0][0]["username"] != null )
-                                    <a class="g_link" href="?p={{ $level_3[0][0]['username'] }}">
+                                    <a class="g_link" href="?p={{ $level_3[0][0]['username'] . $activate['affliliate'] }}">
                                       <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
                                       <p class="g_title"> {{ $level_3[0][0]["username"] }} </p>
                                     </a>
                                   @else
-                                    <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $level_2[0][0]['member_uid'] }}" data-b="21">
+                                    <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $level_2[0][0]['member_uid'] }}" data-b="21" {{ $activate['data_affliliate'] }}>
                                       <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
                                       <p class="g_title"> N/A </p>
                                     </a>
@@ -238,12 +238,12 @@
                             <div class="col-md-6" style="height: 85px;">
                                 <div style="margin: 0 auto; width: 60px;">
                                   @if( $level_3[0][1]["username"] != null )
-                                    <a class="g_link" href="?p={{ $level_3[0][1]['username'] }}">
+                                    <a class="g_link" href="?p={{ $level_3[0][1]['username'] . $activate['affliliate'] }}">
                                       <img class="g_image" src="{{ app()->getUrl(false, 'images/right-img.png') }}" />
                                       <p class="g_title"> {{ $level_3[0][1]["username"] }} </p>
                                     </a>
                                   @else
-                                    <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $level_2[0][0]['member_uid'] }}" data-b="22">
+                                    <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $level_2[0][0]['member_uid'] }}" data-b="22" {{ $activate['data_affliliate'] }}>
                                       <img class="g_image" src="{{ app()->getUrl(false, 'images/na-right-img.png') }}" />
                                       <p class="g_title"> N/A </p>
                                     </a>
@@ -256,12 +256,12 @@
                             <div class="col-md-6" style="height: 85px;">
                                 <div style="margin: 0 auto; width: 60px;">
                                   @if( $level_3[1][0]["username"] != null )
-                                    <a class="g_link" href="?p={{ $level_3[1][0]['username'] }}">
+                                    <a class="g_link" href="?p={{ $level_3[1][0]['username'] . $activate['affliliate'] }}">
                                       <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
                                       <p class="g_title"> {{ $level_3[1][0]["username"] }} </p>
                                     </a>
                                   @else
-                                    <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $level_2[0][1]['member_uid'] }}" data-b="21">
+                                    <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $level_2[0][1]['member_uid'] }}" data-b="21" {{ $activate['data_affliliate'] }}>
                                       <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
                                       <p class="g_title"> N/A </p>
                                     </a>
@@ -271,12 +271,12 @@
                             <div class="col-md-6" style="height: 85px;">
                                 <div style="margin: 0 auto; width: 60px;">
                                   @if( $level_3[1][1]["username"] != null )
-                                    <a class="g_link" href="?p={{ $level_3[1][1]['username'] }}">
+                                    <a class="g_link" href="?p={{ $level_3[1][1]['username'] . $activate['affliliate'] }}">
                                       <img class="g_image" src="{{ app()->getUrl(false, 'images/right-img.png') }}" />
                                       <p class="g_title"> {{ $level_3[1][1]["username"] }} </p>
                                     </a>
                                   @else
-                                    <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $level_2[0][1]['member_uid'] }}" data-b="22">
+                                    <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $level_2[0][1]['member_uid'] }}" data-b="22" {{ $activate['data_affliliate'] }}>
                                       <img class="g_image" src="{{ app()->getUrl(false, 'images/na-right-img.png') }}" />
                                       <p class="g_title"> N/A </p>
                                     </a>
@@ -291,12 +291,12 @@
                             <div class="col-md-6" style="height: 85px;">
                                 <div style="margin: 0 auto; width: 60px;">
                                   @if( $level_3[2][0]["username"] != null )
-                                    <a class="g_link" href="?p={{ $level_3[2][0]['username'] }}">
+                                    <a class="g_link" href="?p={{ $level_3[2][0]['username'] . $activate['affliliate'] }}">
                                       <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
                                       <p class="g_title"> {{ $level_3[2][0]["username"] }} </p>
                                     </a>
                                   @else
-                                    <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $level_2[1][0]['member_uid'] }}" data-b="21">
+                                    <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $level_2[1][0]['member_uid'] }}" data-b="21" {{ $activate['data_affliliate'] }}>
                                       <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
                                       <p class="g_title"> N/A </p>
                                     </a>
@@ -306,12 +306,12 @@
                             <div class="col-md-6" style="height: 85px;">
                                 <div style="margin: 0 auto; width: 60px;">
                                   @if( $level_3[2][1]["username"] != null )
-                                    <a class="g_link" href="?p={{ $level_3[2][1]['username'] }}">
+                                    <a class="g_link" href="?p={{ $level_3[2][1]['username'] . $activate['affliliate'] }}">
                                       <img class="g_image" src="{{ app()->getUrl(false, 'images/right-img.png') }}" />
                                       <p class="g_title"> {{ $level_3[2][1]["username"] }} </p>
                                     </a>
                                   @else
-                                    <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $level_2[1][0]['member_uid'] }}" data-b="22">
+                                    <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $level_2[1][0]['member_uid'] }}" data-b="22" {{ $activate['data_affliliate'] }}>
                                       <img class="g_image" src="{{ app()->getUrl(false, 'images/na-right-img.png') }}" />
                                       <p class="g_title"> N/A </p>
                                     </a>
@@ -324,12 +324,12 @@
                             <div class="col-md-6" style="height: 85px;">
                                 <div style="margin: 0 auto; width: 60px;">
                                   @if( $level_3[3][0]["username"] != null )
-                                    <a class="g_link" href="?p={{ $level_3[3][1]['username'] }}">
+                                    <a class="g_link" href="?p={{ $level_3[3][1]['username'] . $activate['affliliate'] }}">
                                       <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
                                       <p class="g_title"> {{ $level_3[3][0]["username"] }} </p>
                                     </a>
                                   @else
-                                    <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $level_2[1][1]['member_uid'] }}" data-b="21">
+                                    <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $level_2[1][1]['member_uid'] }}" data-b="21" {{ $activate['data_affliliate'] }}>
                                       <img class="g_image" src="{{ app()->getUrl(false, 'images/na-left-img.png') }}" />
                                       <p class="g_title"> N/A </p>
                                     </a>
@@ -339,12 +339,12 @@
                             <div class="col-md-6" style="height: 85px;">
                                 <div style="margin: 0 auto; width: 60px;">
                                   @if( $level_3[3][1]["username"] != null )
-                                    <a class="g_link" href="?p={{ $level_3[3][1]['username'] }}">
+                                    <a class="g_link" href="?p={{ $level_3[3][1]['username'] . $activate['affliliate'] }}">
                                       <img class="g_image" src="{{ app()->getUrl(false, 'images/right-img.png') }}" />
                                       <p class="g_title"> {{ $level_3[3][1]["username"] }} </p>
                                     </a>
                                   @else
-                                    <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $level_2[1][1]['member_uid'] }}" data-b="22">
+                                    <a class="g_link" href="#" onclick="_event(this);" data-a="{{ $level_2[1][1]['member_uid'] }}" data-b="22" {{ $activate['data_affliliate'] }}>
                                       <img class="g_image" src="{{ app()->getUrl(false, 'images/na-right-img.png') }}" />
                                       <p class="g_title"> N/A </p>
                                     </a>

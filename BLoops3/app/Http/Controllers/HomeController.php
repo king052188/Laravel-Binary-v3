@@ -40,11 +40,23 @@ class HomeController extends Controller
       if(IsSet($request["p"])) {
         $username = $request["p"];
       }
+
+      $activate = array(
+        "affliliate" => "",
+        "data_affliliate" => "data-c=0",
+      );
+      if(IsSet($request["activate"])) {
+        $activate = array(
+          "affliliate" => "&activate=" . $request["activate"],
+          "data_affliliate" => "data-c={$request["activate"]}",
+        );
+      }
+
       $structure = BinaryLoops::Populate_Genealogy($username);
-      return view('portal.genealogy', compact('structure'));
+      return view('portal.genealogy', compact('structure', 'activate'));
     }
 
-    public function encoding($placement, $position, Request $request)
+    public function encoding($placement, $position, $affliliate = null, Request $request)
     {
       $this::$users = Auth::user();
       $result = BinaryLoops::Encode($this::$users, $request, $placement, $position);
@@ -65,7 +77,7 @@ class HomeController extends Controller
 
         //get and pay indirect bonus
 
-        if($result["Insert_Uid"] > 0) {
+        if($result["Member_Uid"] != null) {
           $indirects = BLHelper::get_reverse_indirect($result["Member_Uid"]);
           for($i = 0; $i < COUNT($indirects); $i++) {
             if($i > 0) {
@@ -77,13 +89,17 @@ class HomeController extends Controller
                 't_amount' => 10,
                 't_status' => 2,
               );
-              $wallet->update_wallet($data);  
+              $wallet->update_wallet($data);
             }
           }
         }
 
       }
       return $result;
+    }
+
+    public function placement_validation(Request $request) {
+        return BinaryLoops::Placement_Validate($request);
     }
 
     public function summary_pairing()

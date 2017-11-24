@@ -22,7 +22,9 @@ use App\Events\eventTrigger;
 
 Route::get('/genealogy', 'HomeController@genealogy');
 
-Route::get('/genealogy/encoding/{placement}/{position}', 'HomeController@encoding');
+Route::any('/genealogy/encoding/placement-validation', 'HomeController@placement_validation');
+
+Route::get('/genealogy/encoding/{placement}/{position}/{affliliate?}', 'HomeController@encoding');
 
 Route::post('/genealogy/pairing-referral-summary', 'HomeController@summary_pairing');
 

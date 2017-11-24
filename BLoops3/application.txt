@@ -12,3 +12,7 @@ public function getUrl($is_url, $path)
     }
     return asset($path);
 }
+
+User Table
+"type" => 2, //1 Affliate  by Sponsor, 2 Encoded by Sponsor, 3 Commission Deduction Account, 4 Free Slot
+"status" => 2, //0 Deactivated Account, 1 Pending Account, 2 Activated Account

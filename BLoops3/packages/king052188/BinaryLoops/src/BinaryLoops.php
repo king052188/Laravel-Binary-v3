@@ -147,6 +147,62 @@ class BinaryLoops
     return ["Status" => 500, "Message" => "Something went wrong. Error#: 001", "Member_UID" => null];
   }
 
+  public function Activate_Affliliates($users, $request, $placement_id, $position_id, $affliliate_uid) {
+    $username = BLHelper::check_member_info($request["username"]);
+    if( COUNT($username) > 0 ) {
+      return ["Status" => 401, "Message" => "Username already exists.", "Insert_Uid" => 0, "Member_Uid" => null];
+    }
+    $placement = BLHelper::check_member_info($placement_id);
+    if( COUNT($placement) == 0 ) {
+      return ["Status" => 404, "Message" => "Pleacement did not found.", "Insert_Uid" => 0, "Member_Uid" => null];
+    }
+    if( (int)$position_id == 0 ) {
+      return ["Status" => 405, "Message" => "Invalid position.", "Insert_Uid" => 0, "Member_Uid" => null];
+    }
+    $position = BLHelper::check_position_of_placement($placement_id, $position_id);
+    if($position["Status"] > 0) {
+      $p = $position_id == 21 ? 'left.' : 'right.';
+      return ["Status" => 406, "Message" => "[" . $placement[0]->username . "] already has downline on his/her " . $p, "Insert_Uid" => 0, "Member_Uid" => null];
+    }
+    $cross_lining = BLHelper::check_is_crossline($users["member_uid"], $placement_id);
+    if($cross_lining) {
+      return ["Status" => 407, "Message" => "Cross-lining is not allowed.", "Insert_Uid" => 0, "Member_Uid" => null];
+    }
+
+    $dt = Carbon::now();
+    $new_member_uid = $affliliate_uid;
+
+    $member_info = array(
+      "username" => $request["username"] != "" ? $request["username"] : null,
+      "type" => 2, //1 Affliate  by Sponsor, 2 Encoded by Sponsor, 3 Commission Deduction Account, 4 Free Slot
+      "status" => 2, //0 Deactivated Account, 1 Pending Account, 2 Activated Account
+      "activation_id" => 0,
+      'updated_at' => $dt,
+    );
+    $result = BLHelper::add_member($member_info);
+    if($result > 0) {
+      $transaction_number = BLHelper::generate_reference();
+      $genealogy = array(
+        "transaction" => $transaction_number,
+        "sponsor_id" => $users["member_uid"],
+        "placement_id" => $placement_id,
+        "member_uid" => $new_member_uid,
+        "activation_code" => 0,
+        "position_" => $position_id,
+        "status_" => 2,
+        'updated_at' => $dt,
+        'created_at' => $dt
+      );
+      $result = BLHelper::add_member_genealogy($genealogy);
+      if($result > 0) {
+        BLHelper::lookup_genealogy($new_member_uid);
+        return ["Status" => 200, "Message" => "Success.", "Insert_Uid" => $result, "Member_Uid" => $new_member_uid];
+      }
+      return ["Status" => 500, "Message" => "Something went wrong. Error#: 002", "Insert_Uid" => $result, "Member_Uid" => $new_member_uid];
+    }
+    return ["Status" => 500, "Message" => "Something went wrong. Error#: 001", "Insert_Uid" => 0, "Member_Uid" => null];
+  }
+
   public function validate_multiple_accounts($email, $mobile) {
     $multiple_account = BLHelper::check_member_multiple_account($email, false);
     if( COUNT($multiple_account) > 0 ) {
@@ -172,8 +228,10 @@ class BinaryLoops
   }
 
   public function Placement_Validate($request) {
-    $result = BLHelper::check_position_of_placement($request["a"], $request["b"]);
-    return ["Data" => $result];
+    $affliliate = IsSet($request["c"]) ? $request["c"] : null;
+
+    $result = BLHelper::check_position_of_placement($request["a"], $request["b"], $affliliate);
+    return $result;
   }
 
   public function Member_Pairing($member_uid) {

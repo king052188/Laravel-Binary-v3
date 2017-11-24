@@ -54,10 +54,11 @@ $(document).ready(function() {
     }
   });
 })
-var _a, _b;
+var _a, _b, _c;
 function _event(x) {
   _a = $(x).data("a");
   _b = parseInt($(x).data("b"));
+  _c = $(x).data("c");
   if(_a == "") {
     swal(
       'Oops...',
@@ -82,8 +83,13 @@ function _event(x) {
     $("#_placement_left").attr('checked', false);
     $("#_placement_right").attr('checked', true);
   }
+  console.log(_c);
   var data = {a : _a, b : _b};
-  ajax_execute("/bloops/v1/placement-validation", data, "encoding-loading")
+  if(_c != "0" || _c != 0) {
+    data = {a : _a, b : _b, c : _c};
+  }
+  console.log(data);
+  ajax_execute("/genealogy/encoding/placement-validation", data, "encoding-loading")
 }
 $("#btnEncode").click(function() {
   if(IsNotAllowed) {
@@ -141,6 +147,11 @@ $("#btnEncode").click(function() {
   $("#_span_error_msg").text("");
   $("#_span_error_msg").hide();
   var url = "/genealogy/encoding/"+_a+"/"+_b;
+  if(_c != "0" || _c != 0) {
+    url = "/genealogy/encoding/"+_a+"/"+_b+"/"+_c;
+  }
+  console.log(url);
+  return false;
   ajax_exec(url, data, this);
 })
 function ajax_exec(url, data, control) {
@@ -197,13 +208,22 @@ function ajax_execute(url, data) {
               $("#encoding-form").hide();
             }
         }).done(function(json){
-            if(json.Data.Status == 0) {
+            console.log(json);
+            if(json.Status == 0) {
               $('#modal-encoding').modal({
                   show: true
               });
               $("#encoding-loading").hide();
               $("#encoding-form").show();
-              $("#_placement").val(json.Data.User_Info["username"]);
+              $("#_placement").val(json.User_Info["username"]);
+              $(json.Affliliate_Info).each(function(a, b) {
+                console.log(b);
+                $("#_username").val(json.Affliliate_Info["username"]);
+                $("#_first_name").val(json.Affliliate_Info["first_name"]).attr("disabled", "disabled");
+                $("#_last_name").val(json.Affliliate_Info["last_name"]).attr("disabled", "disabled");
+                $("#_email").val(json.Affliliate_Info["email"]).attr("disabled", "disabled");
+                $("#_mobile").val(json.Affliliate_Info["mobile"]).attr("disabled", "disabled");
+              })
             }
             else {
               $('#btnCancel').click();
@@ -369,7 +389,7 @@ function populate_genealogy_history(IsRefresh) {
             $(json.referrals).each(function(key, r) {
               total_points = r.total_affliate_amount;
               html2 += "<tr>";
-              html2 += "<td style='text-align: left; padding: 5px;'>Affliate</td>";
+              html2 += "<td style='text-align: left; padding: 5px;'>Affiliate</td>";
               html2 += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>"+r.affliate+" x 20 =</td>";
               html2 += "<td style='text-align: right; width: 150px; padding: 5px; font-weight: 600;'>+ "+numeral(r.total_affliate_amount).format('0,0')+"</td>";
               html2 += "</tr>";
@@ -426,14 +446,38 @@ function populate_leveling_history() {
             type:'POST',
             url: '/leveling/pairing-per-level-summary'
         }).done(function(json){
+            // console.log(json);
             var html = "";
             var profit = 0;
             $(json.Data).each(function(a, b) {
               profit += b.Total;
               html += "<tr>";
               html += "<td style='text-align: center; padding: 5px;'>"+b.Level+"</td>";
-              html += "<td style='text-align: center; width: 130px; padding: 5px;'>"+b.Left+"</td>";
-              html += "<td style='text-align: center; width: 130px; padding: 5px;'>"+b.Right+"</td>";
+
+              if (typeof b.Left.Starter !== 'undefined') {
+                if(b.Left.Starter == "PD") {
+                  html += "<td style='text-align: center; width: 130px; padding: 5px;'> <span style='color: #53C60D; font-weight: 600;'>"+b.Left.PAID +"</span> | <span style='color: #C61776; font-weight: 600;'>"+b.Left.CD +"</span></td>";
+                }
+                else {
+                  html += "<td style='text-align: center; width: 130px; padding: 5px;'> <span style='color: #C61776; font-weight: 600;'>"+b.Left.CD +"</span> | <span style='color: #53C60D; font-weight: 600;'>"+b.Left.PAID +"</span></td>";
+                }
+              }
+              else {
+                html += "<td style='text-align: center; width: 130px; padding: 5px;'> N/A </td>";
+              }
+
+              if (typeof b.Right.Starter !== 'undefined') {
+                if(b.Right.Starter == "PD") {
+                  html += "<td style='text-align: center; width: 130px; padding: 5px;'> <span style='color: #53C60D; font-weight: 600;'>"+b.Right.PAID +"</span> | <span style='color: #C61776; font-weight: 600;'>"+b.Right.CD +"</span></td>";
+                }
+                else {
+                  html += "<td style='text-align: center; width: 130px; padding: 5px;'> <span style='color: #C61776; font-weight: 600;'>"+b.Right.CD +"</span> | <span style='color: #53C60D; font-weight: 600;'>"+b.Right.PAID +"</span></td>";
+                }
+              }
+              else {
+                html += "<td style='text-align: center; width: 130px; padding: 5px;'> N/A </td>";
+              }
+
               html += "<td style='text-align: right; width: 200px; padding: 5px; font-weight: 600;'>"+numeral(b.Total).format('0,0.00')+"</td>";
               html += "</tr>";
             });
@@ -455,12 +499,14 @@ function populate_affliate_lists() {
             var html = "";
             var top = 710;
             $(json.Data).each(function(a, b) {
+
+              console.log(json.Data);
               html += "<tr>";
               html += "<td style='text-align: center; padding: 5px; font-weight: 600;'>"+b.member_uid+"</td>";
               html += "<td style='text-align: center; padding: 5px;'>"+b.first_name +" "+ b.last_name+"</td>";
               html += "<td style='text-align: center; padding: 5px;'><button class='btn dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><i class='fa fa-bars' aria-hidden='true'></i></button>";
               html += "<ul class='ddlBtnMenuAffliate dropdown-menu pull-right' role='menu' style='top: "+top+"px;'>";
-              html += "<li><a href='javascript:void(0)' onClick='alertShow()'><i class='fa fa-tasks' aria-hidden='true'></i> Activate</a></li>";
+              html += "<li><a href='/genealogy?activate="+b.member_uid+"'><i class='fa fa-tasks' aria-hidden='true'></i> Activate</a></li>";
               html += "<li><a href='javascript:void(0)' onClick='alertShow()'><i class='fa fa-tasks' aria-hidden='true'></i> Deactivate</a></li>";
               html += "</ul></td>";
               html += "</tr>";

@@ -6,7 +6,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                   Dashboard
-                  <a href="#" id="btnShowCorpoAccount" class="pull-right btn_link" style="margin: 0 0 0 0;"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Show Corpo Account</a>
+                  <a href="#" id="btnShowCorpoAccount" class="pull-right btn_link" style="margin: 0 0 0 0;"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Show Multiple Account</a>
                 </div>
                 <div class="panel-body" >
                     @if (session('status'))
@@ -93,7 +93,7 @@
                       </tbody>
                     </table>
 
-                    <h3>Affliate Queueing</h3>
+                    <h3>Affiliates</h3>
                     <table class="tbl_history" id="tbl_gAffliate" border="0" cellSpacing="0" cellPadding="5">
                       <thead>
                         <tr>
@@ -123,12 +123,12 @@ $("#btnShowCorpoAccount").click(function() {
     if(IsShow) {
       IsShow = false;
       $("#div_gHistoryDetails").hide();
-      $(this).empty().prepend('<i class="fa fa-bar-chart" aria-hidden="true"></i> Show Corpo Account');
+      $(this).empty().prepend('<i class="fa fa-bar-chart" aria-hidden="true"></i> Show Multiple Account');
     }
     else {
       IsShow = true;
       $("#div_gHistoryDetails").show();
-      $(this).empty().prepend('<i class="fa fa-bar-chart" aria-hidden="true"></i> Hide Corpo Account');
+      $(this).empty().prepend('<i class="fa fa-bar-chart" aria-hidden="true"></i> Hide Multiple Account');
     }
 })
 var IsRefresh = false;
