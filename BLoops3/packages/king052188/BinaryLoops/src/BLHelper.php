@@ -991,10 +991,11 @@ class BLHelper
       return $id;
     }
 
-    public function update_to_database($qeury, $data, $table)
+    public function update_users($member_uid, $data)
     {
-      $id = DB::table($table)->where($qeury)
-      ->update($data);
+      $id = DB::table('users')
+            ->where('member_uid', $member_uid)
+            ->update($data);
       return $id;
     }
 

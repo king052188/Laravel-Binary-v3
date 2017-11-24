@@ -83,12 +83,12 @@ function _event(x) {
     $("#_placement_left").attr('checked', false);
     $("#_placement_right").attr('checked', true);
   }
-  console.log(_c);
+  // console.log(_c);
   var data = {a : _a, b : _b};
   if(_c != "0" || _c != 0) {
     data = {a : _a, b : _b, c : _c};
   }
-  console.log(data);
+  // console.log(data);
   ajax_execute("/genealogy/encoding/placement-validation", data, "encoding-loading")
 }
 $("#btnEncode").click(function() {
@@ -150,8 +150,7 @@ $("#btnEncode").click(function() {
   if(_c != "0" || _c != 0) {
     url = "/genealogy/encoding/"+_a+"/"+_b+"/"+_c;
   }
-  console.log(url);
-  return false;
+  // console.log(url);
   ajax_exec(url, data, this);
 })
 function ajax_exec(url, data, control) {
@@ -208,7 +207,7 @@ function ajax_execute(url, data) {
               $("#encoding-form").hide();
             }
         }).done(function(json){
-            console.log(json);
+            // console.log(json);
             if(json.Status == 0) {
               $('#modal-encoding').modal({
                   show: true
@@ -217,7 +216,7 @@ function ajax_execute(url, data) {
               $("#encoding-form").show();
               $("#_placement").val(json.User_Info["username"]);
               $(json.Affliliate_Info).each(function(a, b) {
-                console.log(b);
+                // console.log(b);
                 $("#_username").val(json.Affliliate_Info["username"]);
                 $("#_first_name").val(json.Affliliate_Info["first_name"]).attr("disabled", "disabled");
                 $("#_last_name").val(json.Affliliate_Info["last_name"]).attr("disabled", "disabled");
@@ -500,7 +499,7 @@ function populate_affliate_lists() {
             var top = 710;
             $(json.Data).each(function(a, b) {
 
-              console.log(json.Data);
+              // console.log(json.Data);
               html += "<tr>";
               html += "<td style='text-align: center; padding: 5px; font-weight: 600;'>"+b.member_uid+"</td>";
               html += "<td style='text-align: center; padding: 5px;'>"+b.first_name +" "+ b.last_name+"</td>";

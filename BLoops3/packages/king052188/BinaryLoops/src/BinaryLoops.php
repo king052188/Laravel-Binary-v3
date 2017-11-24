@@ -147,7 +147,7 @@ class BinaryLoops
     return ["Status" => 500, "Message" => "Something went wrong. Error#: 001", "Member_UID" => null];
   }
 
-  public function Activate_Affliliates($users, $request, $placement_id, $position_id, $affliliate_uid) {
+  public function Encode_Affliliates($users, $request, $placement_id, $position_id, $affliliate_uid) {
     $username = BLHelper::check_member_info($request["username"]);
     if( COUNT($username) > 0 ) {
       return ["Status" => 401, "Message" => "Username already exists.", "Insert_Uid" => 0, "Member_Uid" => null];
@@ -170,23 +170,25 @@ class BinaryLoops
     }
 
     $dt = Carbon::now();
-    $new_member_uid = $affliliate_uid;
+    $member_uid = $affliliate_uid;
 
     $member_info = array(
       "username" => $request["username"] != "" ? $request["username"] : null,
       "type" => 2, //1 Affliate  by Sponsor, 2 Encoded by Sponsor, 3 Commission Deduction Account, 4 Free Slot
       "status" => 2, //0 Deactivated Account, 1 Pending Account, 2 Activated Account
       "activation_id" => 0,
-      'updated_at' => $dt,
+      'updated_at' => $dt
     );
-    $result = BLHelper::add_member($member_info);
+
+    $result = BLHelper::update_users($member_uid, $member_info);
+
     if($result > 0) {
       $transaction_number = BLHelper::generate_reference();
       $genealogy = array(
         "transaction" => $transaction_number,
         "sponsor_id" => $users["member_uid"],
         "placement_id" => $placement_id,
-        "member_uid" => $new_member_uid,
+        "member_uid" => $member_uid,
         "activation_code" => 0,
         "position_" => $position_id,
         "status_" => 2,
@@ -195,10 +197,10 @@ class BinaryLoops
       );
       $result = BLHelper::add_member_genealogy($genealogy);
       if($result > 0) {
-        BLHelper::lookup_genealogy($new_member_uid);
-        return ["Status" => 200, "Message" => "Success.", "Insert_Uid" => $result, "Member_Uid" => $new_member_uid];
+        BLHelper::lookup_genealogy($member_uid);
+        return ["Status" => 200, "Message" => "Success.", "Insert_Uid" => $result, "Member_Uid" => $member_uid];
       }
-      return ["Status" => 500, "Message" => "Something went wrong. Error#: 002", "Insert_Uid" => $result, "Member_Uid" => $new_member_uid];
+      return ["Status" => 500, "Message" => "Something went wrong. Error#: 002", "Insert_Uid" => $result, "Member_Uid" => $member_uid];
     }
     return ["Status" => 500, "Message" => "Something went wrong. Error#: 001", "Insert_Uid" => 0, "Member_Uid" => null];
   }

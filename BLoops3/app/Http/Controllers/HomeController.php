@@ -59,7 +59,13 @@ class HomeController extends Controller
     public function encoding($placement, $position, $affliliate = null, Request $request)
     {
       $this::$users = Auth::user();
-      $result = BinaryLoops::Encode($this::$users, $request, $placement, $position);
+      if($affliliate == null) {
+        $result = BinaryLoops::Encode($this::$users, $request, $placement, $position);
+      }
+      else {
+        $result = BinaryLoops::Encode_Affliliates($this::$users, $request, $placement, $position, $affliliate);
+      }
+
       if($result["Status"] == 200) {
         $wallet = new WalletController();
 
