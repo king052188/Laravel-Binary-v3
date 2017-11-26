@@ -646,6 +646,7 @@
     });
     $("#btnSignUp").click(function() {
       var suid = "{{ $users->id }}";
+      var smuid = "{{ $users->member_uid }}";
       var first_name = $("#_first_name").val();
       var last_name = $("#_last_name").val();
       var email = $("#_email").val();
@@ -684,12 +685,13 @@
       }
       var data = {
         suid: suid,
+        smuid : smuid,
         first_name: first_name,
         last_name: last_name,
         email: email,
         mobile: mobile
       };
-      var url = "/referral/sign-up/"+suid;
+      var url = "/referral/sign-up/"+suid+"/"+smuid;
       ajax_exec(url, data, this);
     });
     function isValidEmailAddress(emailAddress) {

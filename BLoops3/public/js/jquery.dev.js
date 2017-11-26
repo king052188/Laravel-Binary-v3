@@ -1,5 +1,6 @@
 var IsNotAllowed = false;
 var IsShow = false;
+var IsClick = false;
 $(document).ready(function() {
   $.ajaxSetup({
       headers: {
@@ -151,7 +152,12 @@ $("#btnEncode").click(function() {
     url = "/genealogy/encoding/"+_a+"/"+_b+"/"+_c;
   }
   // console.log(url);
-  ajax_exec(url, data, this);
+  if(!IsClick) {
+    ajax_exec(url, data, this);
+  }
+  else {
+    location.reload();
+  }
 })
 function ajax_exec(url, data, control) {
     $(document).ready(function() {
@@ -174,7 +180,7 @@ function ajax_exec(url, data, control) {
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'OK'
               }).then(function () {
-                setInterval(function(){ location.reload(); }, 500);
+                setInterval(function(){ window.location.href="/genealogy"; }, 500);
               })
               return false;
             }
@@ -386,11 +392,13 @@ function populate_genealogy_history(IsRefresh) {
             html2 += "</tr>";
 
             $(json.referrals).each(function(key, r) {
-              total_points = r.total_affliate_amount;
+              total_points = r.total_affiliate_available_points;
+              var total_affliate = r.total_affiliate_available_points / 20;
               html2 += "<tr>";
               html2 += "<td style='text-align: left; padding: 5px;'>Affiliate</td>";
-              html2 += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>"+r.affliate+" x 20 =</td>";
-              html2 += "<td style='text-align: right; width: 150px; padding: 5px; font-weight: 600;'>+ "+numeral(r.total_affliate_amount).format('0,0')+"</td>";
+
+              html2 += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>"+ total_affliate +" x 20 =</td>";
+              html2 += "<td style='text-align: right; width: 150px; padding: 5px; font-weight: 600;'>+ "+numeral(r.total_affiliate_available_points).format('0,0')+"</td>";
               html2 += "</tr>";
               html2 += "<tr>";
               html2 += "<td style='text-align: left; padding: 5px;'>Referral</td>";

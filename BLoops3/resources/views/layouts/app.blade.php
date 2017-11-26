@@ -44,7 +44,7 @@
       input#_username { text-transform: lowercase; }
       input#_first_name { text-transform: capitalize; }
       input#_last_name { text-transform: capitalize; }
-      a.g_link { color: #000000; text-decoration: none; font-family: "Raleway", sans-serif; text-transform: capitalize; }
+      a.g_link { color: #000000; text-decoration: none; font-family: "Raleway", sans-serif; text-transform: lowercase; }
       a.g_link:hover { color: #6d8a0a; text-decoration: none; }
       img.g_image {
          width: 60px;

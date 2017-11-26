@@ -6,10 +6,11 @@ use Illuminate\Http\Request;
 
 use DB;
 use Auth;
+use App\User;
 use BLHelper;
 use BinaryLoops;
 // use KPAPostMail;
-use App\User;
+
 
 class AccountController extends Controller
 {
@@ -120,9 +121,24 @@ class AccountController extends Controller
         return $user;
     }
 
-    public function register_via_user_url($sponsor_uid, Request $request)
+    public function register_via_user_url($sponsor_uid, $sponsor_muid, Request $request)
     {
       $result = BinaryLoops::Encode_Via_UserUrl($sponsor_uid, $request);
+
+      $wallet = new WalletController();
+
+      //pay referral bonus
+
+      $data = array(
+        'member_uid' => $sponsor_muid,
+        't_description' => "Affliliate Bonus",
+        't_type' => 23,
+        't_role' => 1,
+        't_amount' => 20,
+        't_status' => 2,
+      );
+      $wallet->update_wallet($data);
+
       // if($result["Status"] == 200) {
       //   $member = array(
       //     "Name"=>ucwords($request["first_name"] . ' ' . $request["last_name"]),
@@ -136,6 +152,7 @@ class AccountController extends Controller
       //   ";
       //   $r = KPAPostMail::send($member, "Congratulation you are successfully registered", $msg);
       // }
+
       return $result;
     }
 }

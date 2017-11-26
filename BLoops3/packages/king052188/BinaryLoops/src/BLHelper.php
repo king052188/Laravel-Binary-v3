@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Config;
 
 use DB;
 use App\User;
+use Carbon\Carbon;
 
 
 class BLHelper
@@ -714,9 +715,8 @@ class BLHelper
 
         $referral_count = array(
             "referral" => $referral[0]->total_referral,
-            "affliate" => $referral[0]->total_affliate,
             "total_referral_amount" => ($referral[0]->total_referral * $amt_referral),
-            "total_affliate_amount" => ($referral[0]->total_affliate * $amt_affliate)
+            "total_affiliate_available_points" => (float)$referral[0]->total_affiliate_available_points
         );
 
         return $referral_count;
@@ -726,10 +726,29 @@ class BLHelper
     {
         $users = $this->get_member_info($member_uid);
 
+        // $referral = DB::select("
+        // SELECT
+        // (SELECT COUNT(*) FROM users WHERE connected_to = '{$users->id}' AND type = 2) AS total_referral,
+        // (SELECT COUNT(*) FROM users WHERE connected_to = '{$users->id}' AND type = 1) AS total_affliate;
+        // ");
+
         $referral = DB::select("
         SELECT
-        (SELECT COUNT(*) FROM users WHERE connected_to = '{$users->id}' AND type = 2) AS total_referral,
-        (SELECT COUNT(*) FROM users WHERE connected_to = '{$users->id}' AND type = 1) AS total_affliate;
+        (SELECT COUNT(*) FROM users WHERE connected_to = {$users->id} AND type = 2) AS total_referral,
+        (
+        	SELECT CASE WHEN SUM(t_amount) > 0 THEN SUM(t_amount) ELSE 0 END AS total_points FROM user_wallet WHERE member_uid = '{$member_uid}' AND t_type = 23 AND t_role = 1 AND t_status = 2
+        ) AS total_affiliate_points,
+        (
+        	SELECT CASE WHEN SUM(t_amount) > 0 THEN SUM(t_amount) ELSE 0 END AS total_points FROM user_wallet WHERE member_uid = '{$member_uid}' AND t_type = 23 AND t_role = 0 AND t_status = 2
+        ) AS total_affiliate_redeem_points,
+        (
+        	(
+        		SELECT CASE WHEN SUM(t_amount) > 0 THEN SUM(t_amount) ELSE 0 END AS total_points FROM user_wallet WHERE member_uid = '{$member_uid}' AND t_type = 23 AND t_role = 1 AND t_status = 2
+        	) -
+        	(
+        		SELECT CASE WHEN SUM(t_amount) > 0 THEN SUM(t_amount) ELSE 0 END AS total_points FROM user_wallet WHERE member_uid = '{$member_uid}' AND t_type = 23 AND t_role = 0 AND t_status = 2
+        	)
+        ) AS total_affiliate_available_points
         ");
 
         return $referral;
@@ -1027,6 +1046,7 @@ class BLHelper
 
     public function lookup_process($member_uid, $position, $points)
     {
+        $dt = Carbon::now();
         $status[] = array("Code" => -99);
         $m_uid = $member_uid;
         $ctr = 0;
@@ -1050,6 +1070,8 @@ class BLHelper
                       "position_id" => $position,
                       "type_id" => $users[0]->type,
                       "points" => $points,
+                      'updated_at' => $dt,
+                      'created_at' => $dt
                     );
                 }
                 else
@@ -1059,6 +1081,8 @@ class BLHelper
                       "position_id" => $users[0]->position_,
                       "type_id" => $users[0]->type,
                       "points" => $points,
+                      'updated_at' => $dt,
+                      'created_at' => $dt
                     );
                 }
 

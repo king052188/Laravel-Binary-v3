@@ -40,7 +40,7 @@ class WalletController extends Controller
       $w->member_uid = $data["member_uid"];
       $w->t_number = BLHelper::generate_reference();
       $w->t_description = $data["t_description"];
-      $w->t_type = $data["t_type"]; // 20 - referral, 21 - indirect, 22 - pairing, 30 - Encashment
+      $w->t_type = $data["t_type"]; // 20 - referral, 21 - indirect, 22 - pairing, 23 - affliliate bonus
       $w->t_role = $data["t_role"]; // 0 - debit, 1 - credit
       $w->t_amount = $data["t_amount"];
       $w->t_status = $data["t_status"];
