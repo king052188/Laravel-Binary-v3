@@ -28,7 +28,7 @@ Route::get('/genealogy/encoding/{placement}/{position}/{affliliate?}', 'HomeCont
 
 Route::post('/genealogy/pairing-referral-summary', 'HomeController@summary_pairing');
 
-Route::post('/referral/sign-up/{sponsor_uid}', 'AccountController@register_via_user_url');
+Route::post('/referral/sign-up/{sponsor_uid}/{sponsor_muid}', 'AccountController@register_via_user_url');
 
 Route::post('/affliate/member-lists', 'HomeController@affliate_queueing');
 
