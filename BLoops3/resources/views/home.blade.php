@@ -15,7 +15,10 @@
                         </div>
                     @endif
 
-                    <h3>Summary</h3>
+                    <div style="margin: 10px 0 0 0;">
+                     <span style="font-size: 1.6em;">Summary</span>
+                     <!-- <a href="#" class="pull-right btn_link" style="margin: 0 0 0 0;"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Show Multiple Account</a> -->
+                    </div>
                     <table class="tbl_history" id="tbl_gHistory" border="0" cellSpacing="0" cellPadding="5">
                       <thead>
                         <tr>
@@ -33,7 +36,10 @@
                       </tbody>
                     </table>
 
-                    <h3>Structure</h3>
+                    <div style="margin: 20px 0 0 0;">
+                     <span style="font-size: 1.6em;">Structure</span>
+                     <a href="#" class="pull-right btn_link" style="margin: 3px 0 0 0;"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Show Pairs Details</a>
+                    </div>
                     <table class="tbl_history" id="tbl_gHistoryDetails" border="0" cellSpacing="0" cellPadding="0">
                       <thead>
                         <tr>
@@ -93,7 +99,10 @@
                       </tbody>
                     </table>
 
-                    <h3>Affiliates</h3>
+                    <div style="margin: 20px 0 0 0;">
+                     <span style="font-size: 1.6em;">Affiliates</span>
+                     <!-- <a href="#" class="pull-right btn_link" style="margin: 0 0 0 0;"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Show Pairs Details</a> -->
+                    </div>
                     <table class="tbl_history" id="tbl_gAffliate" border="0" cellSpacing="0" cellPadding="5">
                       <thead>
                         <tr>

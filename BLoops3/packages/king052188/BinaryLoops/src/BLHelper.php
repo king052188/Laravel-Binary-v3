@@ -560,6 +560,7 @@ class BLHelper
         $indirects = $this->get_total_indirect($member_uid);
         $leveling = $this->get_leveling_summary($counts[0]->username, true);
 
+        $amount_pairing = 100;
         $l = $counts[0]->p_left;
         $r = $counts[0]->p_right;
 
@@ -568,7 +569,7 @@ class BLHelper
             $t_remaining = $l - $r;
             $t_paired = $l - $t_remaining;
 
-            $total_ = $t_paired * 100;
+            $total_ = $t_paired * $amount_pairing;
             $total_ = $total_ + $referrals["total_referral_amount"];
             $total_ = $total_ + $indirects["total_indirect"];
             $total_ = $total_ + $leveling["total_profit"];
@@ -582,7 +583,7 @@ class BLHelper
                 "remaining" => $t_remaining,
                 "position" => 21,
                 "pairing" => $t_paired,
-                "total_pairing_amount" => ($t_paired * 100),
+                "total_pairing_amount" => ($t_paired * $amount_pairing),
                 "total_amount" => $total_,
                 "total_left" => $l,
                 "total_right" => $r
@@ -593,7 +594,7 @@ class BLHelper
             $t_remaining = $r - $l;
             $t_paired = $r - $t_remaining;
 
-            $total_ = $t_paired * 100;
+            $total_ = $t_paired * $amount_pairing;
             $total_ = $total_ + $referrals["total_referral_amount"];
             $total_ = $total_ + $leveling["total_profit"];
 
@@ -606,7 +607,7 @@ class BLHelper
                 "remaining" => $t_remaining,
                 "position" => 22,
                 "pairing" => $t_paired,
-                "total_pairing_amount" => ($t_paired * 100),
+                "total_pairing_amount" => ($t_paired * $amount_pairing),
                 "total_amount" => $total_,
                 "total_left" => $l,
                 "total_right" => $r
@@ -617,7 +618,7 @@ class BLHelper
         {
             $t_paired = $l;
 
-            $total_ = $t_paired * 100;
+            $total_ = $t_paired * $amount_pairing;
             $total_ = $total_ + $referrals["total_referral_amount"];
             $total_ = $total_ + $leveling["total_profit"];
 
@@ -630,7 +631,7 @@ class BLHelper
                 "remaining" => 0,
                 "position" => 0,
                 "pairing" => $t_paired,
-                "total_pairing_amount" => ($t_paired * 100),
+                "total_pairing_amount" => ($t_paired * $amount_pairing),
                 "total_amount" => $total_,
                 "total_left" => $l,
                 "total_right" => $r
