@@ -425,14 +425,14 @@ function populate_pairing_history() {
               html += "<tr>";
               html += "<td style='text-align: center; width: 130px; padding: 5px;'>"+b.date_formated+"</td>";
               html += "<td style='text-align: center; padding: 5px;'>"+b.member_uid+"</td>";
-              html += "<td style='text-align: center; width: 130px; padding: 5px; font-weight: 600;'>"+numeral(b.total_max_pairing_per_day).format('0,0')+"</td>";
-              html += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>"+numeral(b.total_max_pairing_amount).format('0,0.00')+"</td>";
+              html += "<td style='text-align: center; width: 100px; padding: 5px; font-weight: 600;'>"+numeral(b.total_max_pairing_per_day).format('0,0')+"</td>";
+              html += "<td style='text-align: right; width: 128px; padding: 5px; font-weight: 600;'>"+numeral(b.total_max_pairing_amount).format('0,0.00')+"</td>";
               html += "<td style='text-align: center; width: 50px; padding: 5px; font-weight: 600;'> <a href='#' onclick='show_pairing_more(this)' "+data+"><i class='fa fa-eye' aria-hidden='true'></i></a> </td>";
               html += "</tr>";
             });
             html += "<tr>";
             html += "<td colspan='3' style='text-align: right; padding: 5px; font-weight: 600;'>Total Profit</td>";
-            html += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>"+numeral(json.Total_Amount).format('0,0.00')+"</td>";
+            html += "<td style='text-align: right; width: 128px; padding: 5px; font-weight: 600;'>"+numeral(json.Total_Amount).format('0,0.00')+"</td>";
             html += "<td style='text-align: right; padding: 5px; font-weight: 600;'></td>";
             html += "</tr>";
             $("#tbl_gPairingDetails > tbody").empty().prepend(html);
@@ -455,7 +455,12 @@ function show_pairing_more(me) {
   var overAllTotal = $(me).data("overalltotal");
   var maxPairTotal = $(me).data("maxpairtotal");
 
-  var html = "<tr>";
+  var html = "";
+  html += "<tr>";
+  html += "<td colspan='2' style='text-align: center; padding: 5px; font-weight: 600; background-color: #eaedf1;'>Account</td>";
+  html += "</tr>"
+
+  html += "<tr>";
   html += "<td style='text-align: left; padding: 5px; width: 50%;'>Date</td>";
   html += "<td style='text-align: right; padding: 5px; border-left: 1px dotted gray; font-weight: 600;'>"+date+"</td>";
   html += "</tr>"
@@ -463,6 +468,10 @@ function show_pairing_more(me) {
   html += "<tr>";
   html += "<td style='text-align: left; padding: 5px; width: 50%;'>Account#</td>";
   html += "<td style='text-align: right; padding: 5px; border-left: 1px dotted gray; font-weight: 600;'>"+muid+"</td>";
+  html += "</tr>"
+
+  html += "<tr>";
+  html += "<td colspan='2' style='text-align: center; padding: 5px;  font-weight: 600; background-color: #eaedf1;'>Pairing Statistic</td>";
   html += "</tr>"
 
   html += "<tr>";

@@ -101,9 +101,9 @@
                         <tr>
                           <td style="text-align: center; width: 130px; padding: 5px;">***</td>
                           <td style="text-align: center; padding: 5px; font-weight: 600;">***</td>
-                          <td style="text-align: center; width: 150px; padding: 5px; font-weight: 600;">***</td>
-                          <td style="text-align: right; width: 150px; padding: 5px; font-weight: 600;">***</td>
-                          <td style="text-align: center; width: 150px; padding: 5px; font-weight: 600;">***</td>
+                          <td style="text-align: center; width: 100px; padding: 5px; font-weight: 600;">***</td>
+                          <td style="text-align: right; width: 128px; padding: 5px; font-weight: 600;">***</td>
+                          <td style="text-align: center; width: 50px; padding: 5px; font-weight: 600;">***</td>
                         </tr>
                       </tbody>
                     </table>
