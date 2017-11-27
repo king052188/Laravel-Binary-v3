@@ -548,111 +548,167 @@ class BLHelper
       return $data;
     }
 
-    public function get_member_pairing($member_uid)
+    public function get_member_pairing_daily($member_uid)
     {
-        $counts = DB::select("
-        SELECT
-        (SELECT username FROM users WHERE member_uid = '{$member_uid}') AS username,
-        (SELECT COUNT(*) FROM user_genealogy_summary WHERE member_uid = '{$member_uid}' AND position_id = 21) AS p_left,
-        (SELECT COUNT(*) FROM user_genealogy_summary WHERE member_uid = '{$member_uid}' AND position_id = 22) AS p_right
-        ");
+      //
+      $daily = DB::select("
+      SELECT DISTINCT DATE_FORMAT(created_at, '%Y-%m-%d') AS date FROM user_genealogy_summary WHERE created_at IS NOT NULL;
+      ");
+
+      $data = [];
+      $total_amount = 0;
+      $total_remaining = 0;
+      $total_position = 0;
+
+      for($i = 0; $i < COUNT($daily); $i++) {
+
+          $dt = Carbon::parse($daily[$i]->date);
+
+          $pairings = $this->get_member_pairing($member_uid, $daily[$i]->date, $total_remaining, $total_position);
+          $total_amount += (float)$pairings["total_max_pairing_amount"];
+
+          $total_remaining = $pairings["remaining"];
+          $total_position = $pairings["position"];
+
+          $data[] = $pairings;
+      }
+
+      return array(
+        'Total_Amount' => $total_amount,
+        'Data' => $data
+      );
+    }
+
+    public function get_member_pairing($member_uid, $date, $remaining, $position)
+    {
+      $dt = Carbon::parse($date);
+
+      $counts = DB::select("
+      SELECT
+      (SELECT username FROM users WHERE member_uid = '{$member_uid}') AS username,
+      (SELECT COUNT(*) FROM user_genealogy_summary WHERE member_uid = '{$member_uid}' AND position_id = 21 AND DATE_FORMAT(created_at, '%Y-%m-%d') = DATE_FORMAT('". $date ."', '%Y-%m-%d')) AS p_left,
+      (SELECT COUNT(*) FROM user_genealogy_summary WHERE member_uid = '{$member_uid}' AND position_id = 22 AND DATE_FORMAT(created_at, '%Y-%m-%d') = DATE_FORMAT('". $date ."', '%Y-%m-%d')) AS p_right
+      ");
+
+      $amount_pairing = 100;
+      $l = $counts[0]->p_left;
+      $r = $counts[0]->p_right;
+
+      if($position == 21) {
+        $l = $l + $remaining;
+      }
+      else {
+        $r = $r + $remaining;
+      }
+
+      if ($l > $r)
+      {
+          $t_remaining = $l - $r;
+          $total_pairing = $l - $t_remaining;
+          $max_pairing = $total_pairing > 30 ? 30 : $total_pairing;
+
+          $total_pairing_amount = $total_pairing * $amount_pairing;
+          $total_max_pairing_amount = $max_pairing * $amount_pairing;
+
+          $status = array(
+              "date" => $dt->toFormattedDateString(),
+              "username" => $counts[0]->username,
+              "member_uid" => $member_uid,
+              "left" => $l,
+              "right" => $r,
+              "remaining" => $t_remaining,
+              "position" => 21,
+              "total_all_pairing_per_day" => $total_pairing,
+              "total_max_pairing_per_day" => $max_pairing,
+              "total_pairing_amount" => $total_pairing_amount,
+              "total_max_pairing_amount" => $total_max_pairing_amount,
+
+          );
+      }
+      else if ($l < $r)
+      {
+          $t_remaining = $r - $l;
+          $total_pairing = $r - $t_remaining;
+          $max_pairing = $total_pairing > 30 ? 30 : $total_pairing;
+
+          $total_pairing_amount = $total_pairing * $amount_pairing;
+          $total_max_pairing_amount = $max_pairing * $amount_pairing;
+
+          $status = array(
+              "date" => $dt->toFormattedDateString(),
+              "username" => $counts[0]->username,
+              "member_uid" => $member_uid,
+              "left" => $l,
+              "right" => $r,
+              "remaining" => $t_remaining,
+              "position" => 22,
+              "total_all_pairing_per_day" => $total_pairing,
+              "total_max_pairing_per_day" => $max_pairing,
+              "total_pairing_amount" => $total_pairing_amount,
+              "total_max_pairing_amount" => $total_max_pairing_amount
+          );
+
+      }
+      else if ($l == $r)
+      {
+          $total_pairing = $l;
+          $max_pairing = $total_pairing > 30 ? 30 : $total_pairing;
+
+          $total_pairing_amount = $total_pairing * $amount_pairing;
+          $total_max_pairing_amount = $max_pairing * $amount_pairing;
+
+          $status = array(
+              "date" => $dt->toFormattedDateString(),
+              "username" => $counts[0]->username,
+              "member_uid" => $member_uid,
+              "left" => $l,
+              "right" => $r,
+              "remaining" => 0,
+              "position" => 0,
+              "total_all_pairing_per_day" => $total_pairing,
+              "total_max_pairing_per_day" => $max_pairing,
+              "total_pairing_amount" => $total_pairing_amount,
+              "total_max_pairing_amount" => $total_max_pairing_amount
+          );
+      }
+      else {
+          $status = array(
+             "date" => $dt->toFormattedDateString(),
+              "username" => $counts[0]->username,
+              "member_uid" => $member_uid,
+              "left" => $l,
+              "right" => $r,
+              "remaining" => 0,
+              "position" => 0,
+              "total_all_pairing_per_day" => 0,
+              "total_max_pairing_per_day" => 0,
+              "total_pairing_amount" => 0,
+              "total_max_pairing_amount" => 0
+          );
+      }
+      return $status;
+    }
+
+    public function get_member_structure_details($member_uid)
+    {
+        $users = DB::select("SELECT username FROM users WHERE member_uid = '{$member_uid}'");
         $referrals = $this->get_member_referral($member_uid, 100, 20);
         $indirects = $this->get_total_indirect($member_uid);
-        $leveling = $this->get_leveling_summary($counts[0]->username, true);
+        $leveling = $this->get_leveling_summary($users[0]->username, true);
 
-        $amount_pairing = 100;
-        $l = $counts[0]->p_left;
-        $r = $counts[0]->p_right;
+        $total_structure = $referrals["total_referral_amount"];
+        $total_structure += $indirects["total_indirect"];
+        $total_structure += $leveling["total_profit"];
 
-        if ($l > $r)
-        {
-            $t_remaining = $l - $r;
-            $t_paired = $l - $t_remaining;
+        $status = array(
+            "username" => $users[0]->username,
+            "member_uid" => $member_uid,
+            "referrals" => $referrals,
+            "indirects" => $indirects,
+            "levelings" => $leveling,
+            "total_structure" => $total_structure
+        );
 
-            $total_ = $t_paired * $amount_pairing;
-            $total_ = $total_ + $referrals["total_referral_amount"];
-            $total_ = $total_ + $indirects["total_indirect"];
-            $total_ = $total_ + $leveling["total_profit"];
-
-            $status = array(
-                "username" => $counts[0]->username,
-                "member_uid" => $member_uid,
-                "referrals" => $referrals,
-                "indirects" => $indirects,
-                "levelings" => $leveling,
-                "remaining" => $t_remaining,
-                "position" => 21,
-                "pairing" => $t_paired,
-                "total_pairing_amount" => ($t_paired * $amount_pairing),
-                "total_amount" => $total_,
-                "total_left" => $l,
-                "total_right" => $r
-            );
-        }
-        else if ($l < $r)
-        {
-            $t_remaining = $r - $l;
-            $t_paired = $r - $t_remaining;
-
-            $total_ = $t_paired * $amount_pairing;
-            $total_ = $total_ + $referrals["total_referral_amount"];
-            $total_ = $total_ + $leveling["total_profit"];
-
-            $status = array(
-                "username" => $counts[0]->username,
-                "member_uid" => $member_uid,
-                "referrals" => $referrals,
-                "indirects" => $indirects,
-                "levelings" => $leveling,
-                "remaining" => $t_remaining,
-                "position" => 22,
-                "pairing" => $t_paired,
-                "total_pairing_amount" => ($t_paired * $amount_pairing),
-                "total_amount" => $total_,
-                "total_left" => $l,
-                "total_right" => $r
-            );
-
-        }
-        else if ($l == $r)
-        {
-            $t_paired = $l;
-
-            $total_ = $t_paired * $amount_pairing;
-            $total_ = $total_ + $referrals["total_referral_amount"];
-            $total_ = $total_ + $leveling["total_profit"];
-
-            $status = array(
-                "username" => $counts[0]->username,
-                "member_uid" => $member_uid,
-                "referrals" => $referrals,
-                "indirects" => $indirects,
-                "levelings" => $leveling,
-                "remaining" => 0,
-                "position" => 0,
-                "pairing" => $t_paired,
-                "total_pairing_amount" => ($t_paired * $amount_pairing),
-                "total_amount" => $total_,
-                "total_left" => $l,
-                "total_right" => $r
-            );
-        }
-        else {
-            $status = array(
-                "username" => $counts[0]->username,
-                "member_uid" => $member_uid,
-                "referrals" => $referrals,
-                "indirects" => $indirects,
-                "levelings" => $leveling,
-                "remaining" => 0,
-                "position" => 0,
-                "pairing" => 0,
-                "total_pairing_amount" => 0,
-                "total_amount" => 0,
-                "total_left" => $l,
-                "total_right" => $r
-            );
-        }
         return $status;
     }
 

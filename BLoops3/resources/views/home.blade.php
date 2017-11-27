@@ -100,6 +100,31 @@
                     </table>
 
                     <div style="margin: 20px 0 0 0;">
+                     <span style="font-size: 1.6em;">Pairing</span>
+                     <a href="#" class="pull-right btn_link" style="margin: 3px 0 0 0;"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Show Pairs Details</a>
+                    </div>
+                    <table class="tbl_history" id="tbl_gPairingDetails" border="0" cellSpacing="0" cellPadding="0">
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Account#</th>
+                          <th>Pairing</th>
+                          <th>Total</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td style="text-align: center; width: 130px; padding: 5px;">***</td>
+                          <td style="text-align: center; padding: 5px; font-weight: 600;">***</td>
+                          <td style="text-align: center; width: 150px; padding: 5px; font-weight: 600;">***</td>
+                          <td style="text-align: right; width: 150px; padding: 5px; font-weight: 600;">***</td>
+                          <td style="text-align: center; width: 150px; padding: 5px; font-weight: 600;">***</td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <div style="margin: 20px 0 0 0;">
                      <span style="font-size: 1.6em;">Affiliates</span>
                      <!-- <a href="#" class="pull-right btn_link" style="margin: 0 0 0 0;"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Show Pairs Details</a> -->
                     </div>
@@ -119,6 +144,7 @@
                         </tr>
                       </tbody>
                     </table>
+
                 </div>
             </div>
         </div>
@@ -143,6 +169,7 @@ $("#btnShowCorpoAccount").click(function() {
 var IsRefresh = false;
 populate_genealogy_history(IsRefresh);
 populate_affliate_lists();
+populate_pairing_history();
 
 // setInterval(genealogy_history, 3000);
 function genealogy_history() {

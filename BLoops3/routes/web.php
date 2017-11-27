@@ -26,7 +26,7 @@ Route::any('/genealogy/encoding/placement-validation', 'HomeController@placement
 
 Route::get('/genealogy/encoding/{placement}/{position}/{affliliate?}', 'HomeController@encoding');
 
-Route::post('/genealogy/pairing-referral-summary', 'HomeController@summary_pairing');
+Route::post('/genealogy/member-structure-details', 'HomeController@summary_pairing');
 
 Route::post('/referral/sign-up/{sponsor_uid}/{sponsor_muid}', 'AccountController@register_via_user_url');
 

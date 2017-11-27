@@ -35,8 +35,12 @@ Route::any('/bloops/v1/placement-validation', function(Request $request) {
   return BinaryLoops::Placement_Validate($request);
 });
 
-Route::any('/bloops/v1/member-pairing-status/{username}', function($member_uid) {
+Route::any('/bloops/v1/member-pairing-status/{member_uid}', function($member_uid) {
   return BinaryLoops::Member_Pairing($member_uid);
+});
+
+Route::any('/bloops/v1/member-structure-details/{member_uid}', function($member_uid) {
+  return BinaryLoops::Member_Structure_Details($member_uid);
 });
 
 Route::any('/bloops/v1/populate-genealogy/{username}', function($username) {

@@ -237,7 +237,12 @@ class BinaryLoops
   }
 
   public function Member_Pairing($member_uid) {
-    $result = BLHelper::get_member_pairing($member_uid);
+    $result = BLHelper::get_member_pairing_daily($member_uid);
+    return $result;
+  }
+
+  public function Member_Structure_Details($member_uid) {
+    $result = BLHelper::get_member_structure_details($member_uid);
     return $result;
   }
 
