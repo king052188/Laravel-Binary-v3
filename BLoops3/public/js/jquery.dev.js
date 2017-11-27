@@ -406,7 +406,7 @@ function populate_pairing_history() {
         $.ajax({
             dataType: 'json',
             type:'POST',
-            url: '/bloops/v1/member-pairing-status/8011-2165-3432-2157'
+            url: '/genealogy/member-pairing-details'
         }).done(function(json){
             // console.log(json);
             var html = "";
