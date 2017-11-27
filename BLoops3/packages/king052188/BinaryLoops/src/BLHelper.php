@@ -611,7 +611,8 @@ class BLHelper
           $total_max_pairing_amount = $max_pairing * $amount_pairing;
 
           $status = array(
-              "date" => $dt->toFormattedDateString(),
+              "date" => $date,
+              "date_formated" => $dt->toFormattedDateString(),
               "username" => $counts[0]->username,
               "member_uid" => $member_uid,
               "left" => $l,
@@ -635,7 +636,8 @@ class BLHelper
           $total_max_pairing_amount = $max_pairing * $amount_pairing;
 
           $status = array(
-              "date" => $dt->toFormattedDateString(),
+              "date" => $date,
+              "date_formated" => $dt->toFormattedDateString(),
               "username" => $counts[0]->username,
               "member_uid" => $member_uid,
               "left" => $l,
@@ -658,7 +660,8 @@ class BLHelper
           $total_max_pairing_amount = $max_pairing * $amount_pairing;
 
           $status = array(
-              "date" => $dt->toFormattedDateString(),
+              "date" => $date,
+              "date_formated" => $dt->toFormattedDateString(),
               "username" => $counts[0]->username,
               "member_uid" => $member_uid,
               "left" => $l,
@@ -673,7 +676,8 @@ class BLHelper
       }
       else {
           $status = array(
-             "date" => $dt->toFormattedDateString(),
+              "date" => $date,
+              "date_formated" => $dt->toFormattedDateString(),
               "username" => $counts[0]->username,
               "member_uid" => $member_uid,
               "left" => $l,

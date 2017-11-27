@@ -17,6 +17,7 @@
 
                     <div style="margin: 10px 0 0 0;">
                      <span style="font-size: 1.6em;">Summary</span>
+                     <span style="font-size: 1em;">wallet</span>
                      <!-- <a href="#" class="pull-right btn_link" style="margin: 0 0 0 0;"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Show Multiple Account</a> -->
                     </div>
                     <table class="tbl_history" id="tbl_gHistory" border="0" cellSpacing="0" cellPadding="5">
@@ -38,7 +39,8 @@
 
                     <div style="margin: 20px 0 0 0;">
                      <span style="font-size: 1.6em;">Structure</span>
-                     <a href="#" class="pull-right btn_link" style="margin: 3px 0 0 0;"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Show Pairs Details</a>
+                     <span style="font-size: 1em;">genealogy</span>
+                     <!-- <a href="#" class="pull-right btn_link" style="margin: 3px 0 0 0;"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Show Pairs Details</a> -->
                     </div>
                     <table class="tbl_history" id="tbl_gHistoryDetails" border="0" cellSpacing="0" cellPadding="0">
                       <thead>
@@ -47,20 +49,6 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td style="text-align: left; padding: 5px;">Structure</td>
-                          <td style="text-align: right; width: 130px; padding: 5px; font-weight: 600;">***</td>
-                          <td style="text-align: right; width: 150px; padding: 5px; font-weight: 600;">***</td>
-                        </tr>
-                        <tr>
-                          <td style="text-align: left; padding: 5px;">Remaining</td>
-                          <td style="text-align: right; width: 130px; padding: 5px; font-weight: 600;">***</td>
-                          <td style="text-align: right; width: 150px; padding: 5px; font-weight: 600;">***</td>
-                        </tr>
-                        <tr>
-                          <td style="text-align: left; padding: 5px;"></td>
-                          <td colspan="2" style="text-align: center; width: 130px; padding: 5px; font-weight: 600; background-color: #eaedf1;">Summary</td>
-                        </tr>
                         <tr>
                           <td style="text-align: left; padding: 5px;">Affliate</td>
                           <td style="text-align: right; width: 130px; padding: 5px; font-weight: 600;">***</td>
@@ -73,11 +61,6 @@
                         </tr>
                         <tr>
                           <td style="text-align: left; padding: 5px;">Indirect</td>
-                          <td style="text-align: right; width: 130px; padding: 5px; font-weight: 600;">***</td>
-                          <td style="text-align: right; width: 150px; padding: 5px; font-weight: 600;">***</td>
-                        </tr>
-                        <tr>
-                          <td style="text-align: left; padding: 5px;">Pairing</td>
                           <td style="text-align: right; width: 130px; padding: 5px; font-weight: 600;">***</td>
                           <td style="text-align: right; width: 150px; padding: 5px; font-weight: 600;">***</td>
                         </tr>
@@ -101,7 +84,8 @@
 
                     <div style="margin: 20px 0 0 0;">
                      <span style="font-size: 1.6em;">Pairing</span>
-                     <a href="#" class="pull-right btn_link" style="margin: 3px 0 0 0;"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Show Pairs Details</a>
+                     <span style="font-size: 1em;">per day</span>
+                     <!-- <a href="#" class="pull-right btn_link" style="margin: 3px 0 0 0;"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Show Pairs Details</a> -->
                     </div>
                     <table class="tbl_history" id="tbl_gPairingDetails" border="0" cellSpacing="0" cellPadding="0">
                       <thead>
@@ -126,6 +110,7 @@
 
                     <div style="margin: 20px 0 0 0;">
                      <span style="font-size: 1.6em;">Affiliates</span>
+                     <span style="font-size: 1em;">queuing</span>
                      <!-- <a href="#" class="pull-right btn_link" style="margin: 0 0 0 0;"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Show Pairs Details</a> -->
                     </div>
                     <table class="tbl_history" id="tbl_gAffliate" border="0" cellSpacing="0" cellPadding="5">
@@ -149,6 +134,28 @@
             </div>
         </div>
     </div>
+</div>
+<!-- Modal -->
+<div id="modal-pairing-more" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Pairing Details Per Day</h4>
+      </div>
+
+      <div class="modal-body">
+        <table class="tbl_history" id="tbl_modalPairingMore" border="0" cellSpacing="0" cellPadding="0" style="width: 100%; border: 0px solid gray;">
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="modal-footer">
+        <button id="btnCancel" type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-check" aria-hidden="true"></i> Done</button>
+      </div>
+    </div>
+  </div>
 </div>
 @endsection
 
