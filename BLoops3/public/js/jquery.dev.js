@@ -355,12 +355,11 @@ function populate_genealogy_history(IsRefresh) {
             html += "</tr>";
 
             $(json.referrals).each(function(key, r) {
-              total_points = r.total_affiliate_available_points;
-              var total_affliate = r.total_affiliate_available_points > 20 ? 1 : r.total_affiliate_available_points / 20;
+              total_affliate_points = r.total_affiliate_available_points;
               html2 += "<tr>";
               html2 += "<td style='text-align: left; padding: 5px;'>Affiliate</td>";
 
-              html2 += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>"+ total_affliate +" x 20 =</td>";
+              html2 += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>"+ r.affiliate +" x 20 =</td>";
               html2 += "<td style='text-align: right; width: 150px; padding: 5px; font-weight: 600;'>+ "+numeral(r.total_affiliate_available_points).format('0,0')+"</td>";
               html2 += "</tr>";
               html2 += "<tr>";
@@ -394,7 +393,7 @@ function populate_genealogy_history(IsRefresh) {
             html2 += "</tr>";
 
             html2 += "<td style='text-align: left; padding: 5px;'>Total</td>";
-            html2 += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>= "+numeral(total_points).format('0,0')+"</td>";
+            html2 += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>= "+numeral(total_affliate_points).format('0,0')+"</td>";
             html2 += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>= "+numeral(json.total_structure).format('0,0.00')+"</td>";
             html2 += "</tr>";
             $("#tbl_gHistory > tbody").empty().prepend(html);

@@ -778,6 +778,7 @@ class BLHelper
 
         $referral_count = array(
             "referral" => $referral[0]->total_referral,
+            "affiliate" => $referral[0]->total_affiliate,
             "total_referral_amount" => ($referral[0]->total_referral * $amt_referral),
             "total_affiliate_available_points" => (float)$referral[0]->total_affiliate_available_points,
             "total_available_amount" => (float)$referral[0]->total_available_amount
@@ -799,6 +800,9 @@ class BLHelper
         $referral = DB::select("
         SELECT
         (SELECT COUNT(*) FROM users WHERE connected_to = {$users->id} AND type = 2) AS total_referral,
+        (
+        	SELECT COUNT(*) FROM user_wallet WHERE member_uid = '{$member_uid}' AND t_type = 23 AND t_role = 1 AND t_status = 2
+        ) AS total_affiliate,
         (
         	SELECT CASE WHEN SUM(t_amount) > 0 THEN SUM(t_amount) ELSE 0 END FROM user_wallet WHERE member_uid = '{$member_uid}' AND t_type = 23 AND t_role = 1 AND t_status = 2
         ) AS total_affiliate_points,
