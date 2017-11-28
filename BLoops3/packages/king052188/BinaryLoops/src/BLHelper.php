@@ -815,10 +815,10 @@ class BLHelper
         ) AS total_affiliate_available_points,
         (
         	(
-        		SELECT CASE WHEN SUM(t_amount) != 0 THEN SUM(t_amount) ELSE 0 END FROM user_wallet WHERE member_uid = '{$member_uid}' AND t_role = 1 AND t_status = 2
+        		SELECT CASE WHEN SUM(t_amount) != 0 THEN SUM(t_amount) ELSE 0 END FROM user_wallet WHERE member_uid = '{$member_uid}' AND t_type = 24 AND t_role = 1 AND t_status = 2
         	) -
         	(
-        		SELECT CASE WHEN SUM(t_amount) != 0 THEN SUM(t_amount) ELSE 0 END FROM user_wallet WHERE member_uid = '{$member_uid}' AND t_role = 0 AND t_status = 2
+        		SELECT CASE WHEN SUM(t_amount) != 0 THEN SUM(t_amount) ELSE 0 END FROM user_wallet WHERE member_uid = '{$member_uid}' AND t_type = 24 AND t_role = 0 AND t_status = 2
         	)
         ) AS total_available_amount
         ");

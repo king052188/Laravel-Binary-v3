@@ -46,7 +46,7 @@
 <script>
 $(document).ready(function() {
   $('#tblMembers').DataTable( {
-      "ajax": 'http://localhost:4444/members/data.json'
+      "ajax": '/members/data.json'
   } );
 
 } );
