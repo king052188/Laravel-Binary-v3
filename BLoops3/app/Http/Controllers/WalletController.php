@@ -32,7 +32,8 @@ class WalletController extends Controller
       //   'member_uid' => ,
       //   't_number' => ,
       //   't_description' => ,
-      //   't_type' => ,
+      //   't_type' => , // 20 - referral, 21 - indirect, 22 - pairing, 23 - affliliate bonus, 24 cd
+      //   't_role' , // 0 - debit, 1 - credit
       //   't_amount' => ,
       //   't_status' => ,
       // );

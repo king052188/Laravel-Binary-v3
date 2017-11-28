@@ -338,12 +338,13 @@ function populate_genealogy_history(IsRefresh) {
               }
             }
         }).done(function(json){
+          console.log(json);
             var html = "", html2 = "";
             var total_points = 0, total_referral = 0, total_indirect = 0;
             var pos = json.position == 21 ? "Left" : "Right";
             html = "<tr>";
             html += "<td style='padding: 7px; font-weight: 600; font-size: 1.1em;'>"+json.member_uid+"</td>";
-            html += "<td style='padding: 7px; font-weight: 600; font-size: 1.1em;'>0</td>";
+            html += "<td style='padding: 7px; font-weight: 600; font-size: 1.1em;'>"+numeral(json.total_available_amount).format('0,0.00')+"</td>";
             html += "<td style='padding: 7px;'><button class='btn dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><i class='fa fa-bars' aria-hidden='true'></i></button>";
             html += "<ul class='ddlBtnMenu dropdown-menu pull-right' role='menu'>";
             html += "<li><a href='javascript:void(0)' onClick='alertShow()'><i class='fa fa-tasks' aria-hidden='true'></i> Buy Code</a></li>";

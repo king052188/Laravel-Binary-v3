@@ -95,7 +95,8 @@
                               <div style="margin: 0 auto; width: 60px;">
                                 @if( $level_1[0]["username"] != null )
                                   <a class="g_link" href="?p={{ $level_1[0]['username'] . $activate['affliliate'] }}">
-                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
+                                    <?php $type = $level_1[0]["type_"] == 2 ? "" : "-cd" ?>
+                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/left'. $type .'-img.png') }}" />
                                     <p class="g_title"> {{ $level_1[0]["username"] }} </p>
                                   </a>
                                 @else
@@ -110,7 +111,8 @@
                               <div style="margin: 0 auto; width: 60px;">
                                 @if( $level_1[1]["username"] != null )
                                   <a class="g_link" href="?p={{ $level_1[1]['username'] . $activate['affliliate'] }}">
-                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/right-img.png') }}" />
+                                    <?php $type = $level_1[1]["type_"] == 2 ? "" : "-cd" ?>
+                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/right'. $type .'-img.png') }}" />
                                     <p class="g_title"> {{ $level_1[1]["username"] }} </p>
                                   </a>
                                 @else
@@ -133,7 +135,8 @@
                               <div style="margin: 0 auto; width: 60px;">
                                 @if( $level_2[0][0]["username"] != null )
                                   <a class="g_link" href="?p={{ $level_2[0][0]['username'] . $activate['affliliate'] }}">
-                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
+                                    <?php $type = $level_2[0][0]["type_"] == 2 ? "" : "-cd" ?>
+                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/left'. $type .'-img.png') }}" />
                                     <p class="g_title"> {{ $level_2[0][0]["username"] }} </p>
                                   </a>
                                 @else
@@ -148,7 +151,8 @@
                               <div style="margin: 0 auto; width: 60px;">
                                 @if( $level_2[0][1]["username"] != null )
                                   <a class="g_link" href="?p={{ $level_2[0][1]['username'] . $activate['affliliate'] }}">
-                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/right-img.png') }}" />
+                                    <?php $type = $level_2[0][1]["type_"] == 2 ? "" : "-cd" ?>
+                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/right'. $type .'-img.png') }}" />
                                     <p class="g_title"> {{ $level_2[0][1]["username"] }} </p>
                                   </a>
                                 @else
@@ -166,7 +170,8 @@
                               <div style="margin: 0 auto; width: 60px;">
                                 @if( $level_2[1][0]["username"] != null )
                                   <a class="g_link" href="?p={{ $level_2[1][0]['username'] . $activate['affliliate'] }}">
-                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
+                                    <?php $type = $level_2[1][0]["type_"] == 2 ? "" : "-cd" ?>
+                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/left'. $type .'-img.png') }}" />
                                     <p class="g_title"> {{ $level_2[1][0]["username"] }} </p>
                                   </a>
                                 @else
@@ -181,7 +186,8 @@
                               <div style="margin: 0 auto; width: 60px;">
                                 @if( $level_2[1][1]["username"] != null )
                                   <a class="g_link" href="?p={{ $level_2[1][1]['username'] . $activate['affliliate'] }}">
-                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/right-img.png') }}" />
+                                    <?php $type = $level_2[1][1]["type_"] == 2 ? "" : "-cd" ?>
+                                    <img class="g_image" src="{{ app()->getUrl(false, 'images/right'. $type .'-img.png') }}" />
                                     <p class="g_title"> {{ $level_2[1][1]["username"] }} </p>
                                   </a>
                                 @else
@@ -205,7 +211,8 @@
                                 <div style="margin: 0 auto; width: 60px;">
                                   @if( $level_3[0][0]["username"] != null )
                                     <a class="g_link" href="?p={{ $level_3[0][0]['username'] . $activate['affliliate'] }}">
-                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
+                                      <?php $type = $level_3[0][0]["type_"] == 2 ? "" : "-cd" ?>
+                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/left'. $type .'-img.png') }}" />
                                       <p class="g_title"> {{ $level_3[0][0]["username"] }} </p>
                                     </a>
                                   @else
@@ -220,7 +227,8 @@
                                 <div style="margin: 0 auto; width: 60px;">
                                   @if( $level_3[0][1]["username"] != null )
                                     <a class="g_link" href="?p={{ $level_3[0][1]['username'] . $activate['affliliate'] }}">
-                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/right-img.png') }}" />
+                                      <?php $type = $level_3[0][1]["type_"] == 2 ? "" : "-cd" ?>
+                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/right'. $type .'-img.png') }}" />
                                       <p class="g_title"> {{ $level_3[0][1]["username"] }} </p>
                                     </a>
                                   @else
@@ -238,7 +246,8 @@
                                 <div style="margin: 0 auto; width: 60px;">
                                   @if( $level_3[1][0]["username"] != null )
                                     <a class="g_link" href="?p={{ $level_3[1][0]['username'] . $activate['affliliate'] }}">
-                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
+                                      <?php $type = $level_3[1][0]["type_"] == 2 ? "" : "-cd" ?>
+                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/left'. $type .'-img.png') }}" />
                                       <p class="g_title"> {{ $level_3[1][0]["username"] }} </p>
                                     </a>
                                   @else
@@ -253,7 +262,8 @@
                                 <div style="margin: 0 auto; width: 60px;">
                                   @if( $level_3[1][1]["username"] != null )
                                     <a class="g_link" href="?p={{ $level_3[1][1]['username'] . $activate['affliliate'] }}">
-                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/right-img.png') }}" />
+                                      <?php $type = $level_3[1][1]["type_"] == 2 ? "" : "-cd" ?>
+                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/right'. $type .'-img.png') }}" />
                                       <p class="g_title"> {{ $level_3[1][1]["username"] }} </p>
                                     </a>
                                   @else
@@ -273,7 +283,8 @@
                                 <div style="margin: 0 auto; width: 60px;">
                                   @if( $level_3[2][0]["username"] != null )
                                     <a class="g_link" href="?p={{ $level_3[2][0]['username'] . $activate['affliliate'] }}">
-                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
+                                      <?php $type = $level_3[2][0]["type_"] == 2 ? "" : "-cd" ?>
+                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/left'. $type .'-img.png') }}" />
                                       <p class="g_title"> {{ $level_3[2][0]["username"] }} </p>
                                     </a>
                                   @else
@@ -288,7 +299,8 @@
                                 <div style="margin: 0 auto; width: 60px;">
                                   @if( $level_3[2][1]["username"] != null )
                                     <a class="g_link" href="?p={{ $level_3[2][1]['username'] . $activate['affliliate'] }}">
-                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/right-img.png') }}" />
+                                      <?php $type = $level_3[2][1]["type_"] == 2 ? "" : "-cd" ?>
+                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/right'. $type .'-img.png') }}" />
                                       <p class="g_title"> {{ $level_3[2][1]["username"] }} </p>
                                     </a>
                                   @else
@@ -305,8 +317,9 @@
                             <div class="col-md-6" style="height: 85px;">
                                 <div style="margin: 0 auto; width: 60px;">
                                   @if( $level_3[3][0]["username"] != null )
-                                    <a class="g_link" href="?p={{ $level_3[3][1]['username'] . $activate['affliliate'] }}">
-                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/left-img.png') }}" />
+                                    <a class="g_link" href="?p={{ $level_3[3][0]['username'] . $activate['affliliate'] }}">
+                                      <?php $type = $level_3[3][0]["type_"] == 2 ? "" : "-cd" ?>
+                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/left'. $type .'-img.png') }}" />
                                       <p class="g_title"> {{ $level_3[3][0]["username"] }} </p>
                                     </a>
                                   @else
@@ -321,7 +334,8 @@
                                 <div style="margin: 0 auto; width: 60px;">
                                   @if( $level_3[3][1]["username"] != null )
                                     <a class="g_link" href="?p={{ $level_3[3][1]['username'] . $activate['affliliate'] }}">
-                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/right-img.png') }}" />
+                                      <?php $type = $level_3[3][1]["type_"] == 2 ? "" : "-cd" ?>
+                                      <img class="g_image" src="{{ app()->getUrl(false, 'images/right'. $type .'-img.png') }}" />
                                       <p class="g_title"> {{ $level_3[3][1]["username"] }} </p>
                                     </a>
                                   @else
@@ -468,7 +482,7 @@
                 <div class="col-md-9 inputGroupContainer">
                   <div class="input-group">
                       <span class="input-group-addon"><i class="glyphicon glyphicon-qrcode"></i></span>
-                      <input id="_activation_code" name="_activation_code" placeholder="Activation Code" value="45575e4b23c" class="form-control" type="text" required autofocus>
+                      <input id="_activation_code" name="_activation_code" placeholder="Activation Code" class="form-control" type="text" required autofocus>
                   </div>
                 </div>
               </div>

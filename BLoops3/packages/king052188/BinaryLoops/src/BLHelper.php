@@ -59,7 +59,7 @@ class BLHelper
               "amount" => $code_type->amount,
               "generated_by" => (int)$madeBy,
               "generated_for" => (int)$codeFor,
-              "type" => $code_type->Id,
+              "type" => $code_type->type,
               "status" => 1
             );
             $codes[] = array(
@@ -711,7 +711,8 @@ class BLHelper
             "referrals" => $referrals,
             "indirects" => $indirects,
             "levelings" => $leveling,
-            "total_structure" => $total_structure
+            "total_structure" => $total_structure,
+            "total_available_amount" => $referrals["total_available_amount"],
         );
 
         return $status;
@@ -778,7 +779,8 @@ class BLHelper
         $referral_count = array(
             "referral" => $referral[0]->total_referral,
             "total_referral_amount" => ($referral[0]->total_referral * $amt_referral),
-            "total_affiliate_available_points" => (float)$referral[0]->total_affiliate_available_points
+            "total_affiliate_available_points" => (float)$referral[0]->total_affiliate_available_points,
+            "total_available_amount" => (float)$referral[0]->total_available_amount
         );
 
         return $referral_count;
@@ -798,19 +800,27 @@ class BLHelper
         SELECT
         (SELECT COUNT(*) FROM users WHERE connected_to = {$users->id} AND type = 2) AS total_referral,
         (
-        	SELECT CASE WHEN SUM(t_amount) > 0 THEN SUM(t_amount) ELSE 0 END AS total_points FROM user_wallet WHERE member_uid = '{$member_uid}' AND t_type = 23 AND t_role = 1 AND t_status = 2
+        	SELECT CASE WHEN SUM(t_amount) > 0 THEN SUM(t_amount) ELSE 0 END FROM user_wallet WHERE member_uid = '{$member_uid}' AND t_type = 23 AND t_role = 1 AND t_status = 2
         ) AS total_affiliate_points,
         (
-        	SELECT CASE WHEN SUM(t_amount) > 0 THEN SUM(t_amount) ELSE 0 END AS total_points FROM user_wallet WHERE member_uid = '{$member_uid}' AND t_type = 23 AND t_role = 0 AND t_status = 2
+        	SELECT CASE WHEN SUM(t_amount) > 0 THEN SUM(t_amount) ELSE 0 END FROM user_wallet WHERE member_uid = '{$member_uid}' AND t_type = 23 AND t_role = 0 AND t_status = 2
         ) AS total_affiliate_redeem_points,
         (
         	(
-        		SELECT CASE WHEN SUM(t_amount) > 0 THEN SUM(t_amount) ELSE 0 END AS total_points FROM user_wallet WHERE member_uid = '{$member_uid}' AND t_type = 23 AND t_role = 1 AND t_status = 2
+        		SELECT CASE WHEN SUM(t_amount) > 0 THEN SUM(t_amount) ELSE 0 END FROM user_wallet WHERE member_uid = '{$member_uid}' AND t_type = 23 AND t_role = 1 AND t_status = 2
         	) -
         	(
-        		SELECT CASE WHEN SUM(t_amount) > 0 THEN SUM(t_amount) ELSE 0 END AS total_points FROM user_wallet WHERE member_uid = '{$member_uid}' AND t_type = 23 AND t_role = 0 AND t_status = 2
+        		SELECT CASE WHEN SUM(t_amount) > 0 THEN SUM(t_amount) ELSE 0 END FROM user_wallet WHERE member_uid = '{$member_uid}' AND t_type = 23 AND t_role = 0 AND t_status = 2
         	)
-        ) AS total_affiliate_available_points
+        ) AS total_affiliate_available_points,
+        (
+        	(
+        		SELECT CASE WHEN SUM(t_amount) != 0 THEN SUM(t_amount) ELSE 0 END FROM user_wallet WHERE member_uid = '{$member_uid}' AND t_role = 1 AND t_status = 2
+        	) -
+        	(
+        		SELECT CASE WHEN SUM(t_amount) != 0 THEN SUM(t_amount) ELSE 0 END FROM user_wallet WHERE member_uid = '{$member_uid}' AND t_role = 0 AND t_status = 2
+        	)
+        ) AS total_available_amount
         ");
 
         return $referral;
@@ -1080,8 +1090,9 @@ class BLHelper
       return $id;
     }
 
-    public function lookup_genealogy($member_uid)
+    public function lookup_genealogy($member_uid, $amount)
     {
+       $dt = Carbon::now();
        $users = DB::select("
            SELECT t.sponsor_id, t.placement_id, t.member_uid, t.position_,
            a.username, a.mobile, a.type, a.status
@@ -1095,12 +1106,26 @@ class BLHelper
            return false;
        }
 
-       if($users[0]->type > 0) {
+       if($users[0]->type == 2) {
            $lookup_ = $this->lookup_process(
                $users[0]->member_uid,
                $users[0]->position_,
                1
            );
+       }
+       else {
+         $data = array(
+           'member_uid' => $users[0]->member_uid,
+           't_number' => $this->generate_reference(),
+           't_description' => 'Commission Deduction',
+           't_type' => 24, // 20 - referral, 21 - indirect, 22 - pairing, 23 - affliliate bonus, 24 cd
+           't_role' => 1, // 0 - debit, 1 - credit
+           't_amount' => $amount,
+           't_status' => 2,
+           'updated_at' => $dt,
+           'created_at' => $dt,
+         );
+         $this->save_to_database($data, "user_wallet");
        }
 
        return array("status" => true);

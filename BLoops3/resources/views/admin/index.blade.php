@@ -75,7 +75,7 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Pairing Details Per Day</h4>
+        <h4 class="modal-title">Generate Code</h4>
       </div>
 
       <div class="modal-body">
@@ -99,7 +99,7 @@
                 <div class="input-group" data-role="select">
                   <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                   <select id="_type" name="_type" class="form-control">
-                    <option>-- Select --</option>
+                    <option value="NN">-- Select --</option>
                     <option value="PD">PAID [1,100]</option>
                     <option value="CD">CD [-1,100]</option>
                   </select>
@@ -113,7 +113,8 @@
       </div>
 
       <div class="modal-footer">
-        <button id="btnCancel" type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-check" aria-hidden="true"></i> Done</button>
+        <button id="btnGenerate" type="submit" class="btn btn-primary" ><i class="fa fa-check" aria-hidden="true"></i> Generate</button>
+        <button id="btnCancel" type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-ban" aria-hidden="true"></i> Done</button>
       </div>
     </div>
   </div>
@@ -137,7 +138,38 @@ $(document).ready(function() {
     $('#modal-generate-code-form').modal({
         show: true
     });
-    populate_usernames();
+    // populate_usernames();
+  })
+
+  ///
+
+  $("#btnGenerate").click(function() {
+    var _qty = $("#_qty").val();
+    var _type = $("#_type").val();
+
+    if(_qty == "") {
+      swal(
+        'Oops...',
+        'Please enter the quantity.',
+        'warning'
+      )
+      return false;
+    }
+
+    if(_type == "NN") {
+      swal(
+        'Oops...',
+        'Please select the type.',
+        'warning'
+      )
+      return false;
+    }
+
+    var data = {qty : _qty, type : _type, by : 0, for : 0};
+
+    console.log(data);
+
+    generate_code(data);
   })
 })
 
@@ -160,6 +192,33 @@ function populate_usernames() {
     })
 }
 
+function generate_code(data) {
+    $(document).ready(function() {
+        $.ajax({
+            dataType: 'json',
+            type:'GET',
+            url: '/bloops/v1/generate-activation-code',
+            data: data
+        }).done(function(json){
+            if(json.Total_Codes > 0) {
+              swal(
+                'Hooray!',
+                json.Total_Codes + ' codes generated.',
+                'success'
+              )
+              location.reload();
+              return false;
+            }
+
+            swal(
+              'Oops...',
+              'Something went wrong.',
+              'warning'
+            )
+        });
+    })
+}
+
 populate_codes();
 function populate_codes() {
     $(document).ready(function() {
@@ -171,11 +230,11 @@ function populate_codes() {
             var html = "";
             $(json.Data).each(function(a, b) {
               // console.log(json.Data);
-              var type = b.type == 1 ? "CD" : "PAID";
+              var type = b.type == 3 ? "CD" : "PAID";
               html += "<tr>";
               html += "<td style='text-align: center; padding: 5px; font-weight: 600;'>"+b.reference+"</td>";
               html += "<td style='text-align: center; width: 200px; padding: 5px; font-weight: 600;'>"+b.code+"</td>";
-              html += "<td style='text-align: center; width: 150px; padding: 5px; font-weight: 600;'>"+b.generated_by+"</td>";
+              html += "<td style='text-align: center; width: 150px; padding: 5px; font-weight: 600;'>NA</td>";
               html += "<td style='text-align: center; width: 100px; padding: 5px; font-weight: 600;'>"+type+"</td>";
               html += "<td style='text-align: center; width: 150px; padding: 5px; font-weight: 600;'>"+b.amount+"</td>";
               html += "<td style='text-align: center; width: 50px; padding: 5px; font-weight: 600;'>a</td>";
