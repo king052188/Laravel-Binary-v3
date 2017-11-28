@@ -34,7 +34,7 @@ class BLHelper
        return $d;
     }
 
-    public function get_activation_code($limit, $type)
+    public function get_activation_code($qty, $type, $madeBy, $codeFor)
     {
         $code_type = $this->get_price_references($type);
         if($code_type == null) {
@@ -56,8 +56,9 @@ class BLHelper
             $data =  array(
               "reference" => $reference,
               "code" => $code,
-              "amount" => $code_type->ref_amount,
-              "generated_by" => 0,
+              "amount" => $code_type->amount,
+              "generated_by" => (int)$madeBy,
+              "generated_for" => (int)$codeFor,
               "type" => $code_type->Id,
               "status" => 1
             );
@@ -68,13 +69,13 @@ class BLHelper
             $r = $this->save_to_database($data, "user_activation_code");
             $limited++;
           }
-        }while($limited < $limit);
+        }while($limited < $qty);
 
        return array(
-         "Code_Type"=> $code_type->ref_name,
-         "Description" => $code_type->ref_descriptions,
-         "Amount" => $code_type->ref_amount,
-         "Total_Amount" => ((float)$code_type->ref_amount * $limit),
+         "Code_Type"=> $code_type->name,
+         "Description" => $code_type->description,
+         "Amount" => $code_type->amount,
+         "Total_Amount" => ((float)$code_type->amount * $qty),
          "Total_Codes" => COUNT($codes),
          "Codes" => $codes
        );
@@ -935,18 +936,18 @@ class BLHelper
     {
         if($isDone) {
             $c = DB::table('user_activation_code')
-                  ->where('code_', $code)
-                  ->update(['code_status' => 2]);
+                  ->where('code', $code)
+                  ->update(['status' => 2]);
             return $c;
         }
 
         $c = DB::table('user_activation_code')
-              ->where('code_', $code)
-              ->where('code_status', 1)
+              ->where('code', $code)
+              ->where('status', 1)
               ->first();
 
         if( $c != null) {
-            return array('Activation' => $c);;
+            return $c;
         }
         return null;
     }

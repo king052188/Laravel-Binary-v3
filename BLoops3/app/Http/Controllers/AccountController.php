@@ -70,6 +70,10 @@ class AccountController extends Controller
             "Type" => "warning",
           ];
         }
+
+        if($this::$users->type >= 20) {
+          return view('admin.index', compact('top_notifier'));
+        }
         return view('home', compact('top_notifier'));
     }
 

@@ -39,6 +39,11 @@ class BinaryLoops
 
   // functions
   public function Encode($users, $request, $placement_id, $position_id) {
+    $code = BLHelper::check_activation_code($request["code"]);
+    if( $code == null ) {
+      return ["Status" => 400, "Message" => "Invalid Activation Code", "Insert_Uid" => 0, "Member_Uid" => null];
+    }
+
     $username = BLHelper::check_member_info($request["username"]);
     if( COUNT($username) > 0 ) {
       return ["Status" => 401, "Message" => "Username already exists.", "Insert_Uid" => 0, "Member_Uid" => null];
@@ -83,7 +88,7 @@ class BinaryLoops
       "type" => 2, //1 Affliate  by Sponsor, 2 Encoded by Sponsor, 3 Commission Deduction Account, 4 Free Slot
       "status" => 2, //0 Deactivated Account, 1 Pending Account, 2 Activated Account
       "connected_to" => $users["id"],
-      "activation_id" => 0,
+      "activation_id" => $code->Id,
       'updated_at' => $dt,
       'created_at' => $dt
     );
@@ -95,7 +100,7 @@ class BinaryLoops
         "sponsor_id" => $users["member_uid"],
         "placement_id" => $placement_id,
         "member_uid" => $new_member_uid,
-        "activation_code" => 0,
+        "activation_code" => $code->code,
         "position_" => $position_id,
         "status_" => 2,
         'updated_at' => $dt,
@@ -262,7 +267,12 @@ class BinaryLoops
   }
 
   public function Generate_Activation_Code(Request $request) {
-    $json = BLHelper::get_activation_code($request->qty, $request->type);
+    $json = BLHelper::get_activation_code(
+      $request->qty,
+      $request->type,
+      $request->by,
+      $request->for
+    );
     return $json;
   }
 

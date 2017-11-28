@@ -143,7 +143,7 @@ $("#btnEncode").click(function() {
     last_name: last_name,
     email: email,
     mobile: mobile,
-    activation_code: activation_code
+    code: activation_code
   };
   $("#_span_error_msg").text("");
   $("#_span_error_msg").hide();

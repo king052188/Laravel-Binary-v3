@@ -69,6 +69,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/1.5.6/numeral.min.js"></script>
+    @yield('style')
 </head>
 <body>
     <div id="app">
@@ -107,9 +108,16 @@
                             <!-- <li><a href="{{ app()->getUrl(true, '/register') }}">Register</a></li> -->
                         @else
                             <li><a href="{{ app()->getUrl(true, '/') }}">Home</a></li>
+
+                            @if(Auth::user()->type >= 20)
+                            <li><a href="{{ app()->getUrl(true, '/members') }}">Members</a></li>
+                            <li><a href="{{ app()->getUrl(true, '/finance') }}">Finance</a></li>
+                            @else
                             <!-- <li><a href="{{ app()->getUrl(true, '/') }}">Services</a></li> -->
                             <li><a href="{{ app()->getUrl(true, '/genealogy') }}">Genealogy</a></li>
                             <li><a href="{{ app()->getUrl(true, '/leveling') }}">Leveling</a></li>
+                            @endif
+
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="text-transform: capitalize;">
                                     {{ Auth::user()->first_name . ' ' . Auth::user()->last_name }} <span class="caret"></span>

@@ -18,6 +18,15 @@ use App\Events\eventTrigger;
 //     return view('welcome');
 // });
 
+Route::get('/members', 'AdminController@get_members');
+
+Route::get('/members/data.json', 'AdminController@get_members_json');
+
+
+
+Route::get('/member/usernames.json', 'AdminController@get_members_username');
+
+Route::get('/activation/code/lists.json', 'AdminController@get_code_lists');
 
 
 Route::get('/genealogy', 'HomeController@genealogy');
