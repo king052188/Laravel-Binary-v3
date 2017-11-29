@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Wazzel') }}</title>
@@ -60,9 +60,12 @@
 
       }
       p.g_title { margin: 10px 0 0 0; padding: 0; text-align: center; font-weight: 600;  }
+      .container { width: 80%; }
       @media screen and (max-width: 1200px) {
-        #g_structure_container { overflow: scroll; max-height: 470px; }
+        #g_structure_container { overflow: scroll; max-height: 480px;  }
+        .container { width: 100%; }
       }
+
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js"></script>
     <!-- Include a polyfill for ES6 Promises (optional) for IE11 and Android browser -->

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 
-<div class="container" style="width: 80%;">
+<div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
@@ -503,6 +503,8 @@
   </div>
 </div>
 
+@endsection
+@section('style')
 @endsection
 
 @section('script')
