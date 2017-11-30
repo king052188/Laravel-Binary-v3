@@ -8,6 +8,7 @@ use Auth;
 use App\User;
 use BinaryLoops;
 use BLHelper;
+use KPAPostMail;
 
 
 use App\Notifications\UserRegisteredNotification;
@@ -100,6 +101,20 @@ class HomeController extends Controller
             }
           }
         }
+
+        $member = array(
+          "Name"=> ucwords($request["first_name"] . ' ' . $request["last_name"]),
+          "Email"=> $request["email"]
+        );
+        $member_uid = $result["Member_Uid"];
+        $username = $request["username"];
+        $password = $result["Password"];
+        $msg = "Here's your account information <br /><br />
+        Your Account Number: <strong>{$username}</strong> <br />
+        Your Temporary Username: <strong>{$password}</strong> <br />
+        Your Password: <strong>{$password}</strong>
+        ";
+        $r = KPAPostMail::send($member, "Congratulation you are successfully registered", $msg);
 
       }
       return $result;

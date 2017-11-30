@@ -477,7 +477,10 @@
             @else
             <a href="/" id="btnSignIn" class="btn btn-default followbtn"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Dashboard</a>
             @endif
+
+            @if(Auth::user()->type <= 5 )
             <button id="btnJoin" class="btn btn-primary followbtn"> <i class="fa fa-users" aria-hidden="true"></i> Follow and Join</button>
+            @endif
           </div>
           <div class="clearfix"></div>
         </div>

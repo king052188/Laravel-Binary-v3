@@ -846,7 +846,7 @@ class BLHelper
 
     public function generate_activation_code($length = 10)
     {
-    	$characters = '23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPRSTUVWXYZ';
+    	$characters = '23456789abcdefghjkm123654789npqrstuvwxyzABCDEFGHJKLM123654789NPRSTUVWXYZ';
     	$charactersLength = strlen($characters);
     	$randomString = '';
     	for ($i = 0; $i < $length; $i++) {

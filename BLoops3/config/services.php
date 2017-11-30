@@ -36,9 +36,9 @@ return [
     ],
 
     'KPAPostMail' => [
-        'domain' => env('KPAPostMail_DOMAIN'),
-        'email' => env('KPAPostMail_EMAIL'),
-        'uid' => env('KPAPostMail_UID'),
+        'domain' => env('KPAPostMail_DOMAIN', 'postmail.kpa21.info'),
+        'email' => env('KPAPostMail_EMAIL', 'kingpauloaquino@gmail.com'),
+        'uid' => env('KPAPostMail_UID', '1'),
     ],
 
     'BinaryLoops' => [

@@ -9,7 +9,7 @@ use Auth;
 use App\User;
 use BLHelper;
 use BinaryLoops;
-// use KPAPostMail;
+use KPAPostMail;
 
 
 class AccountController extends Controller
@@ -143,19 +143,20 @@ class AccountController extends Controller
       );
       $wallet->update_wallet($data);
 
-      // if($result["Status"] == 200) {
-      //   $member = array(
-      //     "Name"=>ucwords($request["first_name"] . ' ' . $request["last_name"]),
-      //     "Email"=>$request["email"]
-      //   );
-      //   $member_uid = $result["Member_UID"];
-      //   $msg = "Here's your account information <br /><br />
-      //   Your Account Number: <strong>{$member_uid}</strong> <br />
-      //   Your Temporary Username: is your <strong>Account Number</strong>, Please use that to be able to login. <br />
-      //   Your Password: <strong>123456</strong>
-      //   ";
-      //   $r = KPAPostMail::send($member, "Congratulation you are successfully registered", $msg);
-      // }
+      if($result["Status"] == 200) {
+        $member = array(
+          "Name"=>ucwords($request["first_name"] . ' ' . $request["last_name"]),
+          "Email"=>$request["email"]
+        );
+        $member_uid = $result["Member_Uid"];
+        $password = $result["Password"];
+        $msg = "Here's your account information <br /><br />
+        Your Account Number: <strong>{$member_uid}</strong> <br />
+        Your Temporary Username: is your <strong>Account Number</strong>, Please use that to be able to login. <br />
+        Your Password: <strong>{$password}</strong>
+        ";
+        $r = KPAPostMail::send($member, "Congratulation you are successfully registered", $msg);
+      }
 
       return $result;
     }

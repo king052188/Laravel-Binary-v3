@@ -73,7 +73,7 @@ class BinaryLoops
     $new_member_uid = BLHelper::generate_unique_id(null);
     $hex_code = "123456"; //sprintf('%06X', mt_rand(0, 0xFFFFFF));
     $encrypted_hexcode = bcrypt($hex_code);
-    $passwords = ["Password"=> $hex_code, "Encrypted" => $encrypted_hexcode];
+    $passwords = $hex_code; //["Password"=> $hex_code, "Encrypted" => $encrypted_hexcode];
     $user_token = md5(sprintf('%06X', mt_rand(0, 0xFFFFFF)));
 
     $member_info = array(
@@ -112,11 +112,11 @@ class BinaryLoops
       $result = BLHelper::add_member_genealogy($genealogy);
       if($result > 0) {
         BLHelper::lookup_genealogy($new_member_uid, $code->amount);
-        return ["Status" => 200, "Message" => "Success.", "Insert_Uid" => $result, "Member_Uid" => $new_member_uid];
+        return ["Status" => 200, "Message" => "Success.", "Insert_Uid" => $result, "Member_Uid" => $new_member_uid, "Password" => $passwords];
       }
-      return ["Status" => 500, "Message" => "Something went wrong. Error#: 002", "Insert_Uid" => $result, "Member_Uid" => $new_member_uid];
+      return ["Status" => 500, "Message" => "Something went wrong. Error#: 002", "Insert_Uid" => $result, "Member_Uid" => $new_member_uid, "Password" => $passwords];
     }
-    return ["Status" => 500, "Message" => "Something went wrong. Error#: 001", "Insert_Uid" => 0, "Member_Uid" => null];
+    return ["Status" => 500, "Message" => "Something went wrong. Error#: 001", "Insert_Uid" => 0, "Member_Uid" => null, "Password" => null];
   }
 
   public function Encode_Via_UserUrl($sponsor_uid, $request) {
@@ -127,9 +127,9 @@ class BinaryLoops
 
     $dt = Carbon::now();
     $new_member_uid = BLHelper::generate_unique_id(null);
-    $hex_code = "123456"; //sprintf('%06X', mt_rand(0, 0xFFFFFF));
+    $hex_code = sprintf('%06X', mt_rand(0, 0xFFFFFF));
     $encrypted_hexcode = bcrypt($hex_code);
-    $passwords = ["Password"=> $hex_code, "Encrypted" => $encrypted_hexcode];
+    $passwords = $hex_code; //["Password"=> $hex_code, "Encrypted" => $encrypted_hexcode];
     $user_token = md5(sprintf('%06X', mt_rand(0, 0xFFFFFF)));
 
     $member_info = array(
@@ -150,9 +150,9 @@ class BinaryLoops
     );
     $result = BLHelper::add_member($member_info);
     if($result > 0) {
-      return ["Status" => 200, "Message" => "Success.", "Member_UID" => $new_member_uid];
+      return ["Status" => 200, "Message" => "Success.", "Member_Uid" => $new_member_uid, "Password" => $passwords];
     }
-    return ["Status" => 500, "Message" => "Something went wrong. Error#: 001", "Member_UID" => null];
+    return ["Status" => 500, "Message" => "Something went wrong. Error#: 001", "Member_Uid" => null, "Password" => null];
   }
 
   public function Encode_Affliliates($users, $request, $placement_id, $position_id, $affliliate_uid) {

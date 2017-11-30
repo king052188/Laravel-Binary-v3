@@ -153,6 +153,7 @@ $("#btnEncode").click(function() {
   }
   // console.log(url);
   if(!IsClick) {
+    IsClick = true;
     ajax_exec(url, data, this);
   }
   else {
