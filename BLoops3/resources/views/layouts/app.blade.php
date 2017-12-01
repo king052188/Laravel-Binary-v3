@@ -61,8 +61,10 @@
       }
       p.g_title { margin: 10px 0 0 0; padding: 0; text-align: center; font-weight: 600;  }
       .container { width: 80%; }
+      #nav_container { width: 55%; }
       @media screen and (max-width: 1200px) {
         #g_structure_container { overflow: scroll; max-height: 480px;  }
+        #nav_container { width: 100%; }
         .container { width: 100%; }
       }
 
@@ -82,8 +84,8 @@
             {!! $top_notifier['Message'] !!}
           </div>
         @endif -->
-        <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
+        <nav class="navbar navbar-default navbar-static-top" >
+            <div id="nav_container" class="container">
                 <div class="navbar-header">
                     <!-- Collapsed Hamburger -->
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
@@ -127,7 +129,7 @@
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="{{ app()->getUrl(true, '/' . Auth::user()->username) }}">Profile</a></li>
-                                    <!-- <li><a href="{{ app()->getUrl(true, '/') }}">Settings</a></li> -->
+                                    <li><a href="{{ app()->getUrl(true, '/reset-password') }}">Reset Password</a></li>
                                     <li>
                                         <a href="{{ app()->getUrl(true, '/logout') }}"
                                             onclick="event.preventDefault();

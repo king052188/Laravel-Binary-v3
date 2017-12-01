@@ -17,11 +17,11 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-        
+
         <!-- Styles -->
         <style>
             html, body {
-                background-color: #fff;
+                background-color: #000;
                 color: #464646;
                 font-family: 'Raleway', sans-serif;
                 font-weight: 100;
@@ -60,13 +60,17 @@
             }
 
             .links > a {
-                color: #636b6f;
+                color: #fff;
                 padding: 0 25px;
                 font-size: 12px;
                 font-weight: 600;
                 letter-spacing: .1rem;
                 text-decoration: none;
                 text-transform: uppercase;
+            }
+
+            .links > a:hover {
+                text-decoration: underline;
             }
 
             .m-b-md {
@@ -78,6 +82,14 @@
             table thead tr th, tbody tr td { text-align: center; }
             table thead tr th { background-color: #3E3E3E; color: #fff; border: 1px solid #E1E1E1; }
             table tbody tr td { border: 1px solid #E1E1E1; font-weight: 600; }
+
+            @media screen and (max-width: 1300px) {
+              .content {
+                  text-align: center;
+                  width: 100%;
+              }
+              img { width: 256px; }
+            }
         </style>
     </head>
     <body>
@@ -87,19 +99,20 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @if (Auth::check())
-                        <a href="{{ app()->getUrl(true, '/dashboard') }}">Dashboard</a>
+                        <a href="{{ app()->getUrl(true, '/dashboard') }}">[ Dashboard ]</a>
                     @else
-                        <a href="{{ app()->getUrl(true, '/login') }}">Login</a>
+                        <a href="{{ app()->getUrl(true, '/login') }}">[ Login ]</a>
                         <!-- <a href="{{ app()->getUrl(true, '/register') }}">Register</a> -->
                     @endif
                 </div>
             @endif
 
             <div class="content">
-                <div class="title m-b-md">
+                <!-- <div class="title m-b-md">
                     {{ config('app.name', 'Wazzel') }}
                 </div>
-                <h3>=== THIS WEBSITE WILL SOON BE OPEN FOR THE PUBLIC! ===</h3>
+                <h3>=== THIS WEBSITE WILL SOON BE OPEN FOR THE PUBLIC! ===</h3> -->
+                <img src="{{ app()->getUrl(false, '/images/EPrologowithtxt3.png') }}" />
             </div>
         </div>
       </div>

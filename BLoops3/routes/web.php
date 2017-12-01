@@ -14,14 +14,24 @@
 use App\Events\eventTrigger;
 
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/test/email', function () {
+
+  $user = ["name" => "Pau"];
+
+  Mail::send('admin.test', $user, function ($m) {
+
+      $m->from('hello@app.com', 'Your Application');
+
+      $m->to('kingpauloaquino@mail.com', 'kingpauloaquino')->subject('Your Reminder!');
+
+  });
+
+});
+
 
 Route::get('/members', 'AdminController@get_members');
 
 Route::get('/members/data.json', 'AdminController@get_members_json');
-
 
 
 Route::get('/member/usernames.json', 'AdminController@get_members_username');
@@ -54,6 +64,9 @@ Route::get('/account/wallet/{account}', 'WalletController@get_wallet');
 Route::get('/leveling', 'HomeController@leveling');
 
 Route::post('/leveling/pairing-per-level-summary', 'HomeController@leveling_populate');
+
+
+Route::get('/reset-password', 'HomeController@reset_password');
 
 Auth::routes();
 

@@ -35,6 +35,11 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+    public function reset_password() {
+      Auth::logout();
+      return redirect('password/reset');
+    }
+
     public function genealogy(Request $request)
     {
       $this::$users = Auth::user();
@@ -110,8 +115,8 @@ class HomeController extends Controller
         $username = $request["username"];
         $password = $result["Password"];
         $msg = "Here's your account information <br /><br />
-        Your Account Number: <strong>{$username}</strong> <br />
-        Your Temporary Username: <strong>{$password}</strong> <br />
+        Your Account Number: <strong>{$member_uid}</strong> <br />
+        Your Username: <strong>{$username}</strong> <br />
         Your Password: <strong>{$password}</strong>
         ";
         $r = KPAPostMail::send($member, "Congratulation you are successfully registered", $msg);
