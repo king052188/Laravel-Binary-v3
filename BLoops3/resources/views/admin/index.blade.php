@@ -88,7 +88,13 @@
               <div class="col-md-9 inputGroupContainer">
                 <div class="input-group">
                   <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                  <input id="_qty" name="_qty" placeholder="Quantity" class="form-control" type="number" required autofocus>
+                  <!-- <input id="_qty" name="_qty" placeholder="Quantity" class="form-control" type="number" maxlength="2" required autofocus> -->
+                  <select id="_qty" name="_qty" placeholder="Quantity" class="form-control">
+                    @for($i = 1; $i <= 20; $i++)
+                      <option value="{{ $i }}">{{ $i }}</option>
+                    @endfor
+                  </select>
+
                 </div>
               </div>
             </div>
@@ -138,14 +144,12 @@ $(document).ready(function() {
     $('#modal-generate-code-form').modal({
         show: true
     });
-    // populate_usernames();
   })
-
-  ///
 
   $("#btnGenerate").click(function() {
     var _qty = $("#_qty").val();
     var _type = $("#_type").val();
+    var _by = {{ Auth::user()->id }};
 
     if(_qty == "") {
       swal(
@@ -165,9 +169,7 @@ $(document).ready(function() {
       return false;
     }
 
-    var data = {qty : _qty, type : _type, by : 0, for : 0};
-
-    console.log(data);
+    var data = {qty : _qty, type : _type, by : _by, for : 0};
 
     generate_code(data);
   })
@@ -200,21 +202,30 @@ function generate_code(data) {
             url: '/bloops/v1/generate-activation-code',
             data: data
         }).done(function(json){
-            if(json.Total_Codes > 0) {
-              swal(
-                'Hooray!',
-                json.Total_Codes + ' codes generated.',
-                'success'
-              )
-              location.reload();
-              return false;
-            }
-
+          if(json.Type_ID == 99) {
             swal(
-              'Oops...',
-              'Something went wrong.',
+              'Oops!',
+              json.Description,
               'warning'
             )
+            return false;
+          }
+
+          else if(json.Total_Codes > 0) {
+            swal(
+              'Hooray!',
+              json.Total_Codes + ' codes generated.',
+              'success'
+            )
+            populate_codes();
+            return false;
+          }
+
+          swal(
+            'Oops...',
+            'Something went wrong.',
+            'warning'
+          )
         });
     })
 }

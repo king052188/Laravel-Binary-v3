@@ -36,6 +36,28 @@ class BLHelper
 
     public function get_activation_code($qty, $type, $madeBy, $codeFor)
     {
+        $by = (int)$madeBy;
+        $quantity = (int)$qty;
+
+        if($quantity > 20) {
+          return array(
+            "Type_ID" => 99,
+            "Description" => "You do not have enough code limit.",
+            "Total_Codes" => 0,
+            "Codes" => null
+          );
+        }
+
+        $codes = DB::select("SELECT COUNT(*) AS t_codes FROM user_activation_code WHERE generated_by = {$by};");
+        if($codes[0]->t_codes >= 20) {
+          return array(
+            "Type_ID" => 99,
+            "Description" => "You do not have enough code limit.",
+            "Total_Codes" => 0,
+            "Codes" => null
+          );
+        }
+
         $code_type = $this->get_price_references($type);
         if($code_type == null) {
           return array(
@@ -846,7 +868,7 @@ class BLHelper
 
     public function generate_activation_code($length = 10)
     {
-    	$characters = '23456789abcdefghjkm123654789npqrstuvwxyzABCDEFGHJKLM123654789NPRSTUVWXYZ';
+    	$characters = 'NLu99lkadhSup4NXj9fHyLi23456789abcdefghjkm12365xxbxTHve5e11ICgXFZ0MjB6VkBZl8rldpZDRLEJyHvUBCaw6a4789npqrstuvwxyzABCDEFGHJKLM2r2nkCtP6liHb123654789NPRSTUVWXYZ';
     	$charactersLength = strlen($characters);
     	$randomString = '';
     	for ($i = 0; $i < $length; $i++) {
