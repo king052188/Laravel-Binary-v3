@@ -76,35 +76,36 @@ class HomeController extends Controller
       if($result["Status"] == 200) {
         $wallet = new WalletController();
 
-        //pay referral bonus
-
-        $data = array(
-          'member_uid' => $this::$users["member_uid"],
-          't_description' => "Referral Bonus",
-          't_type' => 20,
-          't_role' => 1,
-          't_amount' => 100,
-          't_status' => 2,
-        );
-        $wallet->update_wallet($data);
-
-        //get and pay indirect bonus
-
-        if($result["Member_Uid"] != null) {
-          $indirects = BLHelper::get_reverse_indirect($result["Member_Uid"]);
-          for($i = 0; $i < COUNT($indirects); $i++) {
-            if($i > 0) {
-              $data = array(
-                'member_uid' => $indirects[$i],
-                't_description' => "Indirect Bonus",
-                't_type' => 21,
-                't_role' => 1,
-                't_amount' => 10,
-                't_status' => 2,
-              );
-              $wallet->update_wallet($data);
+        if($result["Member_Uid"] == 2) {
+          //pay referral bonus
+          $data = array(
+            'member_uid' => $this::$users["member_uid"],
+            't_description' => "Referral Bonus",
+            't_type' => 20,
+            't_role' => 1,
+            't_amount' => 100,
+            't_status' => 2,
+          );
+          $wallet->update_wallet($data);
+          
+          //get and pay indirect bonus
+          if($result["Member_Uid"] != null) {
+            $indirects = BLHelper::get_reverse_indirect($result["Member_Uid"]);
+            for($i = 0; $i < COUNT($indirects); $i++) {
+              if($i > 0) {
+                $data = array(
+                  'member_uid' => $indirects[$i],
+                  't_description' => "Indirect Bonus",
+                  't_type' => 21,
+                  't_role' => 1,
+                  't_amount' => 10,
+                  't_status' => 2,
+                );
+                $wallet->update_wallet($data);
+              }
             }
           }
+
         }
 
         $member = array(

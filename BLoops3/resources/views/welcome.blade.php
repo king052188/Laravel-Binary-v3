@@ -7,10 +7,10 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>{{ config('app.name', 'Wazzel') }}</title>
         <meta property="og:url"           content="{{ app()->getUrl(true, '/') }}" />
-        <meta property="og:type"          content="Website Application" />
+        <meta property="og:type"          content="Website" />
         <meta property="og:title"         content="{{ config('app.name', 'Laravel') }}" />
         <meta property="og:description"   content="{{ config('app.description', 'Application Description') }}" />
-        <meta property="og:image"         content="{{ app()->getUrl(false, 'images/k-icon.png') }}" />
+        <meta property="og:image"         content="{{ app()->getUrl(false, '/images/og_images.png') }}" />
         <!-- Styles -->
         <link rel="apple-touch-icon" href="{{ app()->getUrl(false, 'images/k-icon.png') }}">
     		<link rel="shortcut icon" type="image/png" href="{{ app()->getUrl(false, 'images/k-icon.png') }}"/>
@@ -27,7 +27,6 @@
                 font-weight: 100;
                 height: 100vh;
                 margin: 0;
-
             }
 
             .full-height {
@@ -92,7 +91,7 @@
             }
         </style>
     </head>
-    <body>
+    <body id="body">
       <div id="app">
         <div id="notifyUsers"></div>
         <div class="flex-center position-ref full-height">
@@ -117,5 +116,18 @@
         </div>
       </div>
       <script src="{{ app()->getUrl(false, '/js/app.js') }}"></script>
+      <script>
+        var bgColors = ["#5c0d5d", "#000", "brown", "#343434"];
+        var todaysBGColors = Math.floor(Math.random() * 4);
+        var i = todaysBGColors;
+        changeBGColor();
+        function changeBGColor() {
+          $(document).ready(function() {
+             $("#body").css("background-color", bgColors[i]);
+             i = (i + 1) % bgColors.length;
+          })
+        }
+        setInterval(changeBGColor, 5000);
+      </script>
     </body>
 </html>

@@ -14,10 +14,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ ucwords($users->first_name . ' ' . $users->last_name) }}</title>
     <meta property="og:url"           content="{{ app()->getUrl(true, '/') }}" />
-    <meta property="og:type"          content="Website Application" />
+    <meta property="og:type"          content="Website" />
     <meta property="og:title"         content="{{ ucwords($users->first_name . ' ' . $users->last_name) }} | {{ config('app.name', 'Laravel') }}" />
     <meta property="og:description"   content="{{ config('app.description', 'Application Description') }}" />
-    <meta property="og:image"         content="{{ app()->getUrl(false, 'images/k-icon.png') }}" />
+    <meta property="og:image"         content="{{ app()->getUrl(false, '/images/og_images.png') }}" />
     <!-- Styles -->
     <link rel="apple-touch-icon" href="{{ app()->getUrl(false, 'images/k-icon.png') }}">
     <link rel="shortcut icon" type="image/png" href="{{ app()->getUrl(false, 'images/k-icon.png') }}"/>
@@ -473,13 +473,12 @@
               </li>
             </ul>
             @if (Auth::guest())
-            <a href="{{ route('login') }}" id="btnSignIn" class="btn btn-default followbtn"> <i class="fa fa-sign-in" aria-hidden="true"></i> Sign In</a>
+              <a href="{{ route('login') }}" id="btnSignIn" class="btn btn-default followbtn"> <i class="fa fa-sign-in" aria-hidden="true"></i> Sign In</a>
+              @if($users->type <=5)
+              <button id="btnJoin" class="btn btn-primary followbtn"> <i class="fa fa-users" aria-hidden="true"></i> Follow and Join</button>
+              @endif
             @else
-            <a href="/" id="btnSignIn" class="btn btn-default followbtn"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Dashboard</a>
-            @endif
-
-            @if(Auth::user()->type <= 5 )
-            <button id="btnJoin" class="btn btn-primary followbtn"> <i class="fa fa-users" aria-hidden="true"></i> Follow and Join</button>
+              <a href="/" id="btnSignIn" class="btn btn-default followbtn"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Dashboard</a>
             @endif
           </div>
           <div class="clearfix"></div>

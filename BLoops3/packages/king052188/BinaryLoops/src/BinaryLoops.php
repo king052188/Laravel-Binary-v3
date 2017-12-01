@@ -112,7 +112,14 @@ class BinaryLoops
       $result = BLHelper::add_member_genealogy($genealogy);
       if($result > 0) {
         BLHelper::lookup_genealogy($new_member_uid, $code->amount);
-        return ["Status" => 200, "Message" => "Success.", "Insert_Uid" => $result, "Member_Uid" => $new_member_uid, "Password" => $passwords];
+        return [
+          "Status" => 200,
+          "Message" => "Success.",
+          "Insert_Uid" => $result,
+          "Type" => $code->type,
+          "Member_Uid" => $new_member_uid,
+          "Password" => $passwords
+        ];
       }
       return ["Status" => 500, "Message" => "Something went wrong. Error#: 002", "Insert_Uid" => $result, "Member_Uid" => $new_member_uid, "Password" => $passwords];
     }
@@ -150,7 +157,12 @@ class BinaryLoops
     );
     $result = BLHelper::add_member($member_info);
     if($result > 0) {
-      return ["Status" => 200, "Message" => "Success.", "Member_Uid" => $new_member_uid, "Password" => $passwords];
+      return [
+        "Status" => 200,
+        "Message" => "Success.",
+        "Member_Uid" => $new_member_uid,
+        "Password" => $passwords
+      ];
     }
     return ["Status" => 500, "Message" => "Something went wrong. Error#: 001", "Member_Uid" => null, "Password" => null];
   }
@@ -213,7 +225,14 @@ class BinaryLoops
       $result = BLHelper::add_member_genealogy($genealogy);
       if($result > 0) {
         BLHelper::lookup_genealogy($member_uid, $code->amount);
-        return ["Status" => 200, "Message" => "Success.", "Insert_Uid" => $result, "Member_Uid" => $member_uid];
+        return [
+          "Status" => 200,
+          "Message" => "Success.",
+          "Insert_Uid" => $result,
+          "Type" => $code->type,
+          "Member_Uid" => $new_member_uid,
+          "Password" => $passwords
+        ];
       }
       return ["Status" => 500, "Message" => "Something went wrong. Error#: 002", "Insert_Uid" => $result, "Member_Uid" => $member_uid];
     }

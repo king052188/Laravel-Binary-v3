@@ -14,10 +14,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Wazzel') }}</title>
     <meta property="og:url"           content="{{ app()->getUrl(true, '/') }}" />
-    <meta property="og:type"          content="Website Application" />
+    <meta property="og:type"          content="Website" />
     <meta property="og:title"         content="{{ config('app.name', 'Laravel') }}" />
     <meta property="og:description"   content="{{ config('app.description', 'Application Description') }}" />
-    <meta property="og:image"         content="{{ app()->getUrl(false, 'images/k-icon.png') }}" />
+    <meta property="og:image"         content="{{ app()->getUrl(false, '/images/og_images.png') }}" />
     <!-- Styles -->
     <link rel="apple-touch-icon" href="{{ app()->getUrl(false, 'images/k-icon.png') }}">
     <link rel="shortcut icon" type="image/png" href="{{ app()->getUrl(false, 'images/k-icon.png') }}"/>
