@@ -339,7 +339,7 @@ function populate_genealogy_history(IsRefresh) {
               }
             }
         }).done(function(json){
-          console.log(json);
+          // console.log(json);
             var html = "", html2 = "";
             var total_points = 0, total_referral = 0, total_indirect = 0;
             var pos = json.position == 21 ? "Left" : "Right";

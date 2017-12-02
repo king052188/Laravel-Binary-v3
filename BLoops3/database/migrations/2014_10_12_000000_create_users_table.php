@@ -32,6 +32,7 @@ class CreateUsersTable extends Migration
             $table->integer('activation_id')->unique();
             $table->boolean('type');
             $table->boolean('status');
+            $table->boolean('synched');
             $table->rememberToken();
             $table->timestamps();
         });

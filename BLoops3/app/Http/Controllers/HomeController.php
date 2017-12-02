@@ -76,7 +76,7 @@ class HomeController extends Controller
       if($result["Status"] == 200) {
         $wallet = new WalletController();
 
-        if($result["Member_Uid"] == 2) {
+        if($result["Type"] == 2) {
           //pay referral bonus
           $data = array(
             'member_uid' => $this::$users["member_uid"],
@@ -87,7 +87,7 @@ class HomeController extends Controller
             't_status' => 2,
           );
           $wallet->update_wallet($data);
-          
+
           //get and pay indirect bonus
           if($result["Member_Uid"] != null) {
             $indirects = BLHelper::get_reverse_indirect($result["Member_Uid"]);

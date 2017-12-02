@@ -16,3 +16,8 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::get('/get/non-synched-member', 'ApiController@get_non_synched_member');
+
+Route::get('/update/member-synched/{uid}', 'ApiController@update_to_synched_status');
