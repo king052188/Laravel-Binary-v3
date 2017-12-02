@@ -39,17 +39,19 @@ class BLHelper
         $by = (int)$madeBy;
         $quantity = (int)$qty;
 
-        if($quantity > 20) {
-          return array(
-            "Type_ID" => 99,
-            "Description" => "You do not have enough code limit.",
-            "Total_Codes" => 0,
-            "Codes" => null
-          );
-        }
+        // $codes = DB::select("SELECT COUNT(*) AS t_codes FROM user_activation_code WHERE generated_by = {$by};");
+        $codes = DB::select("
+          SELECT
+          (SELECT COUNT(*) AS t_codes FROM user_activation_code WHERE generated_by = {$by}) AS t_count,
+          (
+            (SELECT COUNT(*) AS t_codes FROM user_activation_code WHERE generated_by = {$by}) -
+          	(SELECT CASE WHEN SUM(code_qty) > 0 THEN SUM(code_qty) ELSE 0 END FROM code_transactions WHERE manager_id = {$by})
+          ) AS t_codes
+        ");
 
-        $codes = DB::select("SELECT COUNT(*) AS t_codes FROM user_activation_code WHERE generated_by = {$by};");
-        if($codes[0]->t_codes >= 20) {
+        $over_all_codes = $quantity + $codes[0]->t_codes;
+
+        if($over_all_codes >= 21) {
           return array(
             "Type_ID" => 99,
             "Description" => "You do not have enough code limit.",
@@ -70,6 +72,7 @@ class BLHelper
 
         $codes = [];
         $limited = 0;
+        $dt = Carbon::now();
         do{
           $reference = $this->generate_reference();
           $code = $this->generate_activation_code();
@@ -82,7 +85,9 @@ class BLHelper
               "generated_by" => (int)$madeBy,
               "generated_for" => (int)$codeFor,
               "type" => $code_type->type,
-              "status" => 1
+              "status" => 1,
+              'updated_at' => $dt,
+              'created_at' => $dt
             );
             $codes[] = array(
               "Reference" => $reference,

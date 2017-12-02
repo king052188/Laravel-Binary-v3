@@ -54,7 +54,7 @@ class AdminController extends Controller
    public function get_members_json(Request $request)
    {
      $this::$users = Auth::user();
-     $members = User::get();
+     $members = DB::select("SELECT *, (SELECT code FROM user_activation_code WHERE Id = activation_id) AS code_used FROM users;"); //User::get();
 
      $data = [];
      for($i = 0; $i < COUNT($members); $i++) {
@@ -62,8 +62,8 @@ class AdminController extends Controller
          $members[$i]->member_uid,
          $members[$i]->username,
          ucwords($members[$i]->first_name ." ". $members[$i]->last_name),
-         $members[$i]->mobile,
-         $members[$i]->created_at->toDateString()
+         $members[$i]->code_used,
+         $members[$i]->created_at
        );
      }
 
@@ -76,7 +76,8 @@ class AdminController extends Controller
    }
 
    public function get_code_lists() {
-     $codes = Codes::where("status", 1)->get();
+     $this::$users = Auth::user();
+     $codes = DB::select("SELECT * FROM user_activation_code WHERE generated_by = {$this::$users->id} AND status = 1;");
      return ["Data" => $codes];
    }
 }

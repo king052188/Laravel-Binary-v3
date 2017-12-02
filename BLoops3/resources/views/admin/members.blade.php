@@ -25,8 +25,8 @@
                             <th style="width: 200px;">Account</th>
                             <th style="width: 100px;">Username</th>
                             <th>Fullname</th>
-                            <th style="width: 100px;">Mobile</th>
-                            <th style="width: 100px;">Joined</th>
+                            <th style="width: 100px;">Code</th>
+                            <th style="width: 150px;">Joined</th>
                           </tr>
                       </thead>
                     </table>
