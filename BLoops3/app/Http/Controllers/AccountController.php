@@ -72,7 +72,7 @@ class AccountController extends Controller
         }
 
         if($this::$users->type >= 20) {
-          return view('admin.index', compact('top_notifier'));
+          return view('admin.index', compact('top_notifier', 'managers'));
         }
         return view('home', compact('top_notifier'));
     }

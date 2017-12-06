@@ -41,10 +41,13 @@ class AdminController extends Controller
      return view('admin.members');
    }
 
-   public function get_members_username(Request $request)
+   public function get_members_username(Request $request, $type = null)
    {
      $this::$users = Auth::user();
-     $usernames = DB::select("SELECT username FROM users;");
+
+     $query = $type != null ? " WHERE type >= 20" : "";
+
+     $usernames = DB::select("SELECT id, username FROM users{$query};");
 
      return array(
        "Data" => $usernames
