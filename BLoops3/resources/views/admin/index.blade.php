@@ -206,7 +206,7 @@
                   <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                   <input type="text" id="_remits" name="_remits" placeholder="Remit Amount" class="form-control" />
                 </div>
-                <span id="txtTotal" style="color:red;">Total: 150.20</span>
+                <span id="txtTotal" style="color:red;">Total: 0.00</span>
               </div>
             </div>
 
