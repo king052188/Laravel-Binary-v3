@@ -179,6 +179,7 @@
                   <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                   <!-- <input id="_qty" name="_qty" placeholder="Quantity" class="form-control" type="number" maxlength="2" required autofocus> -->
                   <select id="_qtys" name="_qtys" placeholder="Quantity" class="form-control">
+                    <option value="NN">-- Select --</option>
                     @for($i = 1; $i <= 20; $i++)
                       <option value="{{ $i }}">{{ $i }}</option>
                     @endfor
@@ -215,7 +216,7 @@
       </div>
 
       <div class="modal-footer">
-        <button id="btnGenerate" type="submit" class="btn btn-primary" ><i class="fa fa-check" aria-hidden="true"></i> Generate</button>
+        <button id="btnRemitSave" type="submit" class="btn btn-primary" ><i class="fa fa-check" aria-hidden="true"></i> Remit</button>
         <button id="btnCancel" type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-ban" aria-hidden="true"></i> Done</button>
       </div>
     </div>
@@ -282,24 +283,15 @@ $(document).ready(function() {
   })
 
   var total_amount = 0;
-  $( "#_types" ).change(function() {
-    var type = $(this).val();
+
+  function type_qty_calculate() {
+    var type = $("#_types").val();
     var qty = $("#_qtys").val();
     total_amount = parseFloat(type) * parseFloat(qty);
     $("#_totals").val(numeral(total_amount).format('0,0.00'));
-  });
 
-  $( "#_qtys" ).change(function() {
-    var type = $("#_types").val();
-    var qty = $(this).val();
-    total_amount = parseFloat(type) * parseFloat(qty);
-    $("#_totals").val(numeral(total_amount).format('0,0.00'));
-  });
-
-  $( "#_remits" ).keyup(function() {
-    var total = parseFloat($("#_qtys").val()) * 1100;
-    var remit = $(this).val();
-    total_amount = parseFloat(remit) - parseFloat(total);
+    var remit = $("#_remits").val();
+    total_amount = parseFloat(remit) - parseFloat(total_amount);
     if(total_amount < 0) {
       $("#txtTotal").attr("style", "color: red;");
     }
@@ -307,10 +299,111 @@ $(document).ready(function() {
       $("#txtTotal").removeAttr("style");
     }
     $("#txtTotal").text(numeral(total_amount).format('0,0.00'));
+  }
+
+  $( "#_types" ).change(function() {
+    type_qty_calculate();
   });
 
-})
+  $( "#_qtys" ).change(function() {
+    type_qty_calculate();
+  });
 
+  $( "#_remits" ).keyup(function() {
+    type_qty_calculate();
+  });
+
+  $('#_remits').keypress(function(event) {
+    if (event.which != 46 && (event.which < 47 || event.which > 59))
+    {
+      event.preventDefault();
+      if ((event.which == 46) && ($(this).indexOf('.') != -1)) {
+          event.preventDefault();
+      }
+    }
+  });
+
+  $("#btnRemitSave").click(function() {
+    var _managers = parseInt($("#_managers").val());
+    var _type = parseInt($("#_types").val());
+    var _qty = parseInt($("#_qtys").val());
+    var _remit = parseFloat($("#_remits").val());
+    var _by = {{ Auth::user()->id }};
+
+    if(isNaN(_managers)) {
+      swal(
+        'Oops...',
+        'Please select a Manager.',
+        'warning'
+      )
+      return false;
+    }
+
+    if(isNaN(_type)) {
+      swal(
+        'Oops...',
+        'Please select the Type.',
+        'warning'
+      )
+      return false;
+    }
+
+    if(isNaN(_qty)) {
+      swal(
+        'Oops...',
+        'Please select the Quantity.',
+        'warning'
+      )
+      return false;
+    }
+
+    if(isNaN(_remit)) {
+      swal(
+        'Oops...',
+        'Please enter the Remit Amount.',
+        'warning'
+      )
+      return false;
+    }
+
+    var _total = _type * _qty;
+    var data = {
+      muid : _managers,
+      qty : _qty,
+      tamount : _total,
+      ramount : _remit,
+      by : _by
+    };
+    remit_code(data);
+  })
+
+})
+function remit_code(data) {
+    $(document).ready(function() {
+        $.ajax({
+            dataType: 'json',
+            type:'POST',
+            url: '/remit/code',
+            data: data
+        }).done(function(json){
+
+          if(json.Status == 200) {
+            swal(
+              'Hooray!',
+              'Remit was done.',
+              'success'
+            )
+            return false;
+          }
+
+          swal(
+            'Oops...',
+            'Something went wrong.',
+            'warning'
+          )
+        });
+    })
+}
 function populate_usernames(manager) {
   var type = manager ? "/20" : "";
   $(document).ready(function() {
@@ -322,14 +415,12 @@ function populate_usernames(manager) {
           var html = "";
           html += "<option>-- Select --</option>";
           $(json.Data).each(function(a, b) {
-            console.log(b);
             html += "<option value='"+b.id+"'>"+b.username+"</option>";
           });
           $("#_managers").empty().prepend(html);
       });
   })
 }
-
 function generate_code(data) {
     $(document).ready(function() {
         $.ajax({
@@ -365,7 +456,6 @@ function generate_code(data) {
         });
     })
 }
-
 populate_codes();
 function populate_codes() {
     $(document).ready(function() {

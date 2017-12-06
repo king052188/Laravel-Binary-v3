@@ -8,6 +8,7 @@ use DB;
 use Auth;
 use App\User;
 use App\Codes;
+use App\remit;
 use BinaryLoops;
 use BLHelper;
 
@@ -83,4 +84,29 @@ class AdminController extends Controller
      $codes = DB::select("SELECT * FROM user_activation_code WHERE generated_by = {$this::$users->id} AND status = 1;");
      return ["Data" => $codes];
    }
+
+   public function remit_process(Request $request) {
+     $r = new Remit();
+     $r->manager_id = (int)$request->muid;
+     $r->reference = BLHelper::generate_reference();
+     $r->code_qty = (int)$request->qty;
+     $r->total_amount = (float)$request->tamount;
+     $r->remit_amount = (float)$request->ramount;
+     $r->approved_by = (int)$request->by;
+     $r->status = 2;
+
+     if($r->save()) {
+       return array(
+         "Status" => 200,
+         "Message" => "Success"
+       );
+     }
+
+     return array(
+       "Status" => 500,
+       "Message" => "Fail"
+     );
+
+   }
+
 }
