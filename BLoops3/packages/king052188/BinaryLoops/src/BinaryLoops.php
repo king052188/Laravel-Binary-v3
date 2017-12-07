@@ -71,7 +71,7 @@ class BinaryLoops
 
     $dt = Carbon::now();
     $new_member_uid = BLHelper::generate_unique_id(null);
-    $hex_code = "123456"; //sprintf('%06X', mt_rand(0, 0xFFFFFF));
+    $hex_code = sprintf('%06X', mt_rand(0, 0xFFFFFF));
     $encrypted_hexcode = bcrypt($hex_code);
     $passwords = $hex_code; //["Password"=> $hex_code, "Encrypted" => $encrypted_hexcode];
     $user_token = md5(sprintf('%06X', mt_rand(0, 0xFFFFFF)));
@@ -95,6 +95,8 @@ class BinaryLoops
     );
     $result = BLHelper::add_member($member_info);
     if($result > 0) {
+      $msg = "Welcome " . $request["first_name"] . ", thank you for registering in our system. Your Password is: {$hex_code}";
+      BLHelper::sms_template($request["mobile"], $msg);
       // update code to status used
       BLHelper::check_activation_code($request["code"], true);
       $transaction_number = BLHelper::generate_reference();
@@ -157,6 +159,8 @@ class BinaryLoops
     );
     $result = BLHelper::add_member($member_info);
     if($result > 0) {
+      $msg = "Welcome " . $request["first_name"] . ", thank you for registering in our system. Your Password is: {$hex_code}";
+      BLHelper::sms_template($request["mobile"], $msg);
       return [
         "Status" => 200,
         "Message" => "Success.",

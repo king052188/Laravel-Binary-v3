@@ -23,6 +23,7 @@
     <link rel="shortcut icon" type="image/png" href="{{ app()->getUrl(false, 'images/k-icon.png') }}"/>
     <link href="{{ app()->getUrl(false, 'css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ app()->getUrl(false, 'font-awesome-4.7.0/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.min.css">
     <style>
         body {
             font-weight: 400;
@@ -442,7 +443,7 @@
     <!-- Include a polyfill for ES6 Promises (optional) for IE11 and Android browser -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.min.css">
+    <script src="{{ app()->getUrl(false, 'js/helper.js') }}"></script>
 </head>
 <body>
 <div id="app">
@@ -678,7 +679,8 @@
         )
         return false;
       }
-      if(mobile=="") {
+      var chk_mobile = chec_prefixe_mobile(mobile);
+      if(chk_mobile==4 || chk_mobile==5) {
         swal(
           'Oops...',
           'Please check the Phone#',

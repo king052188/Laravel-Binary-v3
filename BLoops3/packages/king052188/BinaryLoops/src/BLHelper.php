@@ -1212,4 +1212,22 @@ class BLHelper
         }while ( COUNT($users) > 0 );
         return $status;
     }
+
+    public function sms_template($mobile, $message) {
+
+      $dt = Carbon::now();
+      
+      $data = array(
+        "Company_uid" => 3,
+        "UserId" => $mobile,
+        "UserIp" => "N/A",
+        "ToNumber" => $mobile,
+        "ToMessage" => $message,
+        "Status" => 1,
+        'updated_at' => $dt,
+        'created_at' => $dt
+      );
+
+      $r = $this->save_to_database($data, "db_sms");
+    }
 }

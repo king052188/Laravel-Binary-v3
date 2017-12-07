@@ -127,7 +127,8 @@ $("#btnEncode").click(function() {
     $("#_span_error_msg").show();
     return false;
   }
-  if(mobile=="") {
+  var chk_mobile = chec_prefixe_mobile(mobile);
+  if(chk_mobile==4 || chk_mobile==5) {
     $("#_span_error_msg").text("Oops, Please check the Phone#.");
     $("#_span_error_msg").show();
     return false;

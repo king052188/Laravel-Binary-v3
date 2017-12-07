@@ -21,3 +21,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/get/non-synched-member', 'ApiController@get_non_synched_member');
 
 Route::get('/update/member-synched/{uid}', 'ApiController@update_to_synched_status');
+
+//
+
+Route::get('/get/sms-queue', 'ApiController@get_sms');
+
+Route::get('/update/sms-queue/{id}', 'ApiController@update_sms');
