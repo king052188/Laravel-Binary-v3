@@ -155,7 +155,8 @@ class HomeController extends Controller
       return $structure;
     }
 
-    public function affliate_queueing() {
+    public function affliate_queueing()
+    {
       $this::$users = Auth::user();
       $uuid = $this::$users->id;
       $users = DB::select("SELECT * FROM users WHERE connected_to = {$uuid} AND type = 1 AND status = 1;");

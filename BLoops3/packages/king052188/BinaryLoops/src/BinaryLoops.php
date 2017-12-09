@@ -85,11 +85,10 @@ class BinaryLoops
       "last_name" => $request["last_name"] != "" ? $request["last_name"] : null,
       "email" => $request["email"] != "" ? $request["email"] : null,
       "mobile" => $request["mobile"] != "" ? $request["mobile"] : null,
-      "type" => 2, //1 Affliate  by Sponsor, 2 Encoded by Sponsor, 3 Commission Deduction Account, 4 Free Slot
+      "type" => $code->type, //1 Affliate  by Sponsor, 2 Encoded by Sponsor, 3 Commission Deduction Account, 4 Free Slot
       "status" => 2, //0 Deactivated Account, 1 Pending Account, 2 Activated Account
       "connected_to" => $users["id"],
       "activation_id" => $code->Id,
-      "type" => $code->type,
       'updated_at' => $dt,
       'created_at' => $dt
     );
@@ -203,7 +202,7 @@ class BinaryLoops
 
     $member_info = array(
       "username" => $request["username"] != "" ? $request["username"] : null,
-      "type" => 2, //1 Affliate  by Sponsor, 2 Encoded by Sponsor, 3 Commission Deduction Account, 4 Free Slot
+      "type" => $code->type, //1 Affliate  by Sponsor, 2 Encoded by Sponsor, 3 Commission Deduction Account, 4 Free Slot
       "status" => 2, //0 Deactivated Account, 1 Pending Account, 2 Activated Account
       "activation_id" => $code->Id,
       "type" => $code->type,

@@ -66,3 +66,13 @@ Route::any('/bloops/v1/populate-corporate-account/{member_uid}/{mobile}/{limit?}
 Route::any('/bloops/v1/generate-activation-code', function(Request $request) {
   return BinaryLoops::Generate_Activation_Code($request);
 });
+
+Route::any('/bloops/v1/forward-lookup/directs/{username}', function($username) {
+  $data = BLHelper::lookup_directs($username);
+
+  return view('sample.direct', compact('data'));
+});
+
+Route::any('/bloops/v1/sample/direct', function() {
+  return view('sample.direct');
+});

@@ -1213,10 +1213,76 @@ class BLHelper
         return $status;
     }
 
-    public function sms_template($mobile, $message) {
+    public function lookup_directs($username)
+    {
+      $top = DB::select("SELECT * FROM users WHERE username = '{$username}';");
+
+      if( COUNT($top) == 0 ) {
+        return array(
+          "Status" => 404
+        );
+      }
+
+      $sponsor_id = [];
+
+      $directs = [];
+
+      array_push($sponsor_id, $top[0]->member_uid);
+
+      $isClear = false;
+
+      do {
+
+        for($s = 0; $s < COUNT($sponsor_id); $s++) {
+
+          $member_uid = $sponsor_id[$s];
+
+          $direct = DB::select("
+          SELECT
+          	u.username, u.username, CONCAT(u.first_name, ' ', u.last_name) AS fullname,
+              CASE WHEN type = 1 THEN 'PENDING' WHEN type = 2 THEN  'PAID' ELSE 'CD' END AS user_type,
+              t.*
+          FROM
+          user_genealogy_transaction AS t
+          INNER JOIN users AS u
+          ON t.member_uid = u.member_uid
+          WHERE sponsor_id = '{$member_uid}';
+          ");
+
+          if( COUNT($direct) > 0) {
+            $directs[] = array(
+              'Level_' . ($s + 1) => $direct
+            );
+
+            unset($sponsor_id);
+            $sponsor_id = [];
+
+            for($i = 0; $i < COUNT($direct); $i++) {
+              array_push($sponsor_id, $direct[0]->member_uid);
+            }
+
+          }
+
+        }
+
+
+
+      } while(COUNT($direct) != 0);
+
+      return array(
+        'Status' => 200,
+        'Message' => "Success",
+        'Count' => COUNT($directs),
+        'Data' => $directs,
+      );
+
+    }
+
+    public function sms_template($mobile, $message)
+    {
 
       $dt = Carbon::now();
-      
+
       $data = array(
         "Company_uid" => 3,
         "UserId" => $mobile,
