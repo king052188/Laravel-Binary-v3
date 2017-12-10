@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div class="container" style="width: 80%;">
+<div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
@@ -52,22 +52,22 @@
                     <table class="tbl_history" id="tbl_codeLists" border="0" cellSpacing="0" cellPadding="0">
                       <thead>
                         <tr>
-                          <th>#</th>
-                          <th>Trans</th>
+                          <th style="width: 50px;">#</th>
+                          <th style="width: 200px;">Trans</th>
                           <th>Code</th>
-                          <th>Type</th>
-                          <th>Amount</th>
-                          <th>Action</th>
+                          <th style="width: 100px;">Type</th>
+                          <th style="width: 120px;">Amount</th>
+                          <th style="width: 50px;">Action</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
-                          <td style="text-align: center; width: 50px; padding: 5px;">***</td>
-                          <td style="text-align: center; width: 130px; padding: 5px;">***</td>
-                          <td style="text-align: center; padding: 5px; font-weight: 600;">***</td>
-                          <td style="text-align: center; width: 100px; padding: 5px; font-weight: 600;">***</td>
-                          <td style="text-align: center; width: 100px; padding: 5px; font-weight: 600;">***</td>
-                          <td style="text-align: center; width: 50px; padding: 5px; font-weight: 600;">***</td>
+                          <td scope='row' data-label='#'>***</td>
+                          <td data-label='Trans'>***</td>
+                          <td data-label='Code'>***</td>
+                          <td data-label='Type'>***</td>
+                          <td data-label='Amount'>***</td>
+                          <td data-label='Action'><button>***</button></td>
                         </tr>
                       </tbody>
                     </table>
@@ -227,7 +227,64 @@
 @section('style')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 <style>
-.full-size { width: 100%; }
+  .full-size { width: 100%; }
+  table#tbl_codeLists tr {
+    border: 1px solid #ddd;
+  }
+  table#tbl_codeLists td {
+    font-weight: 600;
+  }
+  table#tbl_codeLists th,
+  table#tbl_codeLists td {
+    padding: 5px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+  }
+  @media screen and (max-width: 1200px) {
+    table#tbl_codeLists {
+      border: 0;
+    }
+    table#tbl_codeLists caption {
+      font-size: 1.3em;
+    }
+    table#tbl_codeLists thead {
+      border: none;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+    }
+    table#tbl_codeLists tr {
+      border-bottom: 3px solid #ddd;
+      display: block;
+      margin-bottom: .625em;
+    }
+    table#tbl_codeLists td {
+      border: none;
+      border-bottom: 1px solid #ddd;
+      display: block;
+      text-align: right;
+    }
+    table#tbl_codeLists.tbl_history thead tr th, tbody tr td { text-align: right; font-size: 1em; }
+    table#tbl_codeLists td:before {
+      /*
+      * aria-label has no advantage, it won't be read inside a table
+      content: attr(aria-label);
+      */
+      content: attr(data-label);
+      float: left;
+      font-weight: 400;
+    }
+    table#tbl_codeLists td:last-child {
+      border-bottom: 0;
+    }
+    table#tbl_codeLists td span#fullname {
+      text-transform: capitalize;
+    }
+  }
 </style>
 @endsection
 
@@ -470,12 +527,12 @@ function populate_codes() {
               // console.log(json.Data);
               var type = b.type == 3 ? "CD" : "PAID";
               html += "<tr>";
-              html += "<td style='text-align: center; padding: 5px; font-weight: 600;'>"+counter+"</td>";
-              html += "<td style='text-align: center; padding: 5px; font-weight: 600;'>"+b.reference+"</td>";
-              html += "<td style='text-align: center; width: 200px; padding: 5px; font-weight: 600;'>"+b.code+"</td>";
-              html += "<td style='text-align: center; width: 100px; padding: 5px; font-weight: 600;'>"+type+"</td>";
-              html += "<td style='text-align: center; width: 150px; padding: 5px; font-weight: 600;'>"+numeral(b.amount).format('0,0.00')+"</td>";
-              html += "<td style='text-align: center; width: 50px; padding: 5px; font-weight: 600;'>a</td>";
+              html += "<td scope='row' data-label='#'>"+counter+"</td>";
+              html += "<td data-label='Trans'>"+b.reference+"</td>";
+              html += "<td data-label='Code'>"+b.code+"</td>";
+              html += "<td data-label='Type'>"+type+"</td>";
+              html += "<td data-label='Amount'>"+numeral(b.amount).format('0,0.00')+"</td>";
+              html += "<td data-label='Action'><button><i class='fa fa-tasks' aria-hidden='true'></i></button></td>";
               html += "</tr>";
               counter++;
             });
