@@ -39,7 +39,10 @@ class AdminController extends Controller
    public function get_members(Request $request)
    {
      $this::$users = Auth::user();
-     return view('admin.members');
+
+     $members = User::paginate();
+
+     return view('admin.members', compact('members'));
    }
 
    public function get_members_username(Request $request, $type = null)
@@ -58,25 +61,33 @@ class AdminController extends Controller
    public function get_members_json(Request $request)
    {
      $this::$users = Auth::user();
-     $members = DB::select("SELECT *, (SELECT code FROM user_activation_code WHERE Id = activation_id) AS code_used FROM users;"); //User::get();
+     // $members = DB::select("SELECT *, (SELECT code FROM user_activation_code WHERE Id = activation_id) AS code_used FROM users;")->simplePaginate(15);
 
-     $data = [];
-     for($i = 0; $i < COUNT($members); $i++) {
-       $data[] = array(
-         $members[$i]->member_uid,
-         $members[$i]->username,
-         ucwords($members[$i]->first_name ." ". $members[$i]->last_name),
-         $members[$i]->code_used,
-         $members[$i]->created_at
-       );
-     }
+     $members = User::paginate();
 
-     return array(
-       "draw" =>  2,
-       "recordsTotal" => COUNT($data),
-       "recordsFiltered" =>  COUNT($data),
-       "data" => $data
-     );
+     $members->withPath('custom/url');
+
+     // return $members;
+
+     return view('admin.members', compact('members'));
+
+     // $data = [];
+     // for($i = 0; $i < COUNT($members); $i++) {
+     //   $data[] = array(
+     //     $members[$i]->member_uid,
+     //     $members[$i]->username,
+     //     ucwords($members[$i]->first_name ." ". $members[$i]->last_name),
+     //     $members[$i]->code_used,
+     //     $members[$i]->created_at
+     //   );
+     // }
+     //
+     // return array(
+     //   "draw" =>  2,
+     //   "recordsTotal" => COUNT($data),
+     //   "recordsFiltered" =>  COUNT($data),
+     //   "data" => $data
+     // );
    }
 
    public function get_code_lists() {
