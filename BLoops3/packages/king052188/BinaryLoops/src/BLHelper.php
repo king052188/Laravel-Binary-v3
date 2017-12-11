@@ -325,15 +325,15 @@ class BLHelper
           'Position' => $position == 21 ? "Left" : "Right",
           'Data' => array(
             'Level_1' => $this->get_count_pairing_per_level_validation($get_level1, 1),
-            'Level_2' => $this->get_count_pairing_per_level_validation($get_level2, 0),
-            'Level_3' => $this->get_count_pairing_per_level_validation($get_level3, 0),
-            'Level_4' => $this->get_count_pairing_per_level_validation($get_level4, 0),
-            'Level_5' => $this->get_count_pairing_per_level_validation($get_level5, 0),
-            'Level_6' => $this->get_count_pairing_per_level_validation($get_level6, 0),
-            'Level_7' => $this->get_count_pairing_per_level_validation($get_level7, 0),
-            'Level_8' => $this->get_count_pairing_per_level_validation($get_level8, 0),
-            'Level_9' => $this->get_count_pairing_per_level_validation($get_level9, 0),
-            'Level_10' => $this->get_count_pairing_per_level_validation($get_level10, 0)
+            'Level_2' => $this->get_count_pairing_per_level_validation($get_level2, 2),
+            'Level_3' => $this->get_count_pairing_per_level_validation($get_level3, 3),
+            'Level_4' => $this->get_count_pairing_per_level_validation($get_level4, 4),
+            'Level_5' => $this->get_count_pairing_per_level_validation($get_level5, 5),
+            'Level_6' => $this->get_count_pairing_per_level_validation($get_level6, 6),
+            'Level_7' => $this->get_count_pairing_per_level_validation($get_level7, 7),
+            'Level_8' => $this->get_count_pairing_per_level_validation($get_level8, 8),
+            'Level_9' => $this->get_count_pairing_per_level_validation($get_level9, 9),
+            'Level_10' => $this->get_count_pairing_per_level_validation($get_level10, 10)
           )
         );
     }
@@ -491,7 +491,6 @@ class BLHelper
                        "level_" => $level
                    );
                }
-
            }
            else {
                for($i = 0; $i < count($arrays); $i++) {
@@ -516,7 +515,7 @@ class BLHelper
        return $list;
     }
 
-    public function get_count_pairing_per_level_validation($array, $isLevel1)
+    public function get_count_pairing_per_level_validation($array, $level)
     {
       if($array == null) {
         return 0;
@@ -526,7 +525,7 @@ class BLHelper
       $ctr_cd = 0;
       $data = [];
 
-      if($isLevel1 == 1) {
+      if($level == 1) {
         for($i = 0; $i < COUNT($array); $i++) {
             if( COUNT($array[$i]) > 0) {
               // dd($array[$i]["type_"]);
@@ -551,9 +550,15 @@ class BLHelper
         );
         return $data;
       }
+
+      if($level == 7) {
+        dd($array);
+      }
+
       for($i = 0; $i < COUNT($array); $i++) {
         for($x = 0; $x < COUNT($array[$i]); $x++) {
-            // dd($array[$i][$x]["type_"]);
+
+
             if((int)$array[$i][$x]["type_"] == 3) {
               $ctr_cd--;
               if($starter == null) {
@@ -568,6 +573,7 @@ class BLHelper
             }
         }
       }
+
       $data = array(
         "Starter" => $starter,
         "PAID" => $ctr_pd,

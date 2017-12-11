@@ -55,9 +55,9 @@ Route::any('/bloops/v1/populate-indirect/{member_uid}', function($member_uid) {
   return BinaryLoops::Populate_Indirect($member_uid);
 });
 
-// Route::any('/bloops/v1/populate-leveling/{username}/{position}', function($username, $position) {
-//   return BinaryLoops::Populate_Leveling($username, $position);
-// });
+Route::any('/bloops/v1/populate-leveling/{username}/{position}/{level}', function($username, $position, $level) {
+  return BLHelper::get_count_pairing_per_level($username, $position, $level);
+});
 
 Route::any('/bloops/v1/populate-corporate-account/{member_uid}/{mobile}/{limit?}', function($username, $mobile) {
   return BinaryLoops::Populate_Corporate_Account($username, $mobile);

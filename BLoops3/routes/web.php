@@ -66,7 +66,7 @@ Route::get('/account/wallet/{account}', 'WalletController@get_wallet');
 
 Route::get('/leveling', 'HomeController@leveling');
 
-Route::post('/leveling/pairing-per-level-summary', 'HomeController@leveling_populate');
+Route::any('/leveling/pairing-per-level-summary', 'HomeController@leveling_populate');
 
 
 Route::get('/reset-password', 'HomeController@reset_password');
