@@ -205,7 +205,6 @@ class BinaryLoops
       "type" => $code->type, //1 Affliate  by Sponsor, 2 Encoded by Sponsor, 3 Commission Deduction Account, 4 Free Slot
       "status" => 2, //0 Deactivated Account, 1 Pending Account, 2 Activated Account
       "activation_id" => $code->Id,
-      "type" => $code->type,
       'updated_at' => $dt
     );
 
