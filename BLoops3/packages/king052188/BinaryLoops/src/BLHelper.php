@@ -460,7 +460,7 @@ class BLHelper
                FROM user_genealogy_transaction AS t
                INNER JOIN users AS u
                ON t.member_uid = u.member_uid
-               WHERE t.placement_id = '". $member_uid ."' {$set_position} AND t.status_ != -99 ORDER BY t.position_ ASC
+               WHERE t.placement_id = '". $member_uid ."' {$set_position} AND t.status_ != -99
        ");
        $list = [];
        if(count($arrays) > 0) {
@@ -551,13 +551,8 @@ class BLHelper
         return $data;
       }
 
-      if($level == 7) {
-        dd($array);
-      }
-
       for($i = 0; $i < COUNT($array); $i++) {
         for($x = 0; $x < COUNT($array[$i]); $x++) {
-
 
             if((int)$array[$i][$x]["type_"] == 3) {
               $ctr_cd--;

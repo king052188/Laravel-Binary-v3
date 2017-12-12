@@ -90,20 +90,20 @@
                     <table class="tbl_history" id="tbl_gPairingDetails" border="0" cellSpacing="0" cellPadding="0">
                       <thead>
                         <tr>
-                          <th>Date</th>
+                          <th style="text-align: center; width: 130px;">Date</th>
                           <th>Account#</th>
-                          <th>Pairing</th>
-                          <th>Total</th>
-                          <th>Action</th>
+                          <th style="text-align: center; width: 130px;">Pairing</th>
+                          <th style="text-align: center; width: 150px;">Total</th>
+                          <!-- <th style="text-align: center; width: 40px;">Action</th> -->
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
-                          <td style="text-align: center; width: 130px; padding: 5px;">***</td>
-                          <td style="text-align: center; padding: 5px; font-weight: 600;">***</td>
-                          <td style="text-align: center; width: 100px; padding: 5px; font-weight: 600;">***</td>
-                          <td style="text-align: right; width: 128px; padding: 5px; font-weight: 600;">***</td>
-                          <td style="text-align: center; width: 50px; padding: 5px; font-weight: 600;">***</td>
+                          <td>***</td>
+                          <td>***</td>
+                          <td>***</td>
+                          <td>***</td>
+                          <!-- <td>***</td> -->
                         </tr>
                       </tbody>
                     </table>
@@ -129,7 +129,6 @@
                         </tr>
                       </tbody>
                     </table>
-
                 </div>
             </div>
         </div>
@@ -159,6 +158,74 @@
 </div>
 @endsection
 
+@section('style')
+<style>
+  table#tbl_gPairingDetails tr {
+    border: 1px solid #ddd;
+  }
+  table#tbl_gPairingDetails td {
+    font-weight: 600;
+  }
+  table#tbl_gPairingDetails th,
+  table#tbl_gPairingDetails td {
+    padding: 5px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+  }
+  table#tbl_gPairingDetails tbody tr:hover {
+    background-color: #F8F8F8;
+  }
+  table#tbl_gPairingDetails tbody tr:last-child:hover {
+    background-color: #fff;
+  }
+  @media screen and (max-width: 1200px) {
+    table#tbl_gPairingDetails {
+      border: 0;
+    }
+    table#tbl_gPairingDetails caption {
+      font-size: 1.3em;
+    }
+    table#tbl_gPairingDetails thead {
+      border: none;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+    }
+    table#tbl_gPairingDetails tr {
+      border-bottom: 3px solid #ddd;
+      display: block;
+      margin-bottom: .625em;
+    }
+    table#tbl_gPairingDetails td {
+      border: none;
+      border-bottom: 1px solid #ddd;
+      display: block;
+      text-align: right;
+    }
+    table#tbl_gPairingDetails .tbl_history thead tr th, tbody tr td { text-align: right; font-size: 1em; }
+    table#tbl_gPairingDetails td:before {
+      /*
+      * aria-label has no advantage, it won't be read inside a table
+      content: attr(aria-label);
+      */
+      content: attr(data-label);
+      float: left;
+      font-weight: 400;
+    }
+    table#tbl_gPairingDetails td:last-child {
+      border-bottom: 0;
+    }
+    table#tbl_gPairingDetails td span#fullname {
+      text-transform: capitalize;
+    }
+  }
+</style>
+@endsection
+
 @section('script')
 <script>
 $("#btnShowCorpoAccount").click(function() {
@@ -177,7 +244,6 @@ var IsRefresh = false;
 populate_genealogy_history(IsRefresh);
 populate_affliate_lists();
 populate_pairing_history();
-
 // setInterval(genealogy_history, 3000);
 function genealogy_history() {
   if(!IsRefresh) {
