@@ -342,7 +342,7 @@ function populate_genealogy_history(IsRefresh) {
         }).done(function(json){
           // console.log(json);
             var html = "", html2 = "";
-            var total_points = 0, total_referral = 0, total_indirect = 0;
+            var total_affliate_points = 0, total_referral = 0, total_indirect = 0;
             var pos = json.position == 21 ? "Left" : "Right";
             html = "<tr>";
             html += "<td style='padding: 7px; font-weight: 600; font-size: 1.1em;'>"+json.member_uid+"</td>";
@@ -385,6 +385,16 @@ function populate_genealogy_history(IsRefresh) {
               html2 += "<td style='text-align: left; padding: 5px;'>Leveling</td>";
               html2 += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>Level "+l.level+"</td>";
               html2 += "<td style='text-align: right; width: 150px; padding: 5px; font-weight: 600;'>+ "+numeral(l.total_profit).format('0,0.00')+"</td>";
+              html2 += "</tr>";
+            })
+
+            $(json.pairings).each(function(key, p) {
+              // total_referral = l.total_profit;
+              var pairing_t = p.Total_Amount / 100;
+              html2 += "<tr>";
+              html2 += "<td style='text-align: left; padding: 5px;'>Pairing</td>";
+              html2 += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>"+pairing_t+" x 100 =</td>";
+              html2 += "<td style='text-align: right; width: 150px; padding: 5px; font-weight: 600;'>+ "+numeral(p.Total_Amount).format('0,0.00')+"</td>";
               html2 += "</tr>";
             })
 

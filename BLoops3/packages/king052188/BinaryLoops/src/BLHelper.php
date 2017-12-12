@@ -577,7 +577,7 @@ class BLHelper
       return $data;
     }
 
-    public function get_member_pairing_daily($member_uid)
+    public function get_member_pairing_daily($member_uid, $IsBot = false)
     {
       //
       $daily = DB::select("
@@ -590,16 +590,18 @@ class BLHelper
       $total_position = 0;
 
       for($i = 0; $i < COUNT($daily); $i++) {
-
           $dt = Carbon::parse($daily[$i]->date);
-
           $pairings = $this->get_member_pairing($member_uid, $daily[$i]->date, $total_remaining, $total_position);
           $total_amount += (float)$pairings["total_max_pairing_amount"];
-
           $total_remaining = $pairings["remaining"];
           $total_position = $pairings["position"];
-
           $data[] = $pairings;
+      }
+
+      if($IsBot) {
+        return array(
+          'Total_Amount' => $total_amount
+        );
       }
 
       return array(
@@ -722,23 +724,46 @@ class BLHelper
       return $status;
     }
 
-    public function get_member_structure_details($member_uid)
+    public function get_member_structure_details($member_uid, $IsBot = null)
     {
-        $users = DB::select("SELECT username FROM users WHERE member_uid = '{$member_uid}'");
+        $username = "";
+        if($IsBot == null) {
+          $users = DB::select("SELECT username FROM users WHERE member_uid = '{$member_uid}'");
+          if(COUNT($users) == 0) {
+            return array(
+                "username" => null,
+                "member_uid" => null,
+                "referrals" => 0,
+                "indirects" => 0,
+                "levelings" => 0,
+                "pairings" => 0,
+                "total_structure" => 0,
+                "total_available_amount" => 0
+            );
+          }
+          $username = $users[0]->username;
+        }
+        else {
+          $username = $IsBot;
+        }
+
         $referrals = $this->get_member_referral($member_uid, 100, 20);
         $indirects = $this->get_total_indirect($member_uid);
-        $leveling = $this->get_leveling_summary($users[0]->username, true);
+        $leveling = $this->get_leveling_summary($username, true);
+        $pairing = $this->get_member_pairing_daily($member_uid, true);
 
         $total_structure = $referrals["total_referral_amount"];
         $total_structure += $indirects["total_indirect"];
         $total_structure += $leveling["total_profit"];
+        $total_structure += $pairing["Total_Amount"];
 
         $status = array(
-            "username" => $users[0]->username,
+            "username" => $username,
             "member_uid" => $member_uid,
             "referrals" => $referrals,
             "indirects" => $indirects,
             "levelings" => $leveling,
+            "pairings" => $pairing,
             "total_structure" => $total_structure,
             "total_available_amount" => $referrals["total_available_amount"],
         );

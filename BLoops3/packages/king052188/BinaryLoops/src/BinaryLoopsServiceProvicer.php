@@ -14,6 +14,8 @@ class BinaryLoopsServiceProvider extends ServiceProvider
     public function boot()
     {
         require __DIR__ .'/routes/routes.php';
+
+        require __DIR__ .'/routes/bot.php';
     }
 
     /**
@@ -29,6 +31,10 @@ class BinaryLoopsServiceProvider extends ServiceProvider
 
       $this->app->bind('king052188-blhelper', function() {
         return new BLHelper();
+      });
+
+      $this->app->bind('king052188-blbot', function() {
+        return new BLBot();
       });
     }
 }

@@ -24,6 +24,7 @@
     <link href="{{ app()->getUrl(false, 'css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ app()->getUrl(false, 'font-awesome-4.7.0/css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.min.css">
+    <link rel="stylesheet" href="{{ app()->getUrl(false, 'css/bootcomplete.css') }}">
     <style>
       table.tbl_loading { width: 100%; margin-top: 10px; }
       table.tbl_loading thead tr th { padding: 5px; }
@@ -76,6 +77,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/1.5.6/numeral.min.js"></script>
     <script src="{{ app()->getUrl(false, 'js/helper.js') }}"></script>
+    <script src="{{ app()->getUrl(true, 'js/app.js') }}"></script>
+    <script src="{{ app()->getUrl(true, 'js/jquery.bootcomplete.js') }}"></script>
+    <script src="{{ app()->getUrl(true, 'js/jquery.dev.js') }}"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script>
       (adsbygoogle = window.adsbygoogle || []).push({
@@ -83,9 +87,12 @@
         enable_page_level_ads: true
       });
     </script>
+    @yield('script-top')
 </head>
 <body>
     <div id="app">
+    </div>
+    <div>
         <div id="notifyUsers"></div>
         <!-- @if( IsSet($top_notifier['Type']) )
           <div class="alert alert-{{ $top_notifier['Type'] }}" role="alert" style="text-align: center; margin-bottom: 0;">
@@ -157,11 +164,7 @@
         </nav>
         @yield('content')
     </div>
-    <link rel="stylesheet" href="{{ app()->getUrl(false, 'css/bootcomplete.css') }}">
-    <!-- Scripts -->
-    <script src="{{ app()->getUrl(true, 'js/app.js') }}"></script>
-    <script src="{{ app()->getUrl(true, 'js/jquery.bootcomplete.js') }}"></script>
-    <script src="{{ app()->getUrl(true, 'js/jquery.dev.js') }}"></script>
+
     @yield('script')
 </body>
 </html>

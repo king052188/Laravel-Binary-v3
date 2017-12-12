@@ -240,6 +240,7 @@ return [
 
         'BinaryLoops' => king052188\BinaryLoops\Facades\BinaryLoops::class,
         'BLHelper' => king052188\BinaryLoops\Facades\BLHelper::class,
+        'BLBot' => king052188\BinaryLoops\Facades\BLBot::class,
 
     ],
 

@@ -50,7 +50,7 @@ Route::get('/genealogy/encoding/{placement}/{position}/{affliliate?}', 'HomeCont
 
 Route::post('/genealogy/member-structure-details', 'HomeController@summary_pairing');
 
-Route::any('/genealogy/member-pairing-details', 'HomeController@summary_pairing_details');
+Route::any('/genealogy/member-pairing-details/{member_uid?}', 'HomeController@summary_pairing_details');
 
 Route::post('/referral/sign-up/{sponsor_uid}/{sponsor_muid}', 'AccountController@register_via_user_url');
 

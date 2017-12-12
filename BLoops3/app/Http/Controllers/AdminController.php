@@ -40,9 +40,18 @@ class AdminController extends Controller
    {
      $this::$users = Auth::user();
 
-     $members = User::paginate();
+     $s = "";
+     if(IsSet($request->search)) {
+       $s = $request->search;
+       $members = User::where('username', "like", "%{$s}%" )->paginate();
+     }
+     else {
+       $members = User::paginate();
+     }
 
-     return view('admin.members', compact('members'));
+     $search = ["value" => $s];
+
+     return view('admin.members', compact('members', 'search'));
    }
 
    public function get_members_username(Request $request, $type = null)
