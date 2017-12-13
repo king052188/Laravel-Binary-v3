@@ -77,9 +77,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/1.5.6/numeral.min.js"></script>
     <script src="{{ app()->getUrl(false, 'js/helper.js') }}"></script>
-    <script src="{{ app()->getUrl(true, 'js/app.js') }}"></script>
-    <script src="{{ app()->getUrl(true, 'js/jquery.bootcomplete.js') }}"></script>
-    <script src="{{ app()->getUrl(true, 'js/jquery.dev.js') }}"></script>
+
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script>
       (adsbygoogle = window.adsbygoogle || []).push({
@@ -165,6 +163,9 @@
         @yield('content')
     </div>
 
+    <script src="{{ app()->getUrl(true, 'js/app.js') }}"></script>
+    <script src="{{ app()->getUrl(true, 'js/jquery.bootcomplete.js') }}"></script>
+    <script src="{{ app()->getUrl(true, 'js/jquery.dev.js') }}"></script>
     @yield('script')
 </body>
 </html>

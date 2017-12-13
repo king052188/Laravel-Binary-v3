@@ -152,7 +152,8 @@ $("#btnEncode").click(function() {
   if(_c != "0" || _c != 0) {
     url = "/genealogy/encoding/"+_a+"/"+_b+"/"+_c;
   }
-  // console.log(url);
+  console.log(url);
+  console.log(IsClick);
   if(!IsClick) {
     IsClick = true;
     ajax_exec(url, data, this);

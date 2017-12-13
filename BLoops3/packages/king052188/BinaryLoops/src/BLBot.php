@@ -20,10 +20,31 @@ class BLBot
 
     $data = [];
     for($i = 0; $i < COUNT($members); $i++) {
-      $data[] = BLHelper::get_member_structure_details(
+      $m = BLHelper::get_member_structure_details(
         $members[$i]->member_uid,
         $members[$i]->username
       );
+
+      $dt = Carbon::now();
+
+      $newline = "\r\n";
+
+      $affiliate = number_format($m["referrals"]["total_affiliate_available_points"], 2);
+      $referral = number_format($m["referrals"]["total_referral_amount"], 2);
+      $indirect = number_format($m["indirects"]["total_indirect"], 2);
+      $leveling = number_format($m["levelings"]["total_profit"], 2);
+      $pairings = number_format($m["pairings"]["Total_Amount"], 2);
+      $income = number_format($m["total_structure"], 2);
+
+      $msg = "UPDATE as of " . $dt . "! Affiliate: {$affiliate}" . $newline;
+      $msg .= "Referral: {$referral}" . $newline;
+      $msg .= "Indirect: {$indirect}" . $newline;
+      $msg .= "Leveling: {$leveling}" . $newline;
+      $msg .= "Pairings: {$pairings}" . $newline;
+      $msg .= "Total Income: {$income}" . $newline;
+
+      $data[] = ["Message" => $msg];
+
     }
     return $data;
   }
