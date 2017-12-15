@@ -3,7 +3,7 @@
 
 use Illuminate\Http\Request;
 
-Route::any('/bloops/bot/v1/init', function(Request $request) {
+Route::any('/bloops/bot/v1/daily-update/init', function(Request $request) {
   return BLBot::init($request);
 });
 

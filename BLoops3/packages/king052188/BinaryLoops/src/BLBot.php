@@ -25,10 +25,10 @@ class BLBot
         $members[$i]->username
       );
 
+      $u = BLHelper::get_member_info($members[$i]->member_uid);
       $dt = Carbon::now();
 
       $newline = "\r\n";
-
       $affiliate = number_format($m["referrals"]["total_affiliate_available_points"], 2);
       $referral = number_format($m["referrals"]["total_referral_amount"], 2);
       $indirect = number_format($m["indirects"]["total_indirect"], 2);
@@ -36,17 +36,30 @@ class BLBot
       $pairings = number_format($m["pairings"]["Total_Amount"], 2);
       $income = number_format($m["total_structure"], 2);
 
-      $msg = "UPDATE as of " . $dt . "! Affiliate: {$affiliate}" . $newline;
+      $msg = "UPDATE as of " . $dt->format('m-d-Y g:i A') . "! (". strtoupper($u->username) .") ur Affiliate: {$affiliate}" . $newline;
       $msg .= "Referral: {$referral}" . $newline;
       $msg .= "Indirect: {$indirect}" . $newline;
       $msg .= "Leveling: {$leveling}" . $newline;
       $msg .= "Pairings: {$pairings}" . $newline;
-      $msg .= "Total Income: {$income}" . $newline;
+      $msg .= "Total Income: {$income} - Thank You! From EnghagePro.com";
 
-      $data[] = ["Message" => $msg];
 
+      $r = 0;
+      if(strlen($u->mobile) == 11) {
+        $r = BLHelper::sms_template($u->mobile, $msg);
+      }
+
+      $data[] = [
+        "Mobile" => $u->mobile,
+        "Message" => $msg,
+        "Status" => $r
+      ];
     }
-    return $data;
+
+    return array(
+      "Count" => COUNT($data),
+      "Data" => $data
+    );
   }
 
   public function get_member_income($request, $IsMember = null) {
