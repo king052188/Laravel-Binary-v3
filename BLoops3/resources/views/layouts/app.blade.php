@@ -62,11 +62,13 @@
       }
       p.g_title { margin: 10px 0 0 0; padding: 0; text-align: center; font-weight: 600;  }
       .container { width: 80%; }
+      .side_title { font-size: 1em; }
       #nav_container { width: 55%; }
       @media screen and (max-width: 1200px) {
         #g_structure_container { overflow: scroll; max-height: 480px;  }
         #nav_container { width: 100%; }
         .container { width: 100%; }
+        .side_title { font-size: 0.8em; }
       }
 
     </style>

@@ -59,8 +59,8 @@ Route::any('/bloops/v1/populate-leveling/{username}/{position}/{level}', functio
   return BLHelper::get_count_pairing_per_level($username, $position, $level);
 });
 
-Route::any('/bloops/v1/populate-corporate-account/{member_uid}/{mobile}/{limit?}', function($username, $mobile) {
-  return BinaryLoops::Populate_Corporate_Account($username, $mobile);
+Route::any('/bloops/v1/populate-multiple-accounts/{member_uid}/{mobile}/{limit?}', function($username, $mobile) {
+  return BinaryLoops::Populate_Multiple_Accounts($username, $mobile);
 });
 
 Route::any('/bloops/v1/generate-activation-code', function(Request $request) {

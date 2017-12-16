@@ -126,23 +126,31 @@ class HomeController extends Controller
       return $result;
     }
 
-    public function placement_validation(Request $request) {
+    public function get_multiple_accounts() {
+      $this::$users = Auth::user();
+      $member_uid = $this::$users->member_uid;
+      $mobile = $this::$users->mobile;
+      $result = BinaryLoops::Populate_Multiple_Accounts($member_uid, $mobile, 7);
+      return $result;
+    }
+
+    public function placement_validation(Request $request)
+    {
         return BinaryLoops::Placement_Validate($request);
     }
 
-    public function summary_pairing()
+    public function summary_pairing($member_uid = null)
     {
       $this::$users = Auth::user();
-      return BinaryLoops::Member_Structure_Details($this::$users->member_uid);
+      $m = $member_uid != null ? $member_uid : $this::$users->member_uid;
+      return BinaryLoops::Member_Structure_Details($m);
     }
 
     public function summary_pairing_details($member_uid = null)
     {
-      if($member_uid == null) {
-         $this::$users = Auth::user();
-         $member_uid = $this::$users->member_uid;
-      }
-      return BinaryLoops::Member_Pairing($member_uid);
+      $this::$users = Auth::user();
+      $m = $member_uid != null ? $member_uid : $this::$users->member_uid;
+      return BinaryLoops::Member_Pairing($m);
     }
 
     public function leveling()

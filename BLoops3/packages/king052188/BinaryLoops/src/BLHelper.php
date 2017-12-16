@@ -338,7 +338,26 @@ class BLHelper
         );
     }
 
-    public function get_corporate_account($member_uid, $mobile, $limit)
+    public function get_multiple_accounts($member_uid, $mobile, $limit)
+    {
+       $users = DB::table('users')
+                 ->where('mobile', $mobile)
+                 ->take($limit)
+                 ->get()
+                 ->toArray();
+
+       $count = COUNT($users);
+
+       return array(
+         "Status" => $count > 0 ? 200 : 404,
+         "Message" => "Success",
+         "Count" => $count,
+         "Data" => $users
+       );
+
+     }
+
+    public function get_multiple_accounts_2($member_uid, $mobile, $limit)
     {
        $results = [];
        $top_head_uid = "N/A";

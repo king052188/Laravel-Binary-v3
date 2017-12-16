@@ -312,8 +312,8 @@ class BinaryLoops
   //   return $result;
   // }
 
-  public function Populate_Corporate_Account($member_uid, $mobile, $limit = 7) {
-    $result = BLHelper::get_corporate_account($member_uid, $mobile, $limit);
+  public function Populate_Multiple_Accounts($member_uid, $mobile, $limit = 7) {
+    $result = BLHelper::get_multiple_accounts($member_uid, $mobile, $limit);
     return $result;
   }
 

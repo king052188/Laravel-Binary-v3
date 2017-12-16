@@ -17,7 +17,7 @@
 
                     <div style="margin: 10px 0 0 0;">
                      <span style="font-size: 1.6em;">Summary</span>
-                     <span style="font-size: 1em;">wallet</span>
+                     <span class="side_title">wallet</span>
                      <!-- <a href="#" class="pull-right btn_link" style="margin: 0 0 0 0;"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Show Multiple Account</a> -->
                     </div>
                     <table class="tbl_history" id="tbl_gHistory" border="0" cellSpacing="0" cellPadding="5">
@@ -37,11 +37,16 @@
                       </tbody>
                     </table>
 
-                    <div style="margin: 20px 0 0 0;">
+                    <div style="margin: 20px 0 10px 0;">
                      <span style="font-size: 1.6em;">Structure</span>
-                     <span style="font-size: 1em;">genealogy</span>
-                     <!-- <a href="#" class="pull-right btn_link" style="margin: 3px 0 0 0;"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Show Pairs Details</a> -->
+                     <span class="side_title">genealogy</span>
+                     <div id="div_mutiple_accounts" class="pull-right">
+                       <!-- <select class="form-control">
+                        <option value="NON">-- Account --</option>
+                       </select> -->
+                     </div>
                     </div>
+
                     <table class="tbl_history" id="tbl_gHistoryDetails" border="0" cellSpacing="0" cellPadding="0">
                       <thead>
                         <tr>
@@ -84,7 +89,7 @@
 
                     <div style="margin: 20px 0 0 0;">
                      <span style="font-size: 1.6em;">Pairing</span>
-                     <span style="font-size: 1em;">per day</span>
+                     <span class="side_title">per day</span>
                      <!-- <a href="#" class="pull-right btn_link" style="margin: 3px 0 0 0;"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Show Pairs Details</a> -->
                     </div>
                     <table class="tbl_history" id="tbl_gPairingDetails" border="0" cellSpacing="0" cellPadding="0">
@@ -110,7 +115,7 @@
 
                     <div style="margin: 20px 0 0 0;">
                      <span style="font-size: 1.6em;">Affiliates</span>
-                     <span style="font-size: 1em;">queuing</span>
+                     <span class="side_title">queuing</span>
                      <!-- <a href="#" class="pull-right btn_link" style="margin: 0 0 0 0;"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Show Pairs Details</a> -->
                     </div>
                     <table class="tbl_history" id="tbl_gAffliate" border="0" cellSpacing="0" cellPadding="5">
@@ -241,15 +246,22 @@ $("#btnShowCorpoAccount").click(function() {
     }
 })
 var IsRefresh = false;
-populate_genealogy_history(IsRefresh);
+populate_genealogy_history("", IsRefresh);
+populate_multiple_accounts();
 populate_affliate_lists();
-populate_pairing_history();
-// setInterval(genealogy_history, 3000);
+populate_pairing_history("");
 function genealogy_history() {
   if(!IsRefresh) {
     IsRefresh = true;
   }
   populate_genealogy_history(IsRefresh);
+}
+
+function getAccount(sel) {
+  var val = "/" + sel.value;
+  console.log(val);
+  populate_genealogy_history(val, IsRefresh);
+  populate_pairing_history(val);
 }
 </script>
 @endsection

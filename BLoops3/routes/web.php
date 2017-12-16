@@ -48,7 +48,7 @@ Route::any('/genealogy/encoding/placement-validation', 'HomeController@placement
 
 Route::get('/genealogy/encoding/{placement}/{position}/{affliliate?}', 'HomeController@encoding');
 
-Route::post('/genealogy/member-structure-details', 'HomeController@summary_pairing');
+Route::post('/genealogy/member-structure-details/{member_uid?}', 'HomeController@summary_pairing');
 
 Route::any('/genealogy/member-pairing-details/{member_uid?}', 'HomeController@summary_pairing_details');
 
@@ -57,6 +57,8 @@ Route::post('/referral/sign-up/{sponsor_uid}/{sponsor_muid}', 'AccountController
 Route::post('/affliate/member-lists', 'HomeController@affliate_queueing');
 
 Route::get('/account/verified/{email}', 'AccountController@account_verified');
+
+Route::post('/account/get-multiple-accounts', 'HomeController@get_multiple_accounts');
 
 Route::post('/account/check/username', 'AccountController@check_username');
 

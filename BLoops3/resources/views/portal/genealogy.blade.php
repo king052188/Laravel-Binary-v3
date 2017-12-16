@@ -519,7 +519,7 @@ $("#btnShowDetails").click(function() {
       IsShow = true;
       $("#div_gHistoryDetails").show();
       $(this).empty().prepend('<i class="fa fa-bar-chart" aria-hidden="true"></i> Hide Summary Details');
-      populate_genealogy_history(false);
+      populate_genealogy_history("",false);
     }
 })
 </script>
