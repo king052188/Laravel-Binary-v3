@@ -60,6 +60,8 @@ Route::get('/account/verified/{email}', 'AccountController@account_verified');
 
 Route::post('/account/get-multiple-accounts', 'HomeController@get_multiple_accounts');
 
+Route::any('/account/get-multiple-accounts-wallet', 'HomeController@get_multiple_accounts_each_wallet');
+
 Route::post('/account/check/username', 'AccountController@check_username');
 
 Route::get('/account/check-multiple', 'AccountController@check_multiple_account');

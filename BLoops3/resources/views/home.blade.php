@@ -41,16 +41,13 @@
                      <span style="font-size: 1.6em;">Structure</span>
                      <span class="side_title">genealogy</span>
                      <div id="div_mutiple_accounts" class="pull-right">
-                       <!-- <select class="form-control">
-                        <option value="NON">-- Account --</option>
-                       </select> -->
                      </div>
                     </div>
 
                     <table class="tbl_history" id="tbl_gHistoryDetails" border="0" cellSpacing="0" cellPadding="0">
                       <thead>
                         <tr>
-                          <th colspan="3">Summary Details</th>
+                          <th id="SD_Title" colspan="3">Summary Details</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -258,10 +255,12 @@ function genealogy_history() {
 }
 
 function getAccount(sel) {
-  var val = "/" + sel.value;
-  console.log(val);
+  var val = $("#ddl_"+sel).data("account");
+  val = "/" + val;
   populate_genealogy_history(val, IsRefresh);
   populate_pairing_history(val);
+  var username = $("#ddl_"+sel).data("username");
+  $("#SD_Title").empty().text("Summary Details - ("+username+")");
 }
 </script>
 @endsection

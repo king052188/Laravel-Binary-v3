@@ -8,6 +8,7 @@ use Auth;
 use App\User;
 use BinaryLoops;
 use BLHelper;
+use BLBot;
 use KPAPostMail;
 
 
@@ -132,6 +133,31 @@ class HomeController extends Controller
       $mobile = $this::$users->mobile;
       $result = BinaryLoops::Populate_Multiple_Accounts($member_uid, $mobile, 7);
       return $result;
+    }
+
+    public function get_multiple_accounts_each_wallet() {
+      $this::$users = Auth::user();
+      $member_uid = $this::$users->member_uid;
+      $mobile = $this::$users->mobile;
+      $accounts = BinaryLoops::Populate_Multiple_Accounts($member_uid, $mobile, 7);
+
+      $data = [];
+      for($i = 0; $i < COUNT($accounts["Data"]); $i++) {
+        $wallet = BLBot::get_member_income_info($accounts["Data"][$i]->member_uid);
+        $data[] = array(
+          "Uid" => $accounts["Data"][$i]->id,
+          "Member_UID" => $accounts["Data"][$i]->member_uid,
+          "Username" => $accounts["Data"][$i]->username,
+          "Wallet" => $wallet,
+        );
+      }
+
+      return array(
+        'Status' => 200,
+        'Message' => 'Success',
+        'Count' => COUNT($data),
+        'Data' => $data
+      );
     }
 
     public function placement_validation(Request $request)

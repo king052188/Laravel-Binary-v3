@@ -4551,11 +4551,11 @@ tbody.collapse.in {
 .dropdown-menu {
   position: absolute;
   top: 100%;
-  left: 0;
+  /* left: 0; */
   z-index: 1000;
   display: none;
   float: left;
-  min-width: 160px;
+  min-width: 260px;
   padding: 5px 0;
   margin: 2px 0 0;
   list-style: none;

@@ -8,8 +8,6 @@ use DB;
 use App\User;
 use Carbon\Carbon;
 
-use BLHelper;
-
 class BLBot
 {
 
@@ -25,7 +23,7 @@ class BLBot
         $members[$i]->username
       );
 
-      $u = BLHelper::get_member_info($members[$i]->member_uid);
+      $u = \BLHelper::get_member_info($members[$i]->member_uid);
       $dt = Carbon::now();
 
       $newline = "\r\n";
@@ -46,7 +44,7 @@ class BLBot
 
       $r = 0;
       if(strlen($u->mobile) == 11) {
-        $r = BLHelper::sms_template($u->mobile, $msg);
+        $r = \BLHelper::sms_template($u->mobile, $msg);
       }
 
       $data[] = [
@@ -85,7 +83,7 @@ class BLBot
       );
     }
 
-    $data = BLHelper::get_member_structure_details(
+    $data = \BLHelper::get_member_structure_details(
       $members[0]->member_uid,
       $members[0]->username
     );
@@ -95,6 +93,26 @@ class BLBot
       "Message" => "Success",
       "Data" => $data
     );
+  }
+
+  public function get_member_income_info($account) {
+    $members = DB::select("
+    SELECT member_uid, username, mobile
+    FROM users WHERE member_uid = '{$account}'
+    OR username = '{$account}' OR mobile = '{$account}';
+    ");
+
+    if(COUNT($members) == 0) {
+      return 0;
+    }
+
+    $m = \BLHelper::get_member_structure_details(
+      $members[0]->member_uid,
+      $members[0]->username
+    );
+
+    $income = (float)$m["total_structure"];
+    return $income;
   }
 
 

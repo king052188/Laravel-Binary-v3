@@ -25,6 +25,20 @@
     <link rel="stylesheet" href="{{ app()->getUrl(false, 'font-awesome-4.7.0/css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.min.css">
     <link rel="stylesheet" href="{{ app()->getUrl(false, 'css/bootcomplete.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js"></script>
+    <!-- Include a polyfill for ES6 Promises (optional) for IE11 and Android browser -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/1.5.6/numeral.min.js"></script>
+    <script src="{{ app()->getUrl(false, 'js/helper.js') }}"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-5109247563829937",
+        enable_page_level_ads: true
+      });
+    </script>
+    @yield('script-top')
     <style>
       table.tbl_loading { width: 100%; margin-top: 10px; }
       table.tbl_loading thead tr th { padding: 5px; }
@@ -63,6 +77,10 @@
       p.g_title { margin: 10px 0 0 0; padding: 0; text-align: center; font-weight: 600;  }
       .container { width: 80%; }
       .side_title { font-size: 1em; }
+      .dropdown-menu {
+        right: 0;
+        min-width: 270px;
+      }
       #nav_container { width: 55%; }
       @media screen and (max-width: 1200px) {
         #g_structure_container { overflow: scroll; max-height: 480px;  }
@@ -73,21 +91,6 @@
 
     </style>
     @yield('style')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.all.js"></script>
-    <!-- Include a polyfill for ES6 Promises (optional) for IE11 and Android browser -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.4/sweetalert2.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/1.5.6/numeral.min.js"></script>
-    <script src="{{ app()->getUrl(false, 'js/helper.js') }}"></script>
-
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <script>
-      (adsbygoogle = window.adsbygoogle || []).push({
-        google_ad_client: "ca-pub-5109247563829937",
-        enable_page_level_ads: true
-      });
-    </script>
-    @yield('script-top')
 </head>
 <body>
     <div id="app">

@@ -619,22 +619,40 @@ function populate_affliate_lists() {
         });
     })
 }
+
+// <ul class='nav'>
+//  <li class='dropdown'>
+//    <a class='dropdown-toggle' data-toggle='dropdown' href='#'>Multiple Accounts <b class='caret'></b></a>
+//    <ul class="dropdown-menu">
+//        <li><a href='#' onchange='getAccount(this);' data-account='A'>jQuery <span class='pull-right'>₱500.00</span></a></li>
+//        <li><a href='#' onchange='getAccount(this);' data-account='B'>Bootstrap <span class='pull-right'>₱500.00</span></a></li>
+//        <li><a href='#' onchange='getAccount(this);' data-account='C'>HTML <span class='pull-right'>₱500.00</span></a></li>
+//    </ul>
+//  </li>
+// </ul>
 function populate_multiple_accounts() {
     $(document).ready(function() {
         $.ajax({
             dataType: 'json',
             type:'POST',
-            url: '/account/get-multiple-accounts'
+            url: '/account/get-multiple-accounts-wallet'
         }).done(function(json){
-          console.log(json);
           if(json.Status == 200) {
             if(json.Count > 1) {
-              var html = "<select onchange='getAccount(this);' class='form-control'>";
-              html += "<option value='NON'>-- Accounts --</option>";
+              var total_wallet = 0.0;
+              var html = "<ul class='nav'>";
+              html += "<li class='dropdown'>";
+              html += "<a class='dropdown-toggle' data-toggle='dropdown' href='#'>Multiple Accounts <b class='caret'></b></a>";
+              html += "<ul class='dropdown-menu'>";
               $(json.Data).each(function(a, b) {
-                html += "<option value='"+b.member_uid+"'>"+b.username+"</option>";
+                total_wallet += parseFloat(b.Wallet);
+                html += "<li><a href='#"+b.Username+"' id='ddl_"+b.Uid+"' onclick='getAccount("+b.Uid+");' data-account='"+b.Member_UID+"' data-username='"+b.Username+"'><i class='fa fa-university' aria-hidden='true'></i> "+b.Username+" <span style='font-weight: 600; color: #921794;' class='pull-right'>₱ "+numeral(b.Wallet).format('0,0.00')+"</span></a></li>";
               })
-              html += "</select>";
+              html += "<li class='nav-divider'></li>";
+              html += "<li style='padding: 0 20px 5px 20px; font-weight: 600; color: #921794;'>TOTAL <span class='pull-right'>₱ "+numeral(total_wallet).format('0,0.00')+"</span></a></li>";
+              html += "</ul>";
+              html += "</li>";
+              html += "</ul>";
               $("#div_mutiple_accounts").empty().prepend(html);
             }
           }

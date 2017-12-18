@@ -342,6 +342,7 @@ class BLHelper
     {
        $users = DB::table('users')
                  ->where('mobile', $mobile)
+                 ->where('type', '<=', 5)
                  ->take($limit)
                  ->get()
                  ->toArray();
