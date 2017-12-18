@@ -666,6 +666,22 @@ function populate_multiple_accounts() {
               html += "</li>";
               html += "</ul>";
               $("#div_mutiple_accounts").empty().prepend(html);
+
+              total_wallet = 0.0;
+              var html2 = "<ul class='nav'>";
+              html2 += "<li class='dropdown'>";
+              html2 += "<a class='dropdown-toggle form-control' data-toggle='dropdown' href='#' id='enc_trigger_name' style='text-align: left;'>-- Accounts -- <b class='caret' style='float: right; margin: 5px -9px 0 0;'></b> </a>";
+              html2 += "<ul class='dropdown-menu'>";
+              $(json.Data).each(function(a, b) {
+                total_wallet += parseFloat(b.Wallet);
+                html2 += "<li><a href='#"+b.Username+"' id='ddlEnc_"+b.Uid+"' onclick='getAccountForEncashment("+b.Uid+");' data-account='"+b.Member_UID+"' data-username='"+b.Username+"' data-wallet='"+b.Wallet+"'><i class='fa fa-university' aria-hidden='true'></i> "+b.Username+" <span style='font-weight: 600; color: #921794;' class='pull-right'>₱ "+numeral(b.Wallet).format('0,0.00')+" PHP</span></a></li>";
+              })
+              html2 += "<li class='nav-divider'></li>";
+              html2 += "<li style='padding: 0 10px 5px 10px; font-weight: 600; color: #921794;'>TOTAL <span class='pull-right'>₱ "+numeral(total_wallet).format('0,0.00')+" PHP</span></a></li>";
+              html2 += "</ul>";
+              html2 += "</li>";
+              html2 += "</ul>";
+              $("#enc_wallet").empty().prepend(html2);
             }
           }
         });

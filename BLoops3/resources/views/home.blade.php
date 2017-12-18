@@ -168,38 +168,49 @@
       </div>
 
       <div class="modal-body">
-        <table class="tbl_history" id="tbl_modalPairingMore" border="0" cellSpacing="0" cellPadding="0" style="width: 100%; border: 0px solid gray;">
+        <table  id="tbl_modalPairingMore" border="0" cellSpacing="0" cellPadding="0" style="width: 100%; border: 0px solid gray;">
           <tbody>
             <tr>
               <td style="text-align: left; padding: 5px;">Wallet</td>
-              <td style="text-align: right; padding: 5px; border-left: 1px dotted gray; font-weight: 600;"></td>
+              <td id="enc_wallet" style="text-align: right; padding: 5px; border-left: 1px solid #F5F5F5; font-weight: 600;">
+              </td>
             </tr>
             <tr>
               <td style="text-align: left; padding: 5px;">Send the money</td>
-              <td style="text-align: right; padding: 5px; border-left: 1px dotted gray; font-weight: 600;">
-                <select class="form-control">
+              <td style="text-align: right; padding: 5px; border-left: 1px solid #F5F5F5; font-weight: 600;">
+                <select id="enc_send_to" name="enc_send_to" class="form-control">
                   <option value="NN">-- Choose --</option>
                   <optgroup label="BANK">BANK</optgroup>
-                  <option value="1">BDO</option>
-                  <option value="2">BPI</option>
-                  <option value="3">Metrobank</option>
-                  <option value="4">RCBC</option>
+                  <option value="BDO">BDO</option>
+                  <option value="BPI">BPI</option>
+                  <option value="MTB">Metrobank</option>
+                  <option value="RCB">RCBC</option>
                   <optgroup label="ElELCTRONIC">ElELCTRONIC</optgroup>
-                  <option value="1">GCASH</option>
-                  <option value="2">SMART Money</option>
-                  <option value="3">Coins.ph</option>
+                  <option value="GCASH">GCASH</option>
+                  <option value="SMART">SMART Money</option>
+                  <option value="COINS">Coins.ph</option>
                   <optgroup label="EXPXRESS MONEY">EXPXRESS MONEY</optgroup>
-                  <option value="1">Cebuana Lhuillier</option>
-                  <option value="2">Western Union</option>
+                  <option value="CEBL">Cebuana Lhuillier</option>
+                  <option value="WESU">Western Union</option>
                 </select>
+              </td>
+            </tr>
+            <tr>
+              <td style="text-align: left; padding: 5px;">Amount</td>
+              <td style="text-align: right; padding: 5px; border-left: 1px solid #F5F5F5; font-weight: 600;">
+                <input id="enc_amount" name="enc_amount" placeholder="Enter amount here..." class="form-control" type="number" required="" autofocus="" disabled>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
 
+      <div id="enc_error_msg" class="modal-footer" style="display: none;">
+      </div>
+
       <div class="modal-footer">
-        <button id="btnCancel" type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-check" aria-hidden="true"></i> Done</button>
+        <button id="btnEncashment" type="button" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i> Encash</button>
+        <button id="btnCancel" type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close" aria-hidden="true"></i> Cancel</button>
       </div>
     </div>
   </div>
@@ -299,7 +310,6 @@ function genealogy_history() {
   }
   populate_genealogy_history(IsRefresh);
 }
-
 function getAccount(sel) {
   var val = $("#ddl_"+sel).data("account");
   val = "/" + val;
@@ -308,5 +318,57 @@ function getAccount(sel) {
   var username = $("#ddl_"+sel).data("username");
   $("#SD_Title").empty().text("Summary Details - ("+username+")");
 }
+
+var enc_wallet = 0.0;
+function getAccountForEncashment(sel) {
+  $("#enc_error_msg").hide();
+  $("#enc_amount").removeAttr("disabled");
+  var account = $("#ddlEnc_"+sel).data("account");
+  var username = $("#ddlEnc_"+sel).data("username");
+  enc_wallet = $("#ddlEnc_"+sel).data("wallet");
+  var amount = $("#enc_amount").val();
+  if(parseFloat(amount) < 3000) {
+    $("#enc_error_msg").show();
+    $("#enc_error_msg").empty().prepend("<span style='color: red;'>Oops, minimum encashment is 3,000 pesos.</span>");
+    return false;
+  }
+  if(parseFloat(amount) > parseFloat(enc_wallet)) {
+    $("#enc_error_msg").show();
+    $("#enc_error_msg").empty().prepend("<span style='color: red;'>Oops, your wallet don't have enought budget.</span>");
+    return false;
+  }
+  $("#enc_trigger_name").empty().text(username + " - ₱ " + numeral(parseFloat(enc_wallet)).format('0,0.00') + " PHP");
+}
+$('#enc_amount').keypress(function(event) {
+  if (event.which != 46 && (event.which < 47 || event.which > 59))
+  {
+    event.preventDefault();
+    if ((event.which == 46) && ($(this).indexOf('.') != -1)) {
+        event.preventDefault()
+    }
+    return false;
+  }
+});
+$("#btnEncashment").click(function() {
+  var amount = $("#enc_amount").val();
+  if(parseFloat(amount) < 3000) {
+    $("#enc_error_msg").show();
+    $("#enc_error_msg").empty().prepend("<span style='color: red;'>Oops, minimum encashment is ₱ 3,000 pesos.</span>");
+    return false;
+  }
+
+  var sub_system = parseFloat(amount) * 0.10;
+  var sub_admin = sub_system + 100;
+  var total = sub_admin + parseFloat(amount);
+
+  if(total > parseFloat(enc_wallet)) {
+    $("#enc_error_msg").show();
+    $("#enc_error_msg").empty().prepend("<span style='color: red;'>Oops, your wallet don't have enought budget.</span>");
+    return false;
+  }
+
+  $("#enc_error_msg").show();
+  $("#enc_error_msg").empty().prepend("<span style='color: #6EB070; font-weight: 600;'>+ Admin Fee ₱ 100.00<br />+ (10%) System Fee ₱ "+numeral(sub_system).format('0,0.00')+"<br />= Total Amount ₱ "+numeral(total).format('0,0.00')+"</span>");
+})
 </script>
 @endsection
