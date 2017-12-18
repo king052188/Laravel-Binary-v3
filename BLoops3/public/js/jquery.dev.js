@@ -274,6 +274,11 @@ function check_username_ajax(username) {
 function alertShow() {
   alert("Soon, It's being updated.");
 }
+function withdrawal() {
+  $('#modal-withdrawal-form').modal({
+      show: true
+  });
+}
 function username_img_status(control, isDefaul) {
   $(control).removeAttr("src");
   if(isDefaul) {
@@ -359,7 +364,7 @@ function populate_genealogy_history(account, IsRefresh) {
             html += "<li><a href='javascript:void(0)' onClick='alertShow()'><i class='fa fa-tasks' aria-hidden='true'></i> Buy Code</a></li>";
             html += "<li><a href='javascript:void(0)' onClick='alertShow()'><i class='fa fa-tasks' aria-hidden='true'></i> Buy Load</a></li>";
             html += "<li><a href='javascript:void(0)' onClick='alertShow()'><i class='fa fa-tasks' aria-hidden='true'></i> Convert</a></li>";
-            html += "<li><a href='javascript:void(0)' onClick='alertShow()'><i class='fa fa-tasks' aria-hidden='true'></i> Withdraw</a></li>";
+            html += "<li><a href='javascript:void(0)' onClick='withdrawal()'><i class='fa fa-tasks' aria-hidden='true'></i> Withdraw</a></li>";
             html += "</ul></td>";
             html += "</tr>";
 
@@ -602,16 +607,14 @@ function populate_affliate_lists() {
             var html = "";
             var top = 710;
             $(json.Data).each(function(a, b) {
-
-              // console.log(json.Data);
               html += "<tr>";
               html += "<td style='text-align: center; padding: 5px; font-weight: 600;'>"+b.member_uid+"</td>";
               html += "<td style='text-align: center; padding: 5px;'>"+b.first_name +" "+ b.last_name+"</td>";
-              html += "<td style='text-align: center; padding: 5px;'><button class='btn dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><i class='fa fa-bars' aria-hidden='true'></i></button>";
-              html += "<ul class='ddlBtnMenuAffliate dropdown-menu pull-right' role='menu' style='top: "+top+"px;'>";
-              html += "<li><a href='/genealogy?activate="+b.member_uid+"'><i class='fa fa-tasks' aria-hidden='true'></i> Activate</a></li>";
-              html += "<li><a href='javascript:void(0)' onClick='alertShow()'><i class='fa fa-tasks' aria-hidden='true'></i> Deactivate</a></li>";
-              html += "</ul></td>";
+              html += "<td style='text-align: center; padding: 5px;'><button class='btn' onClick='affiliate_activate(this)' data-account='"+b.member_uid+"'><i class='fa fa-bars' aria-hidden='true'></i></button></td>";
+              // html += "<ul class='ddlBtnMenuAffliate dropdown-menu pull-right' role='menu' style='top: "+top+"px;'>";
+              // html += "<li><a href='/genealogy?activate="+b.member_uid+"'><i class='fa fa-tasks' aria-hidden='true'></i> Activate</a></li>";
+              // html += "<li><a href='javascript:void(0)' onClick='alertShow()'><i class='fa fa-tasks' aria-hidden='true'></i> Deactivate</a></li>";
+              // html += "</ul></td>";
               html += "</tr>";
               top = top+47;
             });
@@ -619,37 +622,46 @@ function populate_affliate_lists() {
         });
     })
 }
-
-// <ul class='nav'>
-//  <li class='dropdown'>
-//    <a class='dropdown-toggle' data-toggle='dropdown' href='#'>Multiple Accounts <b class='caret'></b></a>
-//    <ul class="dropdown-menu">
-//        <li><a href='#' onchange='getAccount(this);' data-account='A'>jQuery <span class='pull-right'>₱500.00</span></a></li>
-//        <li><a href='#' onchange='getAccount(this);' data-account='B'>Bootstrap <span class='pull-right'>₱500.00</span></a></li>
-//        <li><a href='#' onchange='getAccount(this);' data-account='C'>HTML <span class='pull-right'>₱500.00</span></a></li>
-//    </ul>
-//  </li>
-// </ul>
+function affiliate_activate(button) {
+  var btn = $(button).data("account");
+  window.location.href="/genealogy?activate="+btn;
+  return false;
+}
 function populate_multiple_accounts() {
     $(document).ready(function() {
         $.ajax({
             dataType: 'json',
             type:'POST',
-            url: '/account/get-multiple-accounts-wallet'
+            url: '/account/get-multiple-accounts-wallet',
+            beforeSend: function () {
+              var html = "<ul class='nav'>";
+              html += "<li class='dropdown'>";
+              html += "<a class='dropdown-toggle' data-toggle='dropdown' href='#'><i class='fa fa-users' aria-hidden='true'></i> Multiple Accounts <b class='caret'></b></a>";
+              html += "<ul class='dropdown-menu'>";
+              html += "<li><a href='#' ><i class='fa fa-university' aria-hidden='true'></i> *** <span style='font-weight: 600; color: #921794;' class='pull-right'>₱ ***.** PHP</span></a></li>";
+              html += "<li><a href='#' ><i class='fa fa-university' aria-hidden='true'></i> *** <span style='font-weight: 600; color: #921794;' class='pull-right'>₱ ***.** PHP</span></a></li>";
+              html += "<li><a href='#' ><i class='fa fa-university' aria-hidden='true'></i> *** <span style='font-weight: 600; color: #921794;' class='pull-right'>₱ ***.** PHP</span></a></li>";
+              html += "<li class='nav-divider'></li>";
+              html += "<li style='padding: 0 10px 5px 10px; font-weight: 600; color: #921794;'>TOTAL <span class='pull-right'>₱ ***.** PHP</span></a></li>";
+              html += "</ul>";
+              html += "</li>";
+              html += "</ul>";
+              $("#div_mutiple_accounts").empty().prepend(html);
+            }
         }).done(function(json){
           if(json.Status == 200) {
             if(json.Count > 1) {
               var total_wallet = 0.0;
               var html = "<ul class='nav'>";
               html += "<li class='dropdown'>";
-              html += "<a class='dropdown-toggle' data-toggle='dropdown' href='#'>Multiple Accounts <b class='caret'></b></a>";
+              html += "<a class='dropdown-toggle' data-toggle='dropdown' href='#'><i class='fa fa-users' aria-hidden='true'></i> Multiple Accounts <b class='caret'></b></a>";
               html += "<ul class='dropdown-menu'>";
               $(json.Data).each(function(a, b) {
                 total_wallet += parseFloat(b.Wallet);
-                html += "<li><a href='#"+b.Username+"' id='ddl_"+b.Uid+"' onclick='getAccount("+b.Uid+");' data-account='"+b.Member_UID+"' data-username='"+b.Username+"'><i class='fa fa-university' aria-hidden='true'></i> "+b.Username+" <span style='font-weight: 600; color: #921794;' class='pull-right'>₱ "+numeral(b.Wallet).format('0,0.00')+"</span></a></li>";
+                html += "<li><a href='#"+b.Username+"' id='ddl_"+b.Uid+"' onclick='getAccount("+b.Uid+");' data-account='"+b.Member_UID+"' data-username='"+b.Username+"'><i class='fa fa-university' aria-hidden='true'></i> "+b.Username+" <span style='font-weight: 600; color: #921794;' class='pull-right'>₱ "+numeral(b.Wallet).format('0,0.00')+" PHP</span></a></li>";
               })
               html += "<li class='nav-divider'></li>";
-              html += "<li style='padding: 0 20px 5px 20px; font-weight: 600; color: #921794;'>TOTAL <span class='pull-right'>₱ "+numeral(total_wallet).format('0,0.00')+"</span></a></li>";
+              html += "<li style='padding: 0 10px 5px 10px; font-weight: 600; color: #921794;'>TOTAL <span class='pull-right'>₱ "+numeral(total_wallet).format('0,0.00')+" PHP</span></a></li>";
               html += "</ul>";
               html += "</li>";
               html += "</ul>";

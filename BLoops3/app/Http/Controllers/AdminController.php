@@ -43,7 +43,9 @@ class AdminController extends Controller
      $s = "";
      if(IsSet($request->search)) {
        $s = $request->search;
-       $members = User::where('username', "like", "%{$s}%" )->paginate();
+       $members = User::where('username', "like", "%{$s}%" )
+              ->orWhere('email', "like", "%{$s}%" )
+              ->paginate();
      }
      else {
        $members = User::paginate();

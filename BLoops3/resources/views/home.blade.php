@@ -158,6 +158,52 @@
     </div>
   </div>
 </div>
+
+<div id="modal-withdrawal-form" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Withdrawal Form</h4>
+      </div>
+
+      <div class="modal-body">
+        <table class="tbl_history" id="tbl_modalPairingMore" border="0" cellSpacing="0" cellPadding="0" style="width: 100%; border: 0px solid gray;">
+          <tbody>
+            <tr>
+              <td style="text-align: left; padding: 5px;">Wallet</td>
+              <td style="text-align: right; padding: 5px; border-left: 1px dotted gray; font-weight: 600;"></td>
+            </tr>
+            <tr>
+              <td style="text-align: left; padding: 5px;">Send the money</td>
+              <td style="text-align: right; padding: 5px; border-left: 1px dotted gray; font-weight: 600;">
+                <select class="form-control">
+                  <option value="NN">-- Choose --</option>
+                  <optgroup label="BANK">BANK</optgroup>
+                  <option value="1">BDO</option>
+                  <option value="2">BPI</option>
+                  <option value="3">Metrobank</option>
+                  <option value="4">RCBC</option>
+                  <optgroup label="ElELCTRONIC">ElELCTRONIC</optgroup>
+                  <option value="1">GCASH</option>
+                  <option value="2">SMART Money</option>
+                  <option value="3">Coins.ph</option>
+                  <optgroup label="EXPXRESS MONEY">EXPXRESS MONEY</optgroup>
+                  <option value="1">Cebuana Lhuillier</option>
+                  <option value="2">Western Union</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="modal-footer">
+        <button id="btnCancel" type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-check" aria-hidden="true"></i> Done</button>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 
 @section('style')
