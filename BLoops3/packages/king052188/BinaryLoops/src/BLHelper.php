@@ -319,6 +319,76 @@ class BLHelper
             }
         }
 
+        if($top_info->type != 2) {
+          return array(
+            'Code' => 200,
+            'Message' => 'Success.',
+            'Position' => $position == 21 ? "Left" : "Right",
+            'Data' => array(
+              'Level_1' => $this->get_count_pairing_per_level_validation($get_level1, 1),
+              'Level_2' => $this->get_count_pairing_per_level_validation($get_level2, 2),
+              'Level_3' => $this->get_count_pairing_per_level_validation($get_level3, 3),
+              'Level_4' => $this->get_count_pairing_per_level_validation($get_level4, 4),
+              'Level_5' => $this->get_count_pairing_per_level_validation($get_level5, 5),
+              'Level_6' => $this->get_count_pairing_per_level_validation($get_level6, 6),
+              'Level_7' => $this->get_count_pairing_per_level_validation($get_level7, 7),
+              'Level_8' => $this->get_count_pairing_per_level_validation($get_level8, 8),
+              'Level_9' => $this->get_count_pairing_per_level_validation($get_level9, 9),
+              'Level_10' => $this->get_count_pairing_per_level_validation($get_level10, 10)
+            )
+          );
+        }
+
+        // level 11
+        $get_level11 = null;
+        if($get_level10 != null) {
+            for($i = 0; $i < count($get_level10); $i++) {
+                for($x = 0; $x < count($get_level10[$i]); $x++) {
+                    $get_level11[] = $this->get_count_pairing_per_level($get_level10[$i][$x]['member_uid'], 0, 11);
+                }
+            }
+        }
+
+        // level 12
+        $get_level12 = null;
+        if($get_level11 != null) {
+            for($i = 0; $i < count($get_level11); $i++) {
+                for($x = 0; $x < count($get_level11[$i]); $x++) {
+                    $get_level12[] = $this->get_count_pairing_per_level($get_level11[$i][$x]['member_uid'], 0, 12);
+                }
+            }
+        }
+
+        // level 13
+        $get_level13 = null;
+        if($get_level12 != null) {
+            for($i = 0; $i < count($get_level12); $i++) {
+                for($x = 0; $x < count($get_level12[$i]); $x++) {
+                    $get_level13[] = $this->get_count_pairing_per_level($get_level12[$i][$x]['member_uid'], 0, 13);
+                }
+            }
+        }
+
+        // level 14
+        $get_level14 = null;
+        if($get_level13 != null) {
+            for($i = 0; $i < count($get_level13); $i++) {
+                for($x = 0; $x < count($get_level13[$i]); $x++) {
+                    $get_level14[] = $this->get_count_pairing_per_level($get_level13[$i][$x]['member_uid'], 0, 14);
+                }
+            }
+        }
+
+        // level 15
+        $get_level15 = null;
+        if($get_level14 != null) {
+            for($i = 0; $i < count($get_level14); $i++) {
+                for($x = 0; $x < count($get_level14[$i]); $x++) {
+                    $get_level15[] = $this->get_count_pairing_per_level($get_level14[$i][$x]['member_uid'], 0, 15);
+                }
+            }
+        }
+
         return array(
           'Code' => 200,
           'Message' => 'Success.',
@@ -333,7 +403,12 @@ class BLHelper
             'Level_7' => $this->get_count_pairing_per_level_validation($get_level7, 7),
             'Level_8' => $this->get_count_pairing_per_level_validation($get_level8, 8),
             'Level_9' => $this->get_count_pairing_per_level_validation($get_level9, 9),
-            'Level_10' => $this->get_count_pairing_per_level_validation($get_level10, 10)
+            'Level_10' => $this->get_count_pairing_per_level_validation($get_level10, 10),
+            'Level_11' => $this->get_count_pairing_per_level_validation($get_level11, 11),
+            'Level_12' => $this->get_count_pairing_per_level_validation($get_level12, 12),
+            'Level_13' => $this->get_count_pairing_per_level_validation($get_level13, 13),
+            'Level_14' => $this->get_count_pairing_per_level_validation($get_level14, 14),
+            'Level_15' => $this->get_count_pairing_per_level_validation($get_level15, 15)
           )
         );
     }

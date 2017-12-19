@@ -62,6 +62,8 @@ Route::post('/account/get-multiple-accounts', 'HomeController@get_multiple_accou
 
 Route::any('/account/get-multiple-accounts-wallet', 'HomeController@get_multiple_accounts_each_wallet');
 
+Route::any('/account/request-encashment', 'HomeController@request_encashment');
+
 Route::post('/account/check/username', 'AccountController@check_username');
 
 Route::get('/account/check-multiple', 'AccountController@check_multiple_account');

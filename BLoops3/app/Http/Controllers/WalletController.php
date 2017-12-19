@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use DB;
 use App\Wallet;
+use App\Encashment;
 use BLHelper;
 
 class WalletController extends Controller
@@ -45,6 +46,31 @@ class WalletController extends Controller
       $w->t_role = $data["t_role"]; // 0 - debit, 1 - credit
       $w->t_amount = $data["t_amount"];
       $w->t_status = $data["t_status"];
+      if($w->save()) {
+        return 200;
+      }
+      return 500;
+    }
+
+    public function encashment($data, $IsUpdating = false) {
+      // $data = array(
+      //   'member_uid' => ,
+      //   't_number' => ,
+      //   't_description' => ,
+      //   't_type' => , // 0 user encash. 1 admin fee, 2 system fee
+      //   't_role' , // 0 - debit, 1 - credit
+      //   't_amount' => ,
+      //   't_status' => // 0 float. 1 approved, 2 claimed
+      // );
+      $w = new Encashment();
+      $w->member_uid = $data["member_uid"];
+      $w->t_number = $data["t_number"];
+      $w->t_description = $data["t_description"];
+      $w->t_type = $data["t_type"]; // 0 user encash. 1 admin fee, 2 system fee
+      $w->t_role = $data["t_role"]; // 0 - debit, 1 - credit
+      $w->t_destination = $data["t_destination"];
+      $w->t_amount = $data["t_amount"];
+      $w->t_status = $data["t_status"]; // 0 float. 1 approved, 2 claimed
       if($w->save()) {
         return 200;
       }

@@ -171,12 +171,12 @@
         <table  id="tbl_modalPairingMore" border="0" cellSpacing="0" cellPadding="0" style="width: 100%; border: 0px solid gray;">
           <tbody>
             <tr>
-              <td style="text-align: left; padding: 5px;">Wallet</td>
+              <td style="text-align: left; padding: 5px;">Wallet:</td>
               <td id="enc_wallet" style="text-align: right; padding: 5px; border-left: 1px solid #F5F5F5; font-weight: 600;">
               </td>
             </tr>
             <tr>
-              <td style="text-align: left; padding: 5px;">Send the money</td>
+              <td style="text-align: left; padding: 5px;">Send the money:</td>
               <td style="text-align: right; padding: 5px; border-left: 1px solid #F5F5F5; font-weight: 600;">
                 <select id="enc_send_to" name="enc_send_to" class="form-control">
                   <option value="NN">-- Choose --</option>
@@ -187,7 +187,7 @@
                   <option value="RCB">RCBC</option>
                   <optgroup label="ElELCTRONIC">ElELCTRONIC</optgroup>
                   <option value="GCASH">GCASH</option>
-                  <option value="SMART">SMART Money</option>
+                  <option value="SMART">Paymaya</option>
                   <option value="COINS">Coins.ph</option>
                   <optgroup label="EXPXRESS MONEY">EXPXRESS MONEY</optgroup>
                   <option value="CEBL">Cebuana Lhuillier</option>
@@ -196,7 +196,7 @@
               </td>
             </tr>
             <tr>
-              <td style="text-align: left; padding: 5px;">Amount</td>
+              <td style="text-align: left; padding: 5px;">Amount:</td>
               <td style="text-align: right; padding: 5px; border-left: 1px solid #F5F5F5; font-weight: 600;">
                 <input id="enc_amount" name="enc_amount" placeholder="Enter amount here..." class="form-control" type="number" required="" autofocus="" disabled>
               </td>
@@ -357,18 +357,23 @@ $("#btnEncashment").click(function() {
     return false;
   }
 
-  var sub_system = parseFloat(amount) * 0.10;
-  var sub_admin = sub_system + 100;
-  var total = sub_admin + parseFloat(amount);
+  var encashment = parseFloat(amount);
+  var system_fee = encashment * 0.10;
+  var admin_fee = 100;
+  var total_amount = encashment + system_fee + admin_fee;
 
-  if(total > parseFloat(enc_wallet)) {
+  if(total_amount > parseFloat(enc_wallet)) {
     $("#enc_error_msg").show();
     $("#enc_error_msg").empty().prepend("<span style='color: red;'>Oops, your wallet don't have enought budget.</span>");
     return false;
   }
 
   $("#enc_error_msg").show();
-  $("#enc_error_msg").empty().prepend("<span style='color: #6EB070; font-weight: 600;'>+ Admin Fee ₱ 100.00<br />+ (10%) System Fee ₱ "+numeral(sub_system).format('0,0.00')+"<br />= Total Amount ₱ "+numeral(total).format('0,0.00')+"</span>");
+  var info = "<span style='color: #E13939;'><b>₱ "+numeral(encashment).format('0,0.00')+"</b></span><span style='color: #E13939;'> Encashment Amount<br /></span>";
+  info += "<span style='color: #E13939;'><b>+ (10%) or ₱ "+numeral(system_fee).format('0,0.00')+"</b></span><span style='color: #E13939;'> for System Fee<br /></span>";
+  info += "<span style='color: #E13939;'><b>+ ₱ "+numeral(admin_fee).format('0,0.00')+"</b></span><span style='color: #E13939;'> for Admin Fee<br /></span>";
+  info += "<span style='color: #E13939;'><b>= ₱ "+numeral(total_amount).format('0,0.00')+"</b></span><span style='color: #E13939;'> Total Amount</span>";
+  $("#enc_error_msg").empty().prepend(info);
 })
 </script>
 @endsection

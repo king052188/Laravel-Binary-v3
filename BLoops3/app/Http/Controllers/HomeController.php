@@ -160,6 +160,86 @@ class HomeController extends Controller
       );
     }
 
+    public function request_encashment(Request $request) {
+      $amount = (float)$request["amount"];
+      if($amount < 3000) {
+        return array(
+          "Status" => 404,
+          "Message" => "Minimum is 3000 pesos"
+        );
+      }
+
+      $wallet = new WalletController();
+      $reference = BLHelper::generate_reference();
+      $system_fee = $amount * 0.10;
+      $admin_fee = 100;
+      $total_amount = $amount + $system_fee + $admin_fee;
+
+      $r = 0;
+      $data = array(
+        'member_uid' => $request["account"],
+        't_description' => "Encashment Request",
+        't_number' => $reference,
+        't_type' => 0,
+        't_role' => 1,
+        't_destination' => $request["destination"],
+        't_amount' => $total_amount,
+        't_status' => 1
+      );
+      $r = $wallet->encashment($data);
+
+      if($r != 200) {
+        return array(
+          "Status" => 500,
+          "Message" => "Oops, something went wrong on Encashment Request."
+        );
+      }
+
+      $r = 0;
+      $data = array(
+        'member_uid' => $request["account"],
+        't_description' => "System Fee",
+        't_number' => $reference,
+        't_type' => 0,
+        't_role' => 1,
+        't_destination' => "EPRO",
+        't_amount' => $system_fee,
+        't_status' => 1
+      );
+      $r = $wallet->encashment($data);
+
+      if($r != 200) {
+        return array(
+          "Status" => 500,
+          "Message" => "Oops, something went wrong on System Fee."
+        );
+      }
+
+      $r = 0;
+      $data = array(
+        'member_uid' => $request["account"],
+        't_description' => "Admin Fee",
+        't_number' => $reference,
+        't_type' => 0,
+        't_role' => 1,
+        't_destination' => "EPRO",
+        't_amount' => $admin_fee,
+        't_status' => 1
+      );
+      $r = $wallet->encashment($data);
+
+      if($r != 200) {
+        return array(
+          "Status" => 500,
+          "Message" => "Oops, something went wrong on Admin Fee."
+        );
+      }
+
+      return array(
+        "Status" => 200,
+        "Message" => "Success."
+      );
+    }
     public function placement_validation(Request $request)
     {
         return BinaryLoops::Placement_Validate($request);
