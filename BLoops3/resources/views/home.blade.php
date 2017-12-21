@@ -183,15 +183,15 @@
                   <optgroup label="BANK">BANK</optgroup>
                   <option value="BDO">BDO</option>
                   <option value="BPI">BPI</option>
-                  <option value="MTB">Metrobank</option>
+                  <option value="Metrobank">Metrobank</option>
                   <option value="RCB">RCBC</option>
                   <optgroup label="ElELCTRONIC">ElELCTRONIC</optgroup>
                   <option value="GCASH">GCASH</option>
-                  <option value="SMART">Paymaya</option>
-                  <option value="COINS">Coins.ph</option>
+                  <option value="Paymaya">Paymaya</option>
+                  <option value="Coins.ph">Coins.ph</option>
                   <optgroup label="EXPXRESS MONEY">EXPXRESS MONEY</optgroup>
-                  <option value="CEBL">Cebuana Lhuillier</option>
-                  <option value="WESU">Western Union</option>
+                  <option value="Cebuana Lhuillier">Cebuana Lhuillier</option>
+                  <option value="Western Union">Western Union</option>
                 </select>
               </td>
             </tr>
@@ -210,6 +210,7 @@
 
       <div class="modal-footer">
         <button id="btnEncashment" type="button" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i> Encash</button>
+        <button id="btnProceed" type="button" class="btn btn-success" style="display:none;"><i class="fa fa-check" aria-hidden="true" ></i> I'm, Okay</button>
         <button id="btnCancel" type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close" aria-hidden="true"></i> Cancel</button>
       </div>
     </div>
@@ -318,64 +319,6 @@ function getAccount(sel) {
   var username = $("#ddl_"+sel).data("username");
   $("#SD_Title").empty().text("Summary Details - ("+username+")");
 }
-
-var enc_wallet = 0.0;
-function getAccountForEncashment(sel) {
-  $("#enc_error_msg").hide();
-  $("#enc_amount").removeAttr("disabled");
-  var account = $("#ddlEnc_"+sel).data("account");
-  var username = $("#ddlEnc_"+sel).data("username");
-  enc_wallet = $("#ddlEnc_"+sel).data("wallet");
-  var amount = $("#enc_amount").val();
-  if(parseFloat(amount) < 3000) {
-    $("#enc_error_msg").show();
-    $("#enc_error_msg").empty().prepend("<span style='color: red;'>Oops, minimum encashment is 3,000 pesos.</span>");
-    return false;
-  }
-  if(parseFloat(amount) > parseFloat(enc_wallet)) {
-    $("#enc_error_msg").show();
-    $("#enc_error_msg").empty().prepend("<span style='color: red;'>Oops, your wallet don't have enought budget.</span>");
-    return false;
-  }
-  $("#enc_trigger_name").empty().text(username + " - ₱ " + numeral(parseFloat(enc_wallet)).format('0,0.00') + " PHP");
-}
-$('#enc_amount').keypress(function(event) {
-  if (event.which != 46 && (event.which < 47 || event.which > 59))
-  {
-    event.preventDefault();
-    if ((event.which == 46) && ($(this).indexOf('.') != -1)) {
-        event.preventDefault()
-    }
-    return false;
-  }
-});
-
-$("#btnEncashment").click(function() {
-  var amount = $("#enc_amount").val();
-  if(parseFloat(amount) < 3000) {
-    $("#enc_error_msg").show();
-    $("#enc_error_msg").empty().prepend("<span style='color: red;'>Oops, minimum encashment is ₱ 3,000 pesos.</span>");
-    return false;
-  }
-
-  var encashment = parseFloat(amount);
-  var system_fee = encashment * 0.10;
-  var admin_fee = 100;
-  var total_amount = encashment - system_fee - admin_fee;
-
-  // if(total_amount > parseFloat(enc_wallet)) {
-  //   $("#enc_error_msg").show();
-  //   $("#enc_error_msg").empty().prepend("<span style='color: red;'>Oops, your wallet don't have enought budget.</span>");
-  //   return false;
-  // }
-
-  $("#enc_error_msg").show();
-  var info = "<span style='color: #E13939;'><b>₱ "+numeral(encashment).format('0,0.00')+"</b></span><span style='color: #E13939;'> Encashment Amount<br /></span>";
-  info += "<span style='color: #E13939;'><b>- (10%) or ₱ "+numeral(system_fee).format('0,0.00')+"</b></span><span style='color: #E13939;'> for System Fee<br /></span>";
-  info += "<span style='color: #E13939;'><b>- ₱ "+numeral(admin_fee).format('0,0.00')+"</b></span><span style='color: #E13939;'> for Admin Fee<br /></span>";
-  info += "<span style='color: #E13939;'><b>= ₱ "+numeral(total_amount).format('0,0.00')+"</b></span><span style='color: #E13939;'> Total Amount</span>";
-  $("#enc_error_msg").empty().prepend(info);
-
-})
 </script>
+<script src="{{ app()->getUrl(false, 'js/enc.js') }}"></script>
 @endsection

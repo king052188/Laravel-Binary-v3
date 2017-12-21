@@ -26,6 +26,21 @@ class BLHelper
        return $d;
     }
 
+    public function get_user_encashment($member_uid, $type = 0) {
+      $select = DB::select("
+        SELECT
+        	CASE WHEN SUM(t_amount) > 0 THEN t_amount ELSE 0 END AS total_enc
+        FROM user_encashment
+        WHERE member_uid = '{$member_uid}'
+        AND t_type = {$type} AND t_status > 0 GROUP BY t_amount;
+      ");
+
+      if( COUNT($select) > 0 ) {
+        return (float)$select[0]->total_enc;
+      }
+      return 0;
+    }
+
     public function get_price_references($ref_code)
     {
         $d = DB::table('db_price_references')
@@ -846,11 +861,19 @@ class BLHelper
         $indirects = $this->get_total_indirect($member_uid);
         $leveling = $this->get_leveling_summary($username, true);
         $pairing = $this->get_member_pairing_daily($member_uid, true);
+        $encashment = $this->get_user_encashment($member_uid, 0);
+        $total_admin_fee = $this->get_user_encashment($member_uid, 1);
+        $total_system_fee = $this->get_user_encashment($member_uid, 2);
 
         $total_structure = $referrals["total_referral_amount"];
         $total_structure += $indirects["total_indirect"];
         $total_structure += $leveling["total_profit"];
         $total_structure += $pairing["Total_Amount"];
+        $total_structure = $total_structure - $encashment;
+
+        $total_available = $encashment - $total_admin_fee;
+        $total_available = $total_available - $total_system_fee;
+        $total_available = $referrals["total_available_amount"] + $total_available;
 
         $status = array(
             "username" => $username,
@@ -860,7 +883,10 @@ class BLHelper
             "levelings" => $leveling,
             "pairings" => $pairing,
             "total_structure" => $total_structure,
-            "total_available_amount" => $referrals["total_available_amount"],
+            "total_encashment" => $encashment,
+            "total_admin_fee" => $total_admin_fee,
+            "total_system_fee" => $total_system_fee,
+            "total_available_amount" => $total_available,
         );
 
         return $status;

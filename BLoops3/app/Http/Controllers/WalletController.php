@@ -64,6 +64,7 @@ class WalletController extends Controller
       // );
       $w = new Encashment();
       $w->member_uid = $data["member_uid"];
+      $w->t_author = $data["t_author"];
       $w->t_number = $data["t_number"];
       $w->t_description = $data["t_description"];
       $w->t_type = $data["t_type"]; // 0 user encash. 1 admin fee, 2 system fee
@@ -76,4 +77,6 @@ class WalletController extends Controller
       }
       return 500;
     }
+
+    
 }

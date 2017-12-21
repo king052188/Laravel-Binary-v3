@@ -152,8 +152,8 @@ $("#btnEncode").click(function() {
   if(_c != "0" || _c != 0) {
     url = "/genealogy/encoding/"+_a+"/"+_b+"/"+_c;
   }
-  console.log(url);
-  console.log(IsClick);
+  // console.log(url);
+  // console.log(IsClick);
   if(!IsClick) {
     IsClick = true;
     ajax_exec(url, data, this);
@@ -273,11 +273,6 @@ function check_username_ajax(username) {
 }
 function alertShow() {
   alert("Soon, It's being updated.");
-}
-function withdrawal() {
-  $('#modal-withdrawal-form').modal({
-      show: true
-  });
 }
 function username_img_status(control, isDefaul) {
   $(control).removeAttr("src");

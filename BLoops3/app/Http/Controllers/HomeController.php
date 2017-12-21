@@ -161,11 +161,26 @@ class HomeController extends Controller
     }
 
     public function request_encashment(Request $request) {
-      $amount = (float)$request["amount"];
+      $this::$users = Auth::user();
+      $author_uid = $this::$users->member_uid;
+
+      $author = DB::select("
+      SELECT * FROM user_encashment
+      WHERE t_author = '{$author_uid}' AND t_status = 1;
+      ");
+
+      if( COUNT($author) > 0) {
+        return array(
+          "Status" => 401,
+          "Message" => "You have pending request worth ₱ " . number_format($author[0]->t_amount, 2)
+        );
+      }
+
+      $amount = (float)$request["encash"];
       if($amount < 3000) {
         return array(
           "Status" => 404,
-          "Message" => "Minimum is 3000 pesos"
+          "Message" => "Minimum is ₱ 3,000.00 pesos"
         );
       }
 
@@ -177,12 +192,13 @@ class HomeController extends Controller
 
       $r = 0;
       $data = array(
-        'member_uid' => $request["account"],
+        'member_uid' => $request["uac"],
+        't_author' => $author_uid,
         't_description' => "Encashment Request",
         't_number' => $reference,
         't_type' => 0,
         't_role' => 1,
-        't_destination' => $request["destination"],
+        't_destination' => $request["sender"],
         't_amount' => $total_amount,
         't_status' => 1
       );
@@ -197,30 +213,11 @@ class HomeController extends Controller
 
       $r = 0;
       $data = array(
-        'member_uid' => $request["account"],
-        't_description' => "System Fee",
-        't_number' => $reference,
-        't_type' => 0,
-        't_role' => 1,
-        't_destination' => "EPRO",
-        't_amount' => $system_fee,
-        't_status' => 1
-      );
-      $r = $wallet->encashment($data);
-
-      if($r != 200) {
-        return array(
-          "Status" => 500,
-          "Message" => "Oops, something went wrong on System Fee."
-        );
-      }
-
-      $r = 0;
-      $data = array(
-        'member_uid' => $request["account"],
+        'member_uid' => $request["uac"],
+        't_author' => $author_uid,
         't_description' => "Admin Fee",
         't_number' => $reference,
-        't_type' => 0,
+        't_type' => 1,
         't_role' => 1,
         't_destination' => "EPRO",
         't_amount' => $admin_fee,
@@ -232,6 +229,27 @@ class HomeController extends Controller
         return array(
           "Status" => 500,
           "Message" => "Oops, something went wrong on Admin Fee."
+        );
+      }
+
+      $r = 0;
+      $data = array(
+        'member_uid' => $request["uac"],
+        't_author' => $author_uid,
+        't_description' => "System Fee",
+        't_number' => $reference,
+        't_type' => 2,
+        't_role' => 1,
+        't_destination' => "EPRO",
+        't_amount' => $system_fee,
+        't_status' => 1
+      );
+      $r = $wallet->encashment($data);
+
+      if($r != 200) {
+        return array(
+          "Status" => 500,
+          "Message" => "Oops, something went wrong on System Fee."
         );
       }
 

@@ -48,7 +48,7 @@ Route::any('/genealogy/encoding/placement-validation', 'HomeController@placement
 
 Route::get('/genealogy/encoding/{placement}/{position}/{affliliate?}', 'HomeController@encoding');
 
-Route::post('/genealogy/member-structure-details/{member_uid?}', 'HomeController@summary_pairing');
+Route::any('/genealogy/member-structure-details/{member_uid?}', 'HomeController@summary_pairing');
 
 Route::any('/genealogy/member-pairing-details/{member_uid?}', 'HomeController@summary_pairing_details');
 
