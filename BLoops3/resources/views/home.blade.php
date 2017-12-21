@@ -349,6 +349,7 @@ $('#enc_amount').keypress(function(event) {
     return false;
   }
 });
+
 $("#btnEncashment").click(function() {
   var amount = $("#enc_amount").val();
   if(parseFloat(amount) < 3000) {
@@ -360,20 +361,21 @@ $("#btnEncashment").click(function() {
   var encashment = parseFloat(amount);
   var system_fee = encashment * 0.10;
   var admin_fee = 100;
-  var total_amount = encashment + system_fee + admin_fee;
+  var total_amount = encashment - system_fee - admin_fee;
 
-  if(total_amount > parseFloat(enc_wallet)) {
-    $("#enc_error_msg").show();
-    $("#enc_error_msg").empty().prepend("<span style='color: red;'>Oops, your wallet don't have enought budget.</span>");
-    return false;
-  }
+  // if(total_amount > parseFloat(enc_wallet)) {
+  //   $("#enc_error_msg").show();
+  //   $("#enc_error_msg").empty().prepend("<span style='color: red;'>Oops, your wallet don't have enought budget.</span>");
+  //   return false;
+  // }
 
   $("#enc_error_msg").show();
   var info = "<span style='color: #E13939;'><b>₱ "+numeral(encashment).format('0,0.00')+"</b></span><span style='color: #E13939;'> Encashment Amount<br /></span>";
-  info += "<span style='color: #E13939;'><b>+ (10%) or ₱ "+numeral(system_fee).format('0,0.00')+"</b></span><span style='color: #E13939;'> for System Fee<br /></span>";
-  info += "<span style='color: #E13939;'><b>+ ₱ "+numeral(admin_fee).format('0,0.00')+"</b></span><span style='color: #E13939;'> for Admin Fee<br /></span>";
+  info += "<span style='color: #E13939;'><b>- (10%) or ₱ "+numeral(system_fee).format('0,0.00')+"</b></span><span style='color: #E13939;'> for System Fee<br /></span>";
+  info += "<span style='color: #E13939;'><b>- ₱ "+numeral(admin_fee).format('0,0.00')+"</b></span><span style='color: #E13939;'> for Admin Fee<br /></span>";
   info += "<span style='color: #E13939;'><b>= ₱ "+numeral(total_amount).format('0,0.00')+"</b></span><span style='color: #E13939;'> Total Amount</span>";
   $("#enc_error_msg").empty().prepend(info);
+
 })
 </script>
 @endsection
