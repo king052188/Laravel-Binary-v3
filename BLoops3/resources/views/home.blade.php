@@ -91,26 +91,29 @@
                      <span class="side_title">per day</span>
                      <!-- <a href="#" class="pull-right btn_link" style="margin: 3px 0 0 0;"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Show Pairs Details</a> -->
                     </div>
-                    <table class="tbl_history" id="tbl_gPairingDetails" border="0" cellSpacing="0" cellPadding="0">
-                      <thead>
-                        <tr>
-                          <th style="text-align: center; width: 130px;">Date</th>
-                          <th>Account#</th>
-                          <th style="text-align: center; width: 130px;">Pairing</th>
-                          <th style="text-align: center; width: 150px;">Total</th>
-                          <!-- <th style="text-align: center; width: 40px;">Action</th> -->
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>***</td>
-                          <td>***</td>
-                          <td>***</td>
-                          <td>***</td>
-                          <!-- <td>***</td> -->
-                        </tr>
-                      </tbody>
-                    </table>
+
+                    <!-- <div style="overflow-y: scroll; height:300px;"> -->
+                      <table class="tbl_history" id="tbl_gPairingDetails" border="0" cellSpacing="0" cellPadding="0">
+                        <thead>
+                          <tr>
+                            <th style="text-align: center; width: 130px;">Date</th>
+                            <th>Account#</th>
+                            <th style="text-align: center; width: 130px;">Pairing</th>
+                            <th style="text-align: center; width: 150px;">Total</th>
+                            <!-- <th style="text-align: center; width: 40px;">Action</th> -->
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>***</td>
+                            <td>***</td>
+                            <td>***</td>
+                            <td>***</td>
+                            <!-- <td>***</td> -->
+                          </tr>
+                        </tbody>
+                      </table>
+                    <!-- </div> -->
 
                     <div style="margin: 20px 0 0 0;">
                      <span style="font-size: 1.6em;">Affiliates</span>
@@ -239,6 +242,30 @@
   }
   table#tbl_gPairingDetails tbody tr:last-child:hover {
     background-color: #fff;
+  }
+
+  table#tbl_gPairingDetails {
+  	max-width:980px;
+  	table-layout:fixed;
+  	margin:auto;
+  }
+  table#tbl_gPairingDetails thead {
+  	background:#f9f9f9;
+  	display:table;
+  	width:100%;
+  	width:calc(100% - 18px);
+  }
+  table#tbl_gPairingDetails tbody {
+  	height:300px;
+  	overflow:auto;
+  	overflow-x:hidden;
+  	display:block;
+  	width:100%;
+  }
+  table#tbl_gPairingDetails tbody tr {
+  	display:table;
+  	width:100%;
+  	table-layout:fixed;
   }
   @media screen and (max-width: 1200px) {
     table#tbl_gPairingDetails {
