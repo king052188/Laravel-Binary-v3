@@ -163,13 +163,14 @@ class HomeController extends Controller
     public function request_encashment(Request $request) {
       $this::$users = Auth::user();
       $author_uid = $this::$users->member_uid;
+      $account_to = $request["uac"];
 
       $author = DB::select("
       SELECT * FROM user_encashment
       WHERE t_author = '{$author_uid}' AND t_status = 1;
       ");
 
-      if( COUNT($author) > 0) {
+      if( COUNT($author) > 0 ) {
         return array(
           "Status" => 401,
           "Message" => "You have pending request worth ₱ " . number_format($author[0]->t_amount, 2)
@@ -177,6 +178,26 @@ class HomeController extends Controller
       }
 
       $amount = (float)$request["encash"];
+      $system_fee = $amount * 0.10;
+      $admin_fee = 100;
+      // $amount_with_fees = $amount - ($system_fee + $admin_fee);
+      // $indirect = $this->check_indirect_deductions($account_to);
+
+      $total_amount = $amount;
+      // $IsDeducted = false;
+      // if($indirect < 0) {
+      //   $IsDeducted = true;
+      //   $av_amount = $indirect + $amount_with_fees;
+      //   $total_amount = $indirect + $amount;
+      // }
+
+      if($total_amount < 0) {
+        return array(
+          "Status" => 404,
+          "Message" => "Oops, your wallet is enought."
+        );
+      }
+
       if($amount < 3000) {
         return array(
           "Status" => 404,
@@ -186,13 +207,10 @@ class HomeController extends Controller
 
       $wallet = new WalletController();
       $reference = BLHelper::generate_reference();
-      $system_fee = $amount * 0.10;
-      $admin_fee = 100;
-      $total_amount = $amount + $system_fee + $admin_fee;
 
       $r = 0;
       $data = array(
-        'member_uid' => $request["uac"],
+        'member_uid' => $account_to,
         't_author' => $author_uid,
         't_description' => "Encashment Request",
         't_number' => $reference,
@@ -213,7 +231,7 @@ class HomeController extends Controller
 
       $r = 0;
       $data = array(
-        'member_uid' => $request["uac"],
+        'member_uid' => $account_to,
         't_author' => $author_uid,
         't_description' => "Admin Fee",
         't_number' => $reference,
@@ -234,7 +252,7 @@ class HomeController extends Controller
 
       $r = 0;
       $data = array(
-        'member_uid' => $request["uac"],
+        'member_uid' => $account_to,
         't_author' => $author_uid,
         't_description' => "System Fee",
         't_number' => $reference,
@@ -257,7 +275,53 @@ class HomeController extends Controller
         "Status" => 200,
         "Message" => "Success."
       );
+
+      // if(!$IsDeducted) {
+      //   return array(
+      //     "Status" => 200,
+      //     "Message" => "Success."
+      //   );
+      // }
+      //
+      // $data = array(
+      //   'member_uid' => $account_to,
+      //   't_description' => "Commission Deduction Paid",
+      //   't_type' => 24,
+      //   't_role' => 1,
+      //   't_amount' => 1100,
+      //   't_status' => 2,
+      // );
+      // $r = $wallet->update_wallet($data);
+      //
+      // if($r != 200) {
+      //   return array(
+      //     "Status" => 500,
+      //     "Message" => "Oops, something went wrong on CD Payment."
+      //   );
+      // }
+      //
+      // return array(
+      //   "Status" => 200,
+      //   "Message" => "You have Commission Deduction worth ₱ 1,100.00, total encashment ₱ " . number_format($av_amount, 2)
+      // );
     }
+
+    public function check_indirect_deductions($account_to) {
+      $author = DB::select("
+      SELECT
+        (
+        	SELECT CASE WHEN SUM(t_amount) != 0 THEN SUM(t_amount) ELSE 0 END FROM user_wallet WHERE member_uid = '{$account_to}' AND t_type = 24 AND t_role = 1 AND t_status = 2
+        ) -
+        (
+        	SELECT CASE WHEN SUM(t_amount) != 0 THEN SUM(t_amount) ELSE 0 END FROM user_wallet WHERE member_uid = '{$account_to}' AND t_type = 24 AND t_role = 0 AND t_status = 2
+        ) AS total_indirect
+      ");
+      if( COUNT($author) > 0 ) {
+        return $author[0]->total_indirect;
+      }
+      return 0;
+    }
+
     public function placement_validation(Request $request)
     {
         return BinaryLoops::Placement_Validate($request);

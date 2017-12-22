@@ -38,6 +38,7 @@ function getAccountForEncashment(sel) {
   }
   $("#enc_trigger_name").empty().text(username + " - ₱ " + numeral(parseFloat(enc_wallet)).format('0,0.00') + " PHP");
 }
+
 $('#enc_amount').keypress(function(event) {
   if (event.which != 46 && (event.which < 47 || event.which > 59))
   {
@@ -48,6 +49,7 @@ $('#enc_amount').keypress(function(event) {
     return false;
   }
 });
+
 $("#btnEncashment").click(function() {
   var amount = $("#enc_amount").val();
   var sender = $("#enc_send_to").val();
@@ -57,10 +59,16 @@ $("#btnEncashment").click(function() {
     return false;
   }
 
+  if(parseFloat(amount) > parseFloat(enc_wallet)) {
+    $("#enc_error_msg").show();
+    $("#enc_error_msg").empty().prepend("<span style='color: red;'>Oops, your wallet don't have enought budget.</span>");
+    return false;
+  }
+
   encashment = parseFloat(amount);
   system_fee = encashment * 0.10;
   admin_fee = 100;
-  data_send = { encash : encashment, uac : account, sender : sender };
+  data_send = { encash : encashment, uac : account, ava : enc_wallet, sender : sender };
   var total_amount = encashment - system_fee - admin_fee;
 
   $("#enc_error_msg").show();
@@ -80,7 +88,7 @@ $("#btnProceed").click(function() {
   $(document).ready(function() {
       $.ajax({
           dataType: 'json',
-          type:'POST',
+          type:'GET',
           url: '/account/request-encashment',
           data: data_send,
           beforeSend: function () {

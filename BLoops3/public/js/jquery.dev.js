@@ -352,8 +352,9 @@ function populate_genealogy_history(account, IsRefresh) {
             var total_affliate_points = 0, total_referral = 0, total_indirect = 0;
             var pos = json.position == 21 ? "Left" : "Right";
             html = "<tr>";
-            html += "<td style='padding: 7px; font-weight: 600; font-size: 1.1em;'>"+json.member_uid+"</td>";
-            html += "<td style='padding: 7px; font-weight: 600; font-size: 1.1em;'>"+numeral(json.total_available_amount).format('0,0.00')+"</td>";
+            html += "<td style='padding: 7px; font-weight: 600; font-size: 1em;'>"+json.member_uid+"</td>";
+            html += "<td style='text-align: right; padding: 7px; font-weight: 600; font-size: 1em;'>₱ "+numeral(json.total_available_amount).format('0,0.00')+"</td>";
+            html += "<td style='text-align: right;padding: 7px; font-weight: 600; font-size: 1em;'>₱ "+numeral(json.total_income_amount).format('0,0.00')+"</td>";
             html += "<td style='padding: 7px;'><button class='btn dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><i class='fa fa-bars' aria-hidden='true'></i></button>";
             html += "<ul class='ddlBtnMenu dropdown-menu pull-right' role='menu'>";
             html += "<li><a href='javascript:void(0)' onClick='alertShow()'><i class='fa fa-tasks' aria-hidden='true'></i> Buy Code</a></li>";
@@ -411,10 +412,25 @@ function populate_genealogy_history(account, IsRefresh) {
             html2 += "<td style='text-align: center; width: 130px; padding: 5px; font-weight: 600; background-color: #eaedf1;'>Wallet</td>";
             html2 += "</tr>";
 
-            html2 += "<td style='text-align: left; padding: 5px;'>Total</td>";
+            html2 += "<tr>";
+            html2 += "<td style='text-align: left; padding: 5px;'>Sub Total</td>";
             html2 += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>= "+numeral(total_affliate_points).format('0,0')+"</td>";
-            html2 += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>= "+numeral(json.total_structure).format('0,0.00')+"</td>";
+            html2 += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>= ₱ "+numeral(json.total_income_amount).format('0,0.00')+"</td>";
             html2 += "</tr>";
+
+            html2 += "<tr>";
+            html2 += "<td colspan='2' style='text-align: left; padding: 5px;'>Commission Deduction</td>";
+            html2 += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>= ₱ "+numeral(json.total_commission_deduction).format('0,0.00')+"</td>";
+            html2 += "</tr>";
+
+            var total_income = json.total_commission_deduction + json.total_income_amount;
+            html2 += "<tr>";
+            html2 += "<td style='text-align: left; padding: 5px;'>Total Income</td>";
+            html2 += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>= "+numeral(total_affliate_points).format('0,0')+"</td>";
+            html2 += "<td style='text-align: right; width: 130px; padding: 5px; font-weight: 600;'>= ₱ "+numeral(total_income).format('0,0.00')+"</td>";
+            html2 += "</tr>";
+
+
             $("#tbl_gHistory > tbody").empty().prepend(html);
             $("#tbl_gHistoryDetails > tbody").empty().prepend(html2);
         });
@@ -445,7 +461,7 @@ function populate_pairing_history(account) {
               html += "<td scope='row' data-label='Date'><a href='#' onclick='show_pairing_more(this)' "+data+">"+b.date_formated+"</a></td>";
               html += "<td data-label='Account'>"+b.member_uid+"</td>";
               html += "<td data-label='Pairing'>"+numeral(b.total_max_pairing_per_day).format('0,0')+"</td>";
-              html += "<td data-label='Total' style='text-align: right;'>"+numeral(b.total_max_pairing_amount).format('0,0.00')+"</td>";
+              html += "<td data-label='Total' style='text-align: right;'>₱ "+numeral(b.total_max_pairing_amount).format('0,0.00')+"</td>";
               // html += "<td data-label='Action'> <a href='#' onclick='show_pairing_more(this)' "+data+"><i class='fa fa-eye' aria-hidden='true'></i></a> </td>";
               html += "</tr>";
             });
@@ -524,7 +540,7 @@ function show_pairing_more(me) {
 
   html += "<tr>";
   html += "<td style='text-align: left; padding: 5px; width: 50%;'>Total Amount</td>";
-  html += "<td style='text-align: right; padding: 5px; border-left: 1px dotted gray; font-weight: 600;'>"+numeral(overAllTotal).format('0,0.00')+"</td>";
+  html += "<td style='text-align: right; padding: 5px; border-left: 1px dotted gray; font-weight: 600;'>₱ "+numeral(overAllTotal).format('0,0.00')+"</td>";
   html += "</tr>"
 
   html += "<tr>";
@@ -538,7 +554,7 @@ function show_pairing_more(me) {
 
   html += "<tr>";
   html += "<td style='text-align: left; padding: 5px; width: 50%;'>Total Amount</td>";
-  html += "<td style='text-align: right; padding: 5px; border-left: 1px dotted gray; font-weight: 600;'>"+numeral(maxPairTotal).format('0,0.00')+"</td>";
+  html += "<td style='text-align: right; padding: 5px; border-left: 1px dotted gray; font-weight: 600;'>₱ "+numeral(maxPairTotal).format('0,0.00')+"</td>";
   html += "</tr>"
   $("#tbl_modalPairingMore > tbody").empty().prepend(html);
 }

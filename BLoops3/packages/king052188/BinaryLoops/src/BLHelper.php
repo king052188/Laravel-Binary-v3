@@ -869,11 +869,14 @@ class BLHelper
         $total_structure += $indirects["total_indirect"];
         $total_structure += $leveling["total_profit"];
         $total_structure += $pairing["Total_Amount"];
+        $total_income = $total_structure - $encashment;
+
+        $total_structure = $total_structure + $referrals["total_available_amount"];
         $total_structure = $total_structure - $encashment;
 
         $total_available = $encashment - $total_admin_fee;
         $total_available = $total_available - $total_system_fee;
-        $total_available = $referrals["total_available_amount"] + $total_available;
+        $total_available = $total_available;
 
         $status = array(
             "username" => $username,
@@ -887,6 +890,8 @@ class BLHelper
             "total_admin_fee" => $total_admin_fee,
             "total_system_fee" => $total_system_fee,
             "total_available_amount" => $total_available,
+            "total_commission_deduction" => $referrals["total_available_amount"],
+            "total_income_amount" => $total_income,
         );
 
         return $status;

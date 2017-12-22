@@ -41,7 +41,6 @@ class BLBot
       $msg .= "Pairings: {$pairings}" . $newline;
       $msg .= "Total Income: {$income} - Thank You! From EnghagePro.com";
 
-
       $r = 0;
       if(strlen($u->mobile) == 11) {
         $r = \BLHelper::sms_template($u->mobile, $msg);

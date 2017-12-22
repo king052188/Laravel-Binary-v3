@@ -24,12 +24,14 @@
                       <thead>
                         <tr>
                           <th>Account#</th>
-                          <th style="width: 227px;">Available Amount</th>
+                          <th style="width: 115px;">A-Fund</th>
+                          <th style="width: 115px;">Total Income</th>
                           <th style="width: 50px;">Action</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
+                          <td>***</td>
                           <td>***</td>
                           <td>***</td>
                           <td>***</td>
