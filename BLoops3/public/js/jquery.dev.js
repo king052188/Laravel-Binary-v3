@@ -354,7 +354,7 @@ function populate_genealogy_history(account, IsRefresh) {
             html = "<tr>";
             html += "<td style='padding: 7px; font-weight: 600; font-size: 1em;'>"+json.member_uid+"</td>";
             html += "<td style='text-align: right; padding: 7px; font-weight: 600; font-size: 1em;'>₱ "+numeral(json.total_available_amount).format('0,0.00')+"</td>";
-            html += "<td style='text-align: right;padding: 7px; font-weight: 600; font-size: 1em;'>₱ "+numeral(json.total_income_amount).format('0,0.00')+"</td>";
+            html += "<td style='text-align: right;padding: 7px; font-weight: 600; font-size: 1em;'>₱ "+numeral(json.over_all_income).format('0,0.00')+"</td>";
             html += "<td style='padding: 7px;'><button class='btn dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><i class='fa fa-bars' aria-hidden='true'></i></button>";
             html += "<ul class='ddlBtnMenu dropdown-menu pull-right' role='menu'>";
             html += "<li><a href='javascript:void(0)' onClick='alertShow()'><i class='fa fa-tasks' aria-hidden='true'></i> Buy Code</a></li>";
@@ -643,26 +643,35 @@ function populate_multiple_accounts() {
         $.ajax({
             dataType: 'json',
             type:'POST',
-            url: '/account/get-multiple-accounts-wallet',
-            beforeSend: function () {
-              var html = "<ul class='nav'>";
-              html += "<li class='dropdown'>";
-              html += "<a class='dropdown-toggle' data-toggle='dropdown' href='#'><i class='fa fa-users' aria-hidden='true'></i> Multiple Accounts <b class='caret'></b></a>";
-              html += "<ul class='dropdown-menu'>";
-              html += "<li><a href='#' ><i class='fa fa-university' aria-hidden='true'></i> *** <span style='font-weight: 600; color: #921794;' class='pull-right'>₱ ***.** PHP</span></a></li>";
-              html += "<li><a href='#' ><i class='fa fa-university' aria-hidden='true'></i> *** <span style='font-weight: 600; color: #921794;' class='pull-right'>₱ ***.** PHP</span></a></li>";
-              html += "<li><a href='#' ><i class='fa fa-university' aria-hidden='true'></i> *** <span style='font-weight: 600; color: #921794;' class='pull-right'>₱ ***.** PHP</span></a></li>";
-              html += "<li class='nav-divider'></li>";
-              html += "<li style='padding: 0 10px 5px 10px; font-weight: 600; color: #921794;'>TOTAL <span class='pull-right'>₱ ***.** PHP</span></a></li>";
-              html += "</ul>";
-              html += "</li>";
-              html += "</ul>";
-              $("#div_mutiple_accounts").empty().prepend(html);
-            }
+            url: '/account/get-multiple-accounts-wallet'
         }).done(function(json){
+          $("#div_mutiple_accounts").empty();
           if(json.Status == 200) {
+            var total_wallet = 0.0;
+            var colors = "";
+
+            if(json.Count == 1) {
+              var html2 = "<ul class='nav'>";
+              html2 += "<li class='dropdown'>";
+              html2 += "<a class='dropdown-toggle form-control' data-toggle='dropdown' href='#' id='enc_trigger_name' style='text-align: left;'>-- Accounts -- <b class='caret' style='float: right; margin: 5px -9px 0 0;'></b> </a>";
+              html2 += "<ul class='dropdown-menu'>";
+              $(json.Data).each(function(a, b) {
+                var u_wallet = parseFloat(b.Wallet);
+                total_wallet += u_wallet;
+                var colors = u_wallet >= 0 ? "#921794" : "#FA1429";
+                html2 += "<li><a href='#"+b.Username+"' id='ddlEnc_"+b.Uid+"' onclick='getAccountForEncashment("+b.Uid+");' data-account='"+b.Member_UID+"' data-username='"+b.Username+"' data-wallet='"+b.Wallet+"'><i class='fa fa-university' aria-hidden='true'></i> "+b.Username+" <span style='font-weight: 600; color: "+colors+";' class='pull-right'>₱ "+numeral(b.Wallet).format('0,0.00')+" PHP</span></a></li>";
+              })
+              var colors = total_wallet > 0 ? "#921794" : "#FA1429";
+              html2 += "<li class='nav-divider'></li>";
+              html2 += "<li style='padding: 0 10px 5px 10px; font-weight: 600; color: "+colors+";'>TOTAL <span class='pull-right'>₱ "+numeral(total_wallet).format('0,0.00')+" PHP</span></a></li>";
+              html2 += "</ul>";
+              html2 += "</li>";
+              html2 += "</ul>";
+              $("#enc_wallet").empty().prepend(html2);
+            }
+
             if(json.Count > 1) {
-              var total_wallet = 0.0;
+              total_wallet = 0.0;
               var html = "<ul class='nav'>";
               html += "<li class='dropdown'>";
               html += "<a class='dropdown-toggle' data-toggle='dropdown' href='#'><i class='fa fa-users' aria-hidden='true'></i> Multiple Accounts <b class='caret'></b></a>";
@@ -684,11 +693,14 @@ function populate_multiple_accounts() {
               html2 += "<a class='dropdown-toggle form-control' data-toggle='dropdown' href='#' id='enc_trigger_name' style='text-align: left;'>-- Accounts -- <b class='caret' style='float: right; margin: 5px -9px 0 0;'></b> </a>";
               html2 += "<ul class='dropdown-menu'>";
               $(json.Data).each(function(a, b) {
-                total_wallet += parseFloat(b.Wallet);
-                html2 += "<li><a href='#"+b.Username+"' id='ddlEnc_"+b.Uid+"' onclick='getAccountForEncashment("+b.Uid+");' data-account='"+b.Member_UID+"' data-username='"+b.Username+"' data-wallet='"+b.Wallet+"'><i class='fa fa-university' aria-hidden='true'></i> "+b.Username+" <span style='font-weight: 600; color: #921794;' class='pull-right'>₱ "+numeral(b.Wallet).format('0,0.00')+" PHP</span></a></li>";
+                var u_wallet = parseFloat(b.Wallet);
+                total_wallet += u_wallet;
+                var colors = u_wallet >= 0 ? "#921794" : "#FA1429";
+                html2 += "<li><a href='#"+b.Username+"' id='ddlEnc_"+b.Uid+"' onclick='getAccountForEncashment("+b.Uid+");' data-account='"+b.Member_UID+"' data-username='"+b.Username+"' data-wallet='"+b.Wallet+"'><i class='fa fa-university' aria-hidden='true'></i> "+b.Username+" <span style='font-weight: 600; color: "+colors+";' class='pull-right'>₱ "+numeral(b.Wallet).format('0,0.00')+" PHP</span></a></li>";
               })
+              var colors = total_wallet > 0 ? "#921794" : "#FA1429";
               html2 += "<li class='nav-divider'></li>";
-              html2 += "<li style='padding: 0 10px 5px 10px; font-weight: 600; color: #921794;'>TOTAL <span class='pull-right'>₱ "+numeral(total_wallet).format('0,0.00')+" PHP</span></a></li>";
+              html2 += "<li style='padding: 0 10px 5px 10px; font-weight: 600; color: "+colors+";'>TOTAL <span class='pull-right'>₱ "+numeral(total_wallet).format('0,0.00')+" PHP</span></a></li>";
               html2 += "</ul>";
               html2 += "</li>";
               html2 += "</ul>";

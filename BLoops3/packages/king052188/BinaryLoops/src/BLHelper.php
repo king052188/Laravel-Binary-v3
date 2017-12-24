@@ -26,7 +26,8 @@ class BLHelper
        return $d;
     }
 
-    public function get_user_encashment($member_uid, $type = 0) {
+    public function get_user_encashment($member_uid, $type = 0)
+    {
       $select = DB::select("
         SELECT
         	CASE WHEN SUM(t_amount) > 0 THEN t_amount ELSE 0 END AS total_enc
@@ -870,6 +871,7 @@ class BLHelper
         $total_structure += $leveling["total_profit"];
         $total_structure += $pairing["Total_Amount"];
         $total_income = $total_structure - $encashment;
+        $over_all_income = $total_structure;
 
         $total_structure = $total_structure + $referrals["total_available_amount"];
         $total_structure = $total_structure - $encashment;
@@ -892,6 +894,7 @@ class BLHelper
             "total_available_amount" => $total_available,
             "total_commission_deduction" => $referrals["total_available_amount"],
             "total_income_amount" => $total_income,
+            "over_all_income" => $over_all_income
         );
 
         return $status;
