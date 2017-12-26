@@ -9,6 +9,7 @@ use Auth;
 use App\User;
 use App\Codes;
 use App\remit;
+use App\Encashment;
 use BinaryLoops;
 use BLHelper;
 
@@ -54,6 +55,28 @@ class AdminController extends Controller
      $search = ["value" => $s];
 
      return view('admin.members', compact('members', 'search'));
+   }
+
+   public function get_finances(Request $request)
+   {
+     $this::$users = Auth::user();
+
+     $s = "";
+     if(IsSet($request->search)) {
+       $s = $request->search;
+       $members = Encashment::where('member_uid', "like", "%{$s}%" )
+              ->orWhere('t_author', "like", "%{$s}%" )
+              ->paginate();
+     }
+     else {
+       $members = Encashment::where('t_type', 0)
+              ->orWhere('t_status', 1)
+              ->paginate();
+     }
+
+     $search = ["value" => $s];
+
+     return view('admin.finance', compact('members', 'search'));
    }
 
    public function get_members_username(Request $request, $type = null)

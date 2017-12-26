@@ -357,9 +357,7 @@ function populate_genealogy_history(account, IsRefresh) {
             html += "<td style='text-align: right;padding: 7px; font-weight: 600; font-size: 1em;'>₱ "+numeral(json.over_all_income).format('0,0.00')+"</td>";
             html += "<td style='padding: 7px;'><button class='btn dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><i class='fa fa-bars' aria-hidden='true'></i></button>";
             html += "<ul class='ddlBtnMenu dropdown-menu pull-right' role='menu'>";
-            html += "<li><a href='javascript:void(0)' onClick='alertShow()'><i class='fa fa-tasks' aria-hidden='true'></i> Buy Code</a></li>";
             html += "<li><a href='javascript:void(0)' onClick='alertShow()'><i class='fa fa-tasks' aria-hidden='true'></i> Buy Load</a></li>";
-            html += "<li><a href='javascript:void(0)' onClick='alertShow()'><i class='fa fa-tasks' aria-hidden='true'></i> Convert</a></li>";
             html += "<li><a href='javascript:void(0)' onClick='withdrawal()'><i class='fa fa-tasks' aria-hidden='true'></i> Withdraw</a></li>";
             html += "</ul></td>";
             html += "</tr>";

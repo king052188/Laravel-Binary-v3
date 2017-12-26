@@ -36,6 +36,8 @@ Route::get('/members/data.json', 'AdminController@get_members_json');
 
 Route::get('/member/usernames.json/{type?}', 'AdminController@get_members_username');
 
+Route::get('/finance', 'AdminController@get_finances');
+
 Route::get('/activation/code/lists.json', 'AdminController@get_code_lists');
 
 Route::post('/remit/code', 'AdminController@remit_process');

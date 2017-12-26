@@ -6,7 +6,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                   Administrator
-                  <a href="#" id="btnShowCorpoAccount" class="pull-right btn_link" style="margin: 0 0 0 0;"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Show Multiple Account</a>
+                  <!-- <a href="#" id="btnShowCorpoAccount" class="pull-right btn_link" style="margin: 0 0 0 0;"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Show Multiple Account</a> -->
                 </div>
                 <div class="panel-body" >
                     @if (session('status'))

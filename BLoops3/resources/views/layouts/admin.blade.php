@@ -63,6 +63,9 @@
       p.g_title { margin: 10px 0 0 0; padding: 0; text-align: center; font-weight: 600;  }
       .container { width: 80%; }
       #nav_container { width: 55%; }
+
+      .kpa_notification { background-color: #fff; color: #921794; padding: 5px; border-radius: 25px; font-weight: 600; }
+
       @media screen and (max-width: 1500px) {
         #g_structure_container { overflow: scroll; max-height: 480px;  }
         #nav_container { width: 100%; }
@@ -131,7 +134,7 @@
 
                             @if(Auth::user()->type >= 20)
                             <li><a href="{{ app()->getUrl(true, '/members') }}">Members</a></li>
-                            <li><a href="{{ app()->getUrl(true, '/finance') }}">Finance</a></li>
+                            <li><a href="{{ app()->getUrl(true, '/finance') }}">Finance <span id="finance_noti" class="kpa_notification">0</span></a></li>
                             @else
                             <!-- <li><a href="{{ app()->getUrl(true, '/') }}">Services</a></li> -->
                             <li><a href="{{ app()->getUrl(true, '/genealogy') }}">Genealogy</a></li>
