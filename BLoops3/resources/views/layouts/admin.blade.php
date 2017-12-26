@@ -134,7 +134,7 @@
 
                             @if(Auth::user()->type >= 20)
                             <li><a href="{{ app()->getUrl(true, '/members') }}">Members</a></li>
-                            <li><a href="{{ app()->getUrl(true, '/finance') }}">Finance <span id="finance_noti" class="kpa_notification">0</span></a></li>
+                            <li><a href="{{ app()->getUrl(true, '/finance') }}">Finance <span id="finance_noti" class="kpa_notification">1</span></a></li>
                             @else
                             <!-- <li><a href="{{ app()->getUrl(true, '/') }}">Services</a></li> -->
                             <li><a href="{{ app()->getUrl(true, '/genealogy') }}">Genealogy</a></li>

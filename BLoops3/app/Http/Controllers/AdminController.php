@@ -57,26 +57,22 @@ class AdminController extends Controller
      return view('admin.members', compact('members', 'search'));
    }
 
-   public function get_finances(Request $request)
+   public function get_finance(Request $request)
    {
      $this::$users = Auth::user();
 
-     $s = "";
-     if(IsSet($request->search)) {
-       $s = $request->search;
-       $members = Encashment::where('member_uid', "like", "%{$s}%" )
-              ->orWhere('t_author', "like", "%{$s}%" )
-              ->paginate();
-     }
-     else {
-       $members = Encashment::where('t_type', 0)
-              ->orWhere('t_status', 1)
-              ->paginate();
+     $request = [];
+     $encashment_request = DB::select("SELECT * FROM user_encashments;");
+     for($i = 0; $i < COUNT($encashment_request); $i++) {
+       $trans = $encashment_request[$i]->t_number;
+       $fee = DB::select("SELECT * FROM user_encashment WHERE t_number = '{$trans}' AND t_type != 0;");
+       $request[] = array (
+         "Encashment" => $encashment_request[$i],
+         "Fees" => $fee
+       );
      }
 
-     $search = ["value" => $s];
-
-     return view('admin.finance', compact('members', 'search'));
+     return view('admin.finance', compact('request'));
    }
 
    public function get_members_username(Request $request, $type = null)

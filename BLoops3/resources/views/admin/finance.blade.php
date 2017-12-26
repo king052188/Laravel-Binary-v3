@@ -15,65 +15,92 @@
                         </div>
                     @endif
                     <div style="margin: 10px 0 0 0;">
-                     <span style="font-size: 1.6em;">Members</span>
-                     <span style="font-size: 1em;">list</span>
+                     <span style="font-size: 1.6em;">Encashment</span>
+                     <span style="font-size: 1em;">request</span>
                      <!-- <a href="#" class="pull-right btn_link" style="margin: 0 0 0 0;"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Show Multiple Account</a> -->
                      <div class="pull-right">
-                       <form>
-                         <input type="search" name="search" placeholder="Search..." {{ $search["value"] != "" ? "value=". $search["value"] : "" }} required />
+                       <!-- <form>
+                         <input type="search" name="search" placeholder="Search..."  required />
                          <input type="submit" value="Go" />
-                       </form>
+                       </form> -->
                      </div>
                     </div>
                     <table class="table table-striped table-bordered" id="tblMembers" border="0" cellSpacing="0" cellPadding="5">
                       <thead>
                           <tr>
-                            <th scope="col" style="width: 170px;">Trans#</th>
-                            <th scope="col">Requester</th>
-                            <th scope="col" style="width: 110px; text-align: right;">Amount</th>
-                            <th scope="col" style="width: 100px;">Date</th>
-                            <th scope="col" style="width: 50px;">Action</th>
+                            <th scope="col" style="width: 210px;">Trans#</th>
+                            <th scope="col">Requested By</th>
+                            <th scope="col" style="width: 150px; text-align: right;">Amount</th>
+                            <th scope="col" style="width: 100px;">Status</th>
+                            <th scope="col" style="width: 170px;">Date</th>
+                            <th scope="col" style="width: 40px;">Action</th>
                           </tr>
                       </thead>
                       <tbody>
-                        <?php $count = 1; ?>
-                        @foreach ($members as $member)
-                            <tr>
-                              <td data-label="Mobile">{{ $member->t_number }}</td>
-                              <td data-label="Fullname">{{ $member->t_author }}</td>
-                              <td data-label="Fullname" style="text-align: right;">{{ number_format($member->t_amount, 2) }}</td>
-                              <td data-label="Joined">{{ $member->created_at->toDateString() }}</td>
-                              <td data-label="Action">
-                                <button id="btn_{{ $member->member_uid }}"  data-toggle="collapse" data-target="#collapse_{{ $member->Id }}" >
-                                  <i class='fa fa-tasks' aria-hidden='true'></i>
-                                </button>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td colspan="5" class="p0">
-                                <div id="collapse_{{ $member->Id }}" class="collapse">
-                                  <table class="table table-striped table-bordered mb0">
-                                    <thead>
-                                        <tr>
-                                            <th data-toggle="true">Ad Color</th>
-                                            <th>Ad Size</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr>
-                                        <td>sadasdsad</td>
-                                        <td>sadasd</td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
+                        @for($i = 0; $i < COUNT($request); $i++)
+                          <tr>
+                            <td data-label="Mobile">{{ $request[$i]["Encashment"]->t_number }}</td>
+                            <td data-label="Fullname">{{ $request[$i]["Encashment"]->t_author }}</td>
+                            <td data-label="Fullname" style="text-align: right;">{{ number_format($request[$i]["Encashment"]->total_encashment, 2) }}</td>
+                            <td data-label="Fullname">
+                              @if($request[$i]["Encashment"]->t_status == 1)
+                                <strong>Pending</strong>
+                              @elseif($request[$i]["Encashment"]->t_status == 2)
+                                <strong style='color: #E8C112;'>Hold</strong>
+                              @elseif($request[$i]["Encashment"]->t_status == 3)
+                                <strong style='color: #94B910;'>Completed</strong>
+                              @else
+                                <strong style='color: #E11660;'>Rejected</strong>
+                              @endif
+                            </td>
+                            <td data-label="Joined">{{ $request[$i]["Encashment"]->created_at }}</td>
+                            <td data-label="Action">
+                              <button id="btn_{{ $request[$i]['Encashment']->member_uid }}"  data-toggle="collapse" data-target="#collapse_{{ $request[$i]['Encashment']->Id }}" >
+                                <i class='fa fa-th-list' aria-hidden='true'></i>
+                              </button>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td colspan="6" class="p0">
+                              <div id="collapse_{{ $request[$i]['Encashment']->Id }}" class="collapse">
+                                <div>
+                                  <h3 style="font-size: 1.6em; text-align: center; margin: 10px 0 10px 0;">Encashment Details</h3>
                                 </div>
-                              </td>
-                            </tr>
-                            <?php $count++; ?>
-                        @endforeach
+                                <table class="table table-bordered">
+                                  <thead>
+                                      <tr>
+                                          <th data-toggle="true">Description</th>
+                                          <th>Amount</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <td>Encashment Amount</td>
+                                      <td style="width: 170px; text-align: right; font-weight: 600;">{{ number_format($request[$i]["Encashment"]->t_amount, 2) }}</td>
+                                    </tr>
+                                    @for($f = 0; $f < COUNT($request[$i]["Fees"]); $f++)
+                                      <tr>
+                                        <td>{{ $request[$i]["Fees"][$f]->t_description }}</td>
+                                        <td style="width: 170px; text-align: right; font-weight: 600;">- {{ number_format($request[$i]["Fees"][$f]->t_amount, 2) }}</td>
+                                      </tr>
+                                    @endfor
+                                    <tr>
+                                      <td style="color: #E11660; font-weight: 600;">Total Amount</td>
+                                      <td style="color: #E11660; width: 170px; text-align: right; font-weight: 600;">{{ number_format($request[$i]["Encashment"]->total_encashment, 2) }}</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                                <div style="margin: 0 0 10px 0;">
+                                  <button id="btnCompleted"  class="btn btn-success"><i class='fa fa-check' aria-hidden='true'></i> Complete</button>
+                                  <button id="btnHold"  class="btn btn-warning"><i class='fa fa-pause' aria-hidden='true'></i> Hold</button>
+                                  <button id="btnReject"  class="btn btn-danger"><i class='fa fa-ban' aria-hidden='true'></i> Reject</button>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        @endfor
                       </tbody>
                     </table>
-                    {{ $members->links() }}
                 </div>
             </div>
         </div>
