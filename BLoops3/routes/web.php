@@ -37,6 +37,7 @@ Route::get('/members/data.json', 'AdminController@get_members_json');
 Route::get('/member/usernames.json/{type?}', 'AdminController@get_members_username');
 
 Route::get('/finance', 'AdminController@get_finance');
+Route::get('/finance/get/encashment.json', 'AdminController@get_user_encashment');
 
 Route::get('/activation/code/lists.json', 'AdminController@get_code_lists');
 

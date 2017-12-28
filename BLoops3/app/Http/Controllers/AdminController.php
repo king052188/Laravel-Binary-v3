@@ -82,6 +82,28 @@ class AdminController extends Controller
      return view('admin.finance', compact('request'));
    }
 
+   public function get_user_encashment(Request $request)
+   {
+     $trans_ = $request->trans;
+
+     $encashment_request = DB::select("
+      SELECT a.username AS u_wallet, b.username AS u_author, t.*
+      FROM user_encashments AS t
+      INNER JOIN users AS a
+      ON t.member_uid = a.member_uid
+      INNER JOIN users AS b
+      ON t.t_author = b.member_uid
+      WHERE t.t_number = '{$trans_}';
+     ");
+
+     $count = COUNT($encashment_request);
+     return array(
+       "Status" => $count > 0 ? 200 : 404,
+       "Message" => $count > 0 ? "Success" : "No Data",
+       "Data" => $encashment_request
+     );
+   }
+
    public function get_members_username(Request $request, $type = null)
    {
      $this::$users = Auth::user();

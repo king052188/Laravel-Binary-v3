@@ -61,7 +61,7 @@
                             </td>
                           </tr>
                           <tr>
-                            <td colspan="6" class="p0">
+                            <td colspan="6">
                               <div id="collapse_{{ $request[$i]['Encashment']->Id }}" class="collapse">
                                 <div>
                                   <h3 style="font-size: 1.6em; text-align: center; margin: 10px 0 10px 0;">Encashment Details</h3>
@@ -94,9 +94,9 @@
                                   </tbody>
                                 </table>
                                 <div style="margin: 0 0 10px 0;">
-                                  <button id="btnCompleted"  class="btn btn-success"><i class='fa fa-check' aria-hidden='true'></i> Complete</button>
-                                  <button id="btnHold"  class="btn btn-warning"><i class='fa fa-pause' aria-hidden='true'></i> Hold</button>
-                                  <button id="btnReject"  class="btn btn-danger"><i class='fa fa-ban' aria-hidden='true'></i> Reject</button>
+                                  <button id="btnCompleted_{{ $request[$i]["Encashment"]->t_number }}" onclick="onclick_update('{{ $request[$i]["Encashment"]->t_number }}', 3)" class="btn btn-success"><i class='fa fa-check' aria-hidden='true'></i> Complete</button>
+                                  <button id="btnHold_{{ $request[$i]["Encashment"]->t_number }}" onclick="onclick_update('{{ $request[$i]["Encashment"]->t_number }}', 2)" class="btn btn-warning"><i class='fa fa-pause' aria-hidden='true'></i> Hold</button>
+                                  <button id="btnReject_{{ $request[$i]["Encashment"]->t_number }}" onclick="onclick_update('{{ $request[$i]["Encashment"]->t_number }}', 0)" class="btn btn-danger"><i class='fa fa-ban' aria-hidden='true'></i> Reject</button>
                                 </div>
                               </div>
                             </td>
@@ -116,31 +116,25 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-        <h4 id="modal_fullname" class="modal-title" style="text-transform: capitalize; font-weight: 600;">King Paulo Aquino (king.a)</h4>
+        <h4 id="modal_fullname" class="modal-title" style="text-transform: capitalize; font-weight: 600;"></h4>
       </div>
 
       <div class="modal-body">
 
         <div style="margin: 0 0 17px 0;">
-          <h4 id="modal_account"  style="margin: 0 0 0 0; font-weight: 600;">Account#:</h4>
-          <p id="modal_username"  style="margin: 10px 0 0 0; font-weight: 600;">Username:</p>
+          <h4 id="modal_trans"  style="margin: 0 0 0 0; font-weight: 600;">Trans#:</h4>
         </div>
 
         <div class="col-lg-12">
-          <div class="tabbable-panel">
+
+          <div id="complete_tab" class="tabbable-panel">
             <div id="tabPanel" class="tabbable-line">
               <ul id="tab_ul" class="nav nav-tabs">
                 <li id="btn_default_1" class="active">
-                  <a href="#tab_default_1" data-toggle="tab" data-tab="tabIncome">Income</a>
+                  <a href="#tab_default_1" data-toggle="tab" data-tab="tabEncashment">Encashment</a>
                 </li>
                 <li >
-                  <a href="#tab_default_2" data-toggle="tab" data-tab="tabEncashment">Encashment</a>
-                </li>
-                <li >
-                  <a href="#tab_default_3" data-toggle="tab" data-tab="tabProfile">Profile</a>
-                </li>
-                <li >
-                  <a href="#tab_default_4" data-toggle="tab" data-tab="tabSettings">Settings</a>
+                  <a href="#tab_default_2" data-toggle="tab" data-tab="tabReferences">References</a>
                 </li>
               </ul>
 
@@ -149,8 +143,8 @@
                 <div class="tab-pane active" id="tab_default_1">
                   <div class="tab_container">
                       <div style="margin: 20px 0 0 0;">
-                       <span style="font-size: 1.6em;">Structure</span>
-                       <span style="font-size: 1em;">genealogy</span>
+                       <span style="font-size: 1.6em;">Encashment</span>
+                       <span style="font-size: 1em;">details</span>
                       </div>
                       <table class="tbl_history" id="tbl_modalGHistoryDetails" border="0" cellSpacing="0" cellPadding="0">
                         <thead>
@@ -160,81 +154,37 @@
                         </thead>
                         <tbody>
                           <tr>
-                            <td style="text-align: left; padding: 5px;">Affliate</td>
-                            <td style="text-align: right; width: 120px; padding: 5px; font-weight: 600;">***</td>
-                            <td style="text-align: right; width: 120px; padding: 5px; font-weight: 600;">***</td>
+                            <td style="text-align: left; padding: 5px;">Account</td>
+                            <td style="text-align: right; width: 180px; padding: 5px; font-weight: 600;">***</td>
                           </tr>
                           <tr>
-                            <td style="text-align: left; padding: 5px;">Referral</td>
-                            <td style="text-align: right; width: 120px; padding: 5px; font-weight: 600;">***</td>
-                            <td style="text-align: right; width: 120px; padding: 5px; font-weight: 600;">***</td>
+                            <td style="text-align: left; padding: 5px;">Username</td>
+                            <td style="text-align: right; width: 180px; padding: 5px; font-weight: 600;">***</td>
                           </tr>
                           <tr>
-                            <td style="text-align: left; padding: 5px;">Indirect</td>
-                            <td style="text-align: right; width: 120px; padding: 5px; font-weight: 600;">***</td>
-                            <td style="text-align: right; width: 120px; padding: 5px; font-weight: 600;">***</td>
+                            <td style="text-align: left; padding: 5px;">Encashment</td>
+                            <td style="text-align: right; width: 180px; padding: 5px; font-weight: 600;">***</td>
                           </tr>
                           <tr>
-                            <td style="text-align: left; padding: 5px;">Leveling</td>
-                            <td style="text-align: right; width: 120px; padding: 5px; font-weight: 600;">***</td>
-                            <td style="text-align: right; width: 120px; padding: 5px; font-weight: 600;">***</td>
+                            <td style="text-align: left; padding: 5px;">Admin Fee</td>
+                            <td style="text-align: right; width: 180px; padding: 5px; font-weight: 600;">***</td>
                           </tr>
                           <tr>
-                            <td style="text-align: left; padding: 5px;">-</td>
-                            <td style="text-align: center; width: 120px; padding: 5px; font-weight: 600; background-color: #eaedf1;">Points</td>
-                            <td style="text-align: center; width: 120px; padding: 5px; font-weight: 600; background-color: #eaedf1;">Wallet</td>
+                            <td style="text-align: left; padding: 5px;">System Fee</td>
+                            <td style="text-align: right; width: 180px; padding: 5px; font-weight: 600;">***</td>
                           </tr>
                           <tr>
                             <td style="text-align: left; padding: 5px;">Total</td>
-                            <td style="text-align: right; width: 120px; padding: 5px; font-weight: 600;">***</td>
-                            <td style="text-align: right; width: 120px; padding: 5px; font-weight: 600;">***</td>
+                            <td style="text-align: right; width: 180px; padding: 5px; font-weight: 600;">***</td>
                           </tr>
                         </tbody>
                       </table>
-
-                      <div style="margin: 20px 0 0 0;">
-                       <span style="font-size: 1.6em;">Pairing</span>
-                       <span style="font-size: 1em;">per day</span>
-                      </div>
-                      <div style="overflow-y: scroll; height: 100px;">
-                        <table class="tbl_history mobile" id="tbl_modalGPairingDetails" border="0" cellSpacing="0" cellPadding="0">
-                          <thead>
-                            <tr>
-                              <th style="text-align: center; padding: 5px; font-weight: 600;">Date</th>
-                              <th style="text-align: center; width: 120px; padding: 5px; font-weight: 600;">Pairing</th>
-                              <th style="text-align: center; width: 120px; padding: 5px; font-weight: 600;">Total</th>
-                              <!-- <th style="text-align: center; width: 40px;">Action</th> -->
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td scope='row' data-label='Date' style="text-align: center;">***</td>
-                              <td data-label='Pairing' style="text-align: center;">***</td>
-                              <td data-label='Total' style="text-align: center;">***</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
                   </div>
                 </div>
 
                 <div class="tab-pane " id="tab_default_2">
                   <div class="tab_container">
-                    <h3>Encashment Details</h3>
-                    <p>It's being updated... </p>
-                  </div>
-                </div>
-
-                <div class="tab-pane" id="tab_default_3">
-                  <div class="tab_container">
-                    <h3>Profile Information</h3>
-                    <p>It's being updated... </p>
-                  </div>
-                </div>
-
-                <div class="tab-pane" id="tab_default_4">
-                  <div class="tab_container">
-                    <h3>Settings</h3>
+                    <h3>References Details</h3>
                     <p>It's being updated... </p>
                   </div>
                 </div>
@@ -243,8 +193,18 @@
 
             </div>
           </div>
+
+          <div id="hold_tab" style="display: none;">
+            <p>Are your sure, hold this request?</p>
+          </div>
+
+          <div id="reject_tab" style="display: none;"></div>
+
         </div>
+
+
         <div style = "clear: both;"></div>
+
 
       </div>
 
@@ -384,25 +344,46 @@ function get_member_incomes(account) {
 
 @section('script')
 <script>
-var modal_member_uid = "";
-function onclick_member(member_uid) {
-  modal_member_uid = member_uid;
+var e_trans = "";
+function onclick_update(trans, type) {
   $('#modal-member-details').modal({
       show: true
   });
-  var username = $("#btn_"+member_uid).data("username");
-  var fullname = $("#btn_"+member_uid).data("fullname");
-  $("#modal_fullname").text(fullname);
-  $("#modal_account").text("Account: "+member_uid);
-  $("#modal_username").text("Username: "+username);
-  tabIncome(modal_member_uid);
+  e_trans = trans;
+  var title = "";
+  switch (parseInt(type)) {
+    case 2:
+      title = "Confirmation";
+      $("#complete_tab").hide();
+      $("#hold_tab").show();
+      $("#reject_tab").hide();
+      break;
+    case 3:
+      title = "Verification";
+      $("#complete_tab").show();
+      $("#hold_tab").hide();
+      $("#reject_tab").hide();
+      break;
+    default:
+      title = "Information";
+      $("#complete_tab").hide();
+      $("#hold_tab").hide();
+      $("#reject_tab").show();
+      break;
+
+  }
+
+  $("#modal_fullname").text(title);
+  $("#modal_trans").text("Trans#: " + trans);
+  tabEncashment(trans);
 }
+
 $(document).ready(function () {
   $('#tab_ul li a').click(function (ev) {
     var tab = $(this).data("tab");
     switch (tab) {
       case "tabIncome":
-        tabIncome(modal_member_uid);
+        tabEncashment(e_trans);
         break;
       case "tabEncashment":
         break;
@@ -413,109 +394,57 @@ $(document).ready(function () {
     }
   });
 });
-function tabIncome(account) {
-    var data = { account : account };
+function tabEncashment(trans) {
+    var data = { trans : trans };
     $(document).ready(function() {
         $.ajax({
             dataType: 'json',
-            type:'POST',
-            url: '/bloops/bot/v1/member-income',
+            type:'GET',
+            url: '/finance/get/encashment.json',
             data: data,
             beforeSend: function () {}
         }).done(function(json){
             var html = "", html2 = "";
-            var total_affliate_points = 0, total_referral = 0, total_indirect = 0;
-            var pos = json.position == 21 ? "Left" : "Right";
 
-            $(json.Data).each(function(key, d) {
+            $(json.Data).each(function(key, r) {
 
-              $(d.referrals).each(function(key, r) {
-                total_affliate_points = r.total_affiliate_available_points;
-                html2 += "<tr>";
-                html2 += "<td style='text-align: left; padding: 5px;'>Affiliate</td>";
-                html2 += "<td style='text-align: right; width: 120px; padding: 5px; font-weight: 600;'>"+ r.affiliate +" x 20 =</td>";
-                html2 += "<td style='text-align: right; width: 120px; padding: 5px; font-weight: 600;'>+ "+numeral(r.total_affiliate_available_points).format('0,0')+"</td>";
-                html2 += "</tr>";
-                html2 += "<tr>";
-                html2 += "<td style='text-align: left; padding: 5px;'>Referral</td>";
-                html2 += "<td style='text-align: right; width: 120px; padding: 5px; font-weight: 600;'>"+r.referral+" x 100 =</td>";
-                html2 += "<td style='text-align: right; width: 120px; padding: 5px; font-weight: 600;'>+ "+numeral(r.total_referral_amount).format('0,0.00')+"</td>";
-                html2 += "</tr>";
-              })
-
-              $(d.indirects).each(function(key, i) {
-                html2 += "<tr>";
-                html2 += "<td style='text-align: left; padding: 5px;'>Indirect</td>";
-                html2 += "<td style='text-align: right; width: 120px; padding: 5px; font-weight: 600;'>"+i.count_indirect+" x 10 =</td>";
-                html2 += "<td style='text-align: right; width: 120px; padding: 5px; font-weight: 600;'>+ "+numeral(i.total_indirect).format('0,0.00')+"</td>";
-                html2 += "</tr>";
-              })
-
-              $(d.levelings).each(function(key, l) {
-                // total_referral = l.total_profit;
-                html2 += "<tr>";
-                html2 += "<td style='text-align: left; padding: 5px;'>Leveling</td>";
-                html2 += "<td style='text-align: right; width: 120px; padding: 5px; font-weight: 600;'>Level "+l.level+"</td>";
-                html2 += "<td style='text-align: right; width: 120px; padding: 5px; font-weight: 600;'>+ "+numeral(l.total_profit).format('0,0.00')+"</td>";
-                html2 += "</tr>";
-              })
-
-              $(d.pairings).each(function(key, p) {
-                var pairing_t = p.Total_Amount / 100;
-                html2 += "<tr>";
-                html2 += "<td style='text-align: left; padding: 5px;'>Pairing</td>";
-                html2 += "<td style='text-align: right; width: 120px; padding: 5px; font-weight: 600;'>"+pairing_t+" x 100 =</td>";
-                html2 += "<td style='text-align: right; width: 120px; padding: 5px; font-weight: 600;'>+ "+numeral(p.Total_Amount).format('0,0.00')+"</td>";
-                html2 += "</tr>";
-              })
               html2 += "<tr>";
-              html2 += "<td style='text-align: left; padding: 5px;'></td>";
-              html2 += "<td style='text-align: center; width: 120px; padding: 5px; font-weight: 600; background-color: #eaedf1;'>Points</td>";
-              html2 += "<td style='text-align: center; width: 120px; padding: 5px; font-weight: 600; background-color: #eaedf1;'>Wallet</td>";
+              html2 += "<td style='text-align: left; width: 50%; padding: 5px;'>Account</td>";
+              html2 += "<td style='text-align: right; padding: 5px; font-weight: 600;'>"+r.member_uid+"</td>";
               html2 += "</tr>";
 
-              html2 += "<td style='text-align: left; padding: 5px;'>Total</td>";
-              html2 += "<td style='text-align: right; width: 120px; padding: 5px; font-weight: 600;'>= "+numeral(total_affliate_points).format('0,0')+"</td>";
-              html2 += "<td style='text-align: right; width: 120px; padding: 5px; font-weight: 600;'>= "+numeral(d.total_structure).format('0,0.00')+"</td>";
+              html2 += "<tr>";
+              html2 += "<td style='text-align: left; width: 50%; padding: 5px;'>Username</td>";
+              html2 += "<td style='text-align: right; padding: 5px; font-weight: 600;'>"+r.u_wallet+"</td>";
               html2 += "</tr>";
+
+              html2 += "<tr>";
+              html2 += "<td style='text-align: left; width: 50%; padding: 5px;'>Encashment</td>";
+              html2 += "<td style='text-align: right; padding: 5px; font-weight: 600;'>"+numeral(r.t_amount).format('0,0.00')+"</td>";
+              html2 += "</tr>";
+
+              html2 += "<tr>";
+              html2 += "<td style='text-align: left; width: 50%; padding: 5px;'>Admin Fee</td>";
+              html2 += "<td style='text-align: right; padding: 5px; font-weight: 600;'>- "+numeral(r.admin_fee).format('0,0.00')+"</td>";
+              html2 += "</tr>";
+
+              html2 += "<tr>";
+              html2 += "<td style='text-align: left; width: 50%; padding: 5px;'>System Fee</td>";
+              html2 += "<td style='text-align: right; padding: 5px; font-weight: 600;'>- "+numeral(r.system_fee).format('0,0.00')+"</td>";
+              html2 += "</tr>";
+
+              html2 += "<tr>";
+              html2 += "<td style='text-align: left; width: 50%; padding: 5px;'>Send To</td>";
+              html2 += "<td style='text-align: right; padding: 5px; font-weight: 600;'>"+r.t_destination+"</td>";
+              html2 += "</tr>";
+
+              html2 += "<tr>";
+              html2 += "<td style='text-align: left; width: 50%; padding: 5px;'>Total Amount</td>";
+              html2 += "<td style='text-align: right; padding: 5px; font-weight: 600;'>= "+numeral(r.total_encashment).format('0,0.00')+"</td>";
+              html2 += "</tr>";
+
             })
             $("#tbl_modalGHistoryDetails > tbody").empty().prepend(html2);
-            populate_pairing_history(account);
-        });
-    })
-}
-function populate_pairing_history(member_uid) {
-    $(document).ready(function() {
-        $.ajax({
-            dataType: 'json',
-            type:'POST',
-            url: '/genealogy/member-pairing-details/'+member_uid
-        }).done(function(json){
-            // console.log(json);
-            var html = "";
-            var profit = 0;
-            $(json.Data).each(function(a, b) {
-              var data = "data-date=" + b.date;
-              data += " data-muid=" + b.member_uid;
-              data += " data-left=" + b.left;
-              data += " data-right=" + b.right;
-              data += " data-remaining=" + b.remaining;
-              data += " data-position=" + b.position;
-              data += " data-overall=" + b.total_all_pairing_per_day;
-              data += " data-maxpair=" + b.total_max_pairing_per_day;
-              data += " data-overalltotal=" + b.total_pairing_amount;
-              data += " data-maxpairtotal=" + b.total_max_pairing_amount;
-              html += "<tr onclick='show_pairing_more(this)' "+data+">";
-              html += "<td scope='row' data-label='Date' style='padding: 5px; font-weight: 600;'>"+b.date_formated+"</td>";
-              html += "<td data-label='Pairing' style='padding: 5px; font-weight: 600;'>"+numeral(b.total_max_pairing_per_day).format('0,0')+"</td>";
-              html += "<td data-label='Total' style='text-align: right; padding: 5px; font-weight: 600;'>"+numeral(b.total_max_pairing_amount).format('0,0.00')+"</td>";
-              html += "</tr>";
-            });
-            html += "<tr>";
-            html += "<td colspan='2' style='text-align: right; padding: 5px; font-weight: 600;'>Total</td>";
-            html += "<td style='text-align: right; padding: 5px; font-weight: 600;'>"+numeral(json.Total_Amount).format('0,0.00')+"</td>";
-            html += "</tr>";
-            $("#tbl_modalGPairingDetails > tbody").empty().prepend(html);
         });
     })
 }
