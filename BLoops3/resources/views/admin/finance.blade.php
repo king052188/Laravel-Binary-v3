@@ -40,7 +40,7 @@
                         @for($i = 0; $i < COUNT($request); $i++)
                           <tr>
                             <td data-label="Mobile">{{ $request[$i]["Encashment"]->t_number }}</td>
-                            <td data-label="Fullname">{{ $request[$i]["Encashment"]->t_author }}</td>
+                            <td data-label="Fullname"><strong>{{ $request[$i]["Encashment"]->u_author  }}</strong><br /><span style="font-size: .9em;">{{  $request[$i]["Encashment"]->t_author }}</span></td>
                             <td data-label="Fullname" style="text-align: right;">{{ number_format($request[$i]["Encashment"]->total_encashment, 2) }}</td>
                             <td data-label="Fullname">
                               @if($request[$i]["Encashment"]->t_status == 1)
@@ -65,6 +65,9 @@
                               <div id="collapse_{{ $request[$i]['Encashment']->Id }}" class="collapse">
                                 <div>
                                   <h3 style="font-size: 1.6em; text-align: center; margin: 10px 0 10px 0;">Encashment Details</h3>
+                                  <p style="margin: 10px 0 0 0;">Wallet Information</p>
+                                  <p style="margin: 0 0 0 0;">Account#: <strong>{{ $request[$i]["Encashment"]->member_uid }}</strong></p>
+                                  <p>Username: <strong>{{ $request[$i]["Encashment"]->u_wallet  }}</strong></p>
                                 </div>
                                 <table class="table table-bordered">
                                   <thead>
@@ -106,7 +109,6 @@
         </div>
     </div>
 </div>
-
 
 <!-- Modal -->
 <div id="modal-member-details" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">

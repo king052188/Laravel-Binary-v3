@@ -62,7 +62,14 @@ class AdminController extends Controller
      $this::$users = Auth::user();
 
      $request = [];
-     $encashment_request = DB::select("SELECT * FROM user_encashments;");
+     $encashment_request = DB::select("
+      SELECT a.username AS u_wallet, b.username AS u_author, t.*
+      FROM user_encashments AS t
+      INNER JOIN users AS a
+      ON t.member_uid = a.member_uid
+      INNER JOIN users AS b
+      ON t.t_author = b.member_uid
+     ");
      for($i = 0; $i < COUNT($encashment_request); $i++) {
        $trans = $encashment_request[$i]->t_number;
        $fee = DB::select("SELECT * FROM user_encashment WHERE t_number = '{$trans}' AND t_type != 0;");
