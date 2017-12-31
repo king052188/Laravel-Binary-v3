@@ -43,6 +43,8 @@ Route::get('/activation/code/lists.json', 'AdminController@get_code_lists');
 
 Route::post('/remit/code', 'AdminController@remit_process');
 
+Route::any('/loadcharge/e-wallet', 'AdminController@send_user_wallet_load');
+
 // end admin page
 
 Route::get('/genealogy', 'HomeController@genealogy');

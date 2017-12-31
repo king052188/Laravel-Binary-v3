@@ -93,10 +93,10 @@
                   <a href="#tab_default_2" data-toggle="tab" data-tab="tabEncashment">Encashment</a>
                 </li>
                 <li >
-                  <a href="#tab_default_3" data-toggle="tab" data-tab="tabProfile">Profile</a>
+                  <a href="#tab_default_4" data-toggle="tab" data-tab="tabLoadCharge">Load Charge</a>
                 </li>
                 <li >
-                  <a href="#tab_default_4" data-toggle="tab" data-tab="tabSettings">Settings</a>
+                  <a href="#tab_default_3" data-toggle="tab" data-tab="tabProfile">Profile</a>
                 </li>
               </ul>
 
@@ -181,16 +181,44 @@
                   </div>
                 </div>
 
-                <div class="tab-pane" id="tab_default_3">
+                <div class="tab-pane" id="tab_default_4">
                   <div class="tab_container">
-                    <h3>Profile Information</h3>
-                    <p>It's being updated... </p>
+                      <div style="margin: 20px 0 0 0;">
+                       <span style="font-size: 1.6em;">Load Charge</span>
+                       <span style="font-size: 1em;">Wallet</span>
+                      </div>
+                      <table class="tbl_history" id="tbl_modalLoadCharge" border="0" cellSpacing="0" cellPadding="0">
+                        <thead>
+                          <tr>
+                            <th colspan="3" style="text-align: center;">Set Amount</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td style="text-align: left; padding: 5px;">Type</td>
+                            <td style="text-align: right; width: 50%; padding: 5px; font-weight: 600;">
+                              <select class="form-control">
+                                <option selected="true">EWALLET</option>
+                              </select>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="text-align: left; padding: 5px;">Amount</td>
+                            <td style="text-align: right; width: 120px; padding: 5px; font-weight: 600;">
+                              <input type="number" name="" id="" class="form-control" placeholder="Enter amount here..." />
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <div style="margin: 20px 0 0 0;">
+
+                      </div>
                   </div>
                 </div>
 
-                <div class="tab-pane" id="tab_default_4">
+                <div class="tab-pane" id="tab_default_3">
                   <div class="tab_container">
-                    <h3>Settings</h3>
+                    <h3>Profile Information</h3>
                     <p>It's being updated... </p>
                   </div>
                 </div>
@@ -201,10 +229,10 @@
           </div>
         </div>
         <div style = "clear: both;"></div>
-
       </div>
 
       <div class="modal-footer">
+        <button id="btnLoadWallet" type="button" style="display: none;" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-check-circle" aria-hidden="true"></i> Load</button>
         <button id="btnCancel" type="button" class="btn btn-defaul" data-dismiss="modal"><i class="fa fa-close" aria-hidden="true"></i> Cancel</button>
       </div>
     </div>
@@ -335,6 +363,20 @@ function get_member_incomes(account) {
         });
     })
 }
+// send_user_wallet_load("09233702338", "1000", 1);
+function send_user_wallet_load(mobile, amount, request_by) {
+    var data = { mobile : mobile, amount : amount, request_by : request_by };
+    $(document).ready(function() {
+        $.ajax({
+            dataType: 'json',
+            type:'GET',
+            url: 'http://localhost:8002/load4wrd/send/user/wallet/load/712d3c0b-1800-4c87-a381-7080b8462b93',
+            data: data
+        }).done(function(json){
+          console.log(json);
+        });
+    })
+}
 </script>
 @endsection
 
@@ -358,13 +400,17 @@ $(document).ready(function () {
     var tab = $(this).data("tab");
     switch (tab) {
       case "tabIncome":
+        $("#btnLoadWallet").hide();
         tabIncome(modal_member_uid);
         break;
       case "tabEncashment":
+        $("#btnLoadWallet").hide();
         break;
       case "tabProfile":
+        $("#btnLoadWallet").hide();
         break;
       default:
+        $("#btnLoadWallet").show();
         break;
     }
   });

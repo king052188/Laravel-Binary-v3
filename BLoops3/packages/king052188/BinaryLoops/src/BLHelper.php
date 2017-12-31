@@ -1420,8 +1420,6 @@ class BLHelper
 
         }
 
-
-
       } while(COUNT($direct) != 0);
 
       return array(
@@ -1451,4 +1449,27 @@ class BLHelper
 
       $r = $this->save_to_database($data, "db_sms");
     }
+
+    public function API_Load4wrd($data, $type = "EWALLET") {
+      // Email API
+
+      $url = "http://localhost:8002/load4wrd/send/user/wallet/load/712d3c0b-1800-4c87-a381-7080b8462b93";
+
+      // Array to Json
+      $toJSON = json_encode($data);
+
+      // Added JSON Header
+      $headers= array('Accept: application/json','Content-Type: application/json');
+
+      $ch = curl_init($url);
+      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $toJSON);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+      $result = json_decode(curl_exec($ch), true);
+      curl_close($ch);
+      return $result;
+    }
+
+    
 }
