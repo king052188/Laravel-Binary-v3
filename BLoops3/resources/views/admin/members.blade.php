@@ -50,7 +50,7 @@
                               </td>
                               <td data-label="Joined">{{ $member->created_at->toDateString() }}</td>
                               <td data-label="Action">
-                                <button id="btn_{{ $member->member_uid }}" onclick="onclick_member('{{ $member->member_uid }}')" data-username="{{ $member->username }}" data-fullname="{{ $member->first_name . " " . $member->last_name }}">
+                                <button id="btn_{{ $member->member_uid }}" onclick="onclick_member('{{ $member->member_uid }}')" data-username="{{ $member->username }}" data-mobile="{{ $member->mobile }}" data-fullname="{{ $member->first_name . " " . $member->last_name }}">
                                   <i class='fa fa-tasks' aria-hidden='true'></i>
                                 </button>
                               </td>
@@ -92,9 +92,11 @@
                 <li >
                   <a href="#tab_default_2" data-toggle="tab" data-tab="tabEncashment">Encashment</a>
                 </li>
-                <li >
+                @if(Auth::user()->id == 1 || Auth::user()->id == 2 || Auth::user()->id == 3 || Auth::user()->id == 622)
+                <li>
                   <a href="#tab_default_4" data-toggle="tab" data-tab="tabLoadCharge">Load Charge</a>
                 </li>
+                @endif
                 <li >
                   <a href="#tab_default_3" data-toggle="tab" data-tab="tabProfile">Profile</a>
                 </li>
@@ -205,7 +207,7 @@
                           <tr>
                             <td style="text-align: left; padding: 5px;">Amount</td>
                             <td style="text-align: right; width: 120px; padding: 5px; font-weight: 600;">
-                              <input type="number" name="" id="" class="form-control" placeholder="Enter amount here..." />
+                              <input type="number" name="m_ewallet_amount" id="m_ewallet_amount" class="form-control" placeholder="Enter amount here..." />
                             </td>
                           </tr>
                         </tbody>
@@ -232,7 +234,7 @@
       </div>
 
       <div class="modal-footer">
-        <button id="btnLoadWallet" type="button" style="display: none;" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-check-circle" aria-hidden="true"></i> Load</button>
+        <button id="btnLoadWallet" type="button" style="display: none;" class="btn btn-primary"><i class="fa fa-check-circle" aria-hidden="true"></i> Load</button>
         <button id="btnCancel" type="button" class="btn btn-defaul" data-dismiss="modal"><i class="fa fa-close" aria-hidden="true"></i> Cancel</button>
       </div>
     </div>
@@ -363,32 +365,19 @@ function get_member_incomes(account) {
         });
     })
 }
-// send_user_wallet_load("09233702338", "1000", 1);
-function send_user_wallet_load(mobile, amount, request_by) {
-    var data = { mobile : mobile, amount : amount, request_by : request_by };
-    $(document).ready(function() {
-        $.ajax({
-            dataType: 'json',
-            type:'GET',
-            url: 'http://localhost:8002/load4wrd/send/user/wallet/load/712d3c0b-1800-4c87-a381-7080b8462b93',
-            data: data
-        }).done(function(json){
-          console.log(json);
-        });
-    })
-}
 </script>
 @endsection
 
 @section('script')
 <script>
-var modal_member_uid = "";
+var modal_member_uid = "", modal_mobile = "";
 function onclick_member(member_uid) {
   modal_member_uid = member_uid;
   $('#modal-member-details').modal({
       show: true
   });
   var username = $("#btn_"+member_uid).data("username");
+  modal_mobile = $("#btn_"+member_uid).data("mobile");
   var fullname = $("#btn_"+member_uid).data("fullname");
   $("#modal_fullname").text(fullname);
   $("#modal_account").text("Account: "+member_uid);
@@ -414,6 +403,10 @@ $(document).ready(function () {
         break;
     }
   });
+
+  $("#btnLoadWallet").click(function() {
+    send_user_wallet_load();
+  })
 });
 function tabIncome(account) {
     var data = { account : account };
@@ -520,6 +513,25 @@ function populate_pairing_history(member_uid) {
             $("#tbl_modalGPairingDetails > tbody").empty().prepend(html);
         });
     })
+}
+function send_user_wallet_load() {
+  var amount = $("#m_ewallet_amount").val();
+  var data = { m : modal_mobile, a : amount };
+  console.log(data);
+  $(document).ready(function() {
+      $.ajax({
+          dataType: 'json',
+          type:'POST',
+          url: '/loadcharge/e-wallet',
+          data: data
+      }).done(function(json){
+
+        alert(json.Message);
+
+        location.reload();
+
+      });
+  })
 }
 </script>
 @endsection

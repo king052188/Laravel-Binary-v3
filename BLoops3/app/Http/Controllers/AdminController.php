@@ -9,6 +9,7 @@ use Auth;
 use App\User;
 use App\Codes;
 use App\remit;
+use App\Load;
 use App\Encashment;
 use BinaryLoops;
 use BLHelper;
@@ -185,13 +186,24 @@ class AdminController extends Controller
    {
      $this::$users = Auth::user();
 
-     $data = array(
-       "mobile" => $request->m,
-       "amount" => $request->a,
-       "request_by" => $this::$users->id
-     );
+     $l = new Load();
+     $l->target = $request->m;
+     $l->amount = $request->a;
+     $l->description = "Pending";
+     $l->request_by = $this::$users->id;
+     $l->status = 1;
 
-     return BLHelper::API_Load4wrd($data, "EWALLET");
+     if($l->save()) {
+       return array(
+         "Status" => 200,
+         "Message" => "Success"
+       );
+     }
+
+     return array(
+       "Status" => 500,
+       "Message" => "Fail"
+     );
    }
 
 }
