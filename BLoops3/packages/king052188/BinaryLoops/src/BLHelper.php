@@ -1081,6 +1081,11 @@ class BLHelper
         }
     }
 
+    public static function get_new_reference() {
+        $date_now = array("number" => date("ymms") ."". strtoupper(uniqid()));
+        return $date_now;
+    }
+
     public function check_member_info($value)
     {
       $d = DB::select("
@@ -1471,5 +1476,5 @@ class BLHelper
       return $result;
     }
 
-    
+
 }

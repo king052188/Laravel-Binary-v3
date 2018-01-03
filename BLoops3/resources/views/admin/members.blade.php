@@ -517,7 +517,6 @@ function populate_pairing_history(member_uid) {
 function send_user_wallet_load() {
   var amount = $("#m_ewallet_amount").val();
   var data = { m : modal_mobile, a : amount };
-  console.log(data);
   $(document).ready(function() {
       $.ajax({
           dataType: 'json',
@@ -525,11 +524,8 @@ function send_user_wallet_load() {
           url: '/loadcharge/e-wallet',
           data: data
       }).done(function(json){
-
         alert(json.Message);
-
         location.reload();
-
       });
   })
 }

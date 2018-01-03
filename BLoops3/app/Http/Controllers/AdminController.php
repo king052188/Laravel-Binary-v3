@@ -58,6 +58,13 @@ class AdminController extends Controller
      return view('admin.members', compact('members', 'search'));
    }
 
+   public function get_loadcharge(Request $request)
+   {
+     $this::$users = Auth::user();
+
+     return view('admin.loadcharge');
+   }
+
    public function get_finance(Request $request)
    {
      $this::$users = Auth::user();
@@ -157,6 +164,25 @@ class AdminController extends Controller
      return ["Data" => $codes];
    }
 
+   public function get_wallet_load_transaction() {
+     $db = DB::select("
+      SELECT
+      q.*,
+      (SELECT username FROM users WHERE id = q.request_by LIMIT 1) AS proccessed_by,
+      (SELECT username FROM users WHERE mobile = q.target LIMIT 1) AS username
+      FROM db_load_queue AS q ORDER BY q.created_at DESC LIMIT 100
+     ");
+
+     $c = COUNT($db);
+
+     return array(
+       "Status" => $c > 0 ? 200 : 404,
+       "Message" => $c > 0 ? "Success" : "No Records",
+       "Count" => $c,
+       "Data" => $db
+     );
+   }
+
    public function remit_process(Request $request)
    {
      $r = new Remit();
@@ -186,7 +212,9 @@ class AdminController extends Controller
    {
      $this::$users = Auth::user();
 
+     $ref = BLHelper::get_new_reference();
      $l = new Load();
+     $l->reference_number = $ref["number"];
      $l->target = $request->m;
      $l->amount = $request->a;
      $l->description = "Pending";
