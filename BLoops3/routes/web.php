@@ -77,8 +77,15 @@ Route::get('/leveling', 'HomeController@leveling');
 
 Route::any('/leveling/pairing-per-level-summary', 'HomeController@leveling_populate');
 
-
 Route::get('/reset-password', 'HomeController@reset_password');
+
+//download RouteServiceProvider
+
+Route::get('/download/pdf/{filename}', function($filename) {
+  $path = $_SERVER['DOCUMENT_ROOT'] . "\\download\\" . $filename;
+
+  return response()->file($path);
+});
 
 Auth::routes();
 
