@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\User;
 use App\SMS;
+use App\Load;
 
 class ApiController extends Controller
 {
@@ -54,6 +55,40 @@ class ApiController extends Controller
       $r = SMS::where("Id", (int)$uid)
       ->update(
         array('Status' => 2)
+      );
+
+      if($r) {
+        return array(
+          "Status" => 200,
+          "Message" => "Success"
+        );
+      }
+
+      return array(
+        "Status" => 500,
+        "Message" => "Fail"
+      );
+    }
+
+    public function get_load_queue() {
+      $sms = Load::where("status", 1)->get();
+      return array(
+        "Status" => 200,
+        "Message" => "Success",
+        "Count" => COUNT($sms),
+        "Data" => $sms
+      );
+    }
+
+    // 1 pending, 2 completed, 3 expired, 4 failed
+    public function update_load_queue($uid, $status, $message) {
+      $status_ = (int)$status;
+      $r = Load::where("Id", (int)$uid)
+      ->update(
+        array(
+          'description' => $message,
+          'status' => (int)$status
+        )
       );
 
       if($r) {

@@ -26,4 +26,8 @@ Route::get('/update/member-synched/{uid}', 'ApiController@update_to_synched_stat
 
 Route::get('/get/sms-queue', 'ApiController@get_sms');
 
+Route::get('/get/load-queue', 'ApiController@get_load_queue');
+
 Route::get('/update/sms-queue/{id}', 'ApiController@update_sms');
+
+Route::get('/update/load-queue/{id}/{status}/{message}', 'ApiController@update_load_queue');

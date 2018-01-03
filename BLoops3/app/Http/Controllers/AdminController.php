@@ -9,6 +9,7 @@ use Auth;
 use App\User;
 use App\Codes;
 use App\remit;
+use App\Load;
 use App\Encashment;
 use BinaryLoops;
 use BLHelper;
@@ -149,13 +150,15 @@ class AdminController extends Controller
      // );
    }
 
-   public function get_code_lists() {
+   public function get_code_lists()
+   {
      $this::$users = Auth::user();
      $codes = DB::select("SELECT * FROM user_activation_code WHERE generated_by = {$this::$users->id} AND status = 1;");
      return ["Data" => $codes];
    }
 
-   public function remit_process(Request $request) {
+   public function remit_process(Request $request)
+   {
      $r = new Remit();
      $r->manager_id = (int)$request->muid;
      $r->reference = BLHelper::generate_reference();
@@ -177,6 +180,30 @@ class AdminController extends Controller
        "Message" => "Fail"
      );
 
+   }
+
+   public function send_user_wallet_load(Request $request)
+   {
+     $this::$users = Auth::user();
+
+     $l = new Load();
+     $l->target = $request->m;
+     $l->amount = $request->a;
+     $l->description = "Pending";
+     $l->request_by = $this::$users->id;
+     $l->status = 1;
+
+     if($l->save()) {
+       return array(
+         "Status" => 200,
+         "Message" => "Success"
+       );
+     }
+
+     return array(
+       "Status" => 500,
+       "Message" => "Fail"
+     );
    }
 
 }
