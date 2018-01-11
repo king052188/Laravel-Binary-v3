@@ -86,6 +86,12 @@ Route::any('/leveling/pairing-per-level-summary', 'HomeController@leveling_popul
 
 Route::get('/reset-password', 'HomeController@reset_password');
 
+Route::get('/generate-share-link', 'AccountController@generate_share_link_init'); //generate_share_link_init
+
+Route::get('/generate-share-link/process', 'AccountController@generate_share_link'); //generate_share_link_init
+
+Route::get('/url-link', 'AccountController@url_link_get'); //generate_share_link_init
+
 //download RouteServiceProvider
 
 Route::get('/download/pdf/{filename}', function($filename) {

@@ -160,4 +160,23 @@ class AccountController extends Controller
 
       return $result;
     }
+
+    public function generate_share_link_init()
+    {
+        return view('shareLink');
+    }
+
+    public function generate_share_link(Request $request)
+    {
+        $url = $request->url;
+
+        return array(
+          "url" => "http://eproh.duckdns.org/url-link?u=" . $url
+        );
+    }
+
+    public function url_link_get(Request $request)
+    {
+        return redirect($request->u);
+    }
 }
