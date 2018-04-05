@@ -28,6 +28,13 @@ class HomeController extends Controller
         $this->middleware('auth');
 
         $this::$users = null;
+
+        $kpa = new KPAPostMail();
+        $kpa->send(
+          array("Name"=>"march", "Email" => "me@kpa21.info"),
+          "Wlcome Testing",
+          "asdasdasdasda"
+        );
     }
 
     /**
